@@ -1,0 +1,5 @@
+Greeting            Hey there how are you doing?
+Greeting            Hello there.
+Greeting            Hi!
+Greeting.known      Hello, nice to see you again.
+Greeting.unknown    Hey, I have not seen you around before.
