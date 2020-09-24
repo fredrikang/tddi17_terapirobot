@@ -1,0 +1,156 @@
+{
+  "categories": {
+    "JAVA": {
+      "location": "src/main/java/$packageDir",
+      "extension": "java",
+      "recursive": true,
+      "visible": true,
+      "new_file": {
+        "options": {
+          "className": "[a-zA-Z_]\\w*"
+        },
+        "name": "$className",
+        "template": "new_file.java"
+      }
+    },
+    "GROOVY": {
+      "location": "src/main/groovy/$packageDir",
+      "extension": "groovy",
+      "recursive": true,
+      "visible": true,
+      "new_file": {
+        "options": {
+          "className": "[a-zA-Z_]\\w*"
+        },
+        "name": "$className",
+        "template": "new_file.groovy"
+      }
+    },
+    "KOTLIN": {
+      "location": "src/main/kotlin/$packageDir",
+      "extension": "kt",
+      "recursive": true,
+      "visible": true,
+      "new_file": {
+        "options": {
+          "name": "[a-zA-Z_]\\w*"
+        },
+        "name": "$name",
+        "template": "new_file.kt"
+      }
+    },
+    "ENUM": {
+      "location": "src/main/resources/$packageDir",
+      "extension": "enu",
+      "recursive": true,
+      "visible": true,
+      "new_file": {
+        "options": {
+          "name": "[a-zA-Z_]\\w*",
+          "language": "[a-z]{2}"
+        },
+        "name": "$name.$language",
+        "template": "new_file.enu"
+      }
+    },
+    "GRAMMAR": {
+      "location": "src/main/resources/$packageDir",
+      "extension": "grm",
+      "recursive": true,
+      "visible": true,
+      "new_file": {
+        "options": {
+          "name": "[a-zA-Z_]\\w*",
+          "language": "[a-z]{2}"
+        },
+        "name": "$name.$language",
+        "template": "new_file.grm"
+      }
+    },
+    "BEHAVIORS": {
+      "location": ".",
+      "extension": "txt",
+      "recursive": false,
+      "visible": true,
+      "new_file": {
+        "options": {
+          "language": "[a-z]{2}"
+        },
+        "name": "behaviors.$language",
+        "template": "new_file.txt"
+      }
+    },
+    "BUILD": {
+      "location": ".",
+      "extension":  "gradle",
+      "recursive": false,
+      "visible": true
+    },
+    "SETTINGS": {
+      "location": ".",
+      "extension":  "properties",
+      "recursive": false,
+      "visible": true
+    },
+    "GRADLE": {
+      "location": ".",
+      "extension": "gradle",
+      "recursive": false,
+      "visible": false
+    }
+  },
+  "skill_files": [
+    {
+      "category": "KOTLIN",
+      "template": "main.kt"
+    },
+    {
+      "category": "KOTLIN",
+      "template": "users.kt"
+    },
+    {
+      "category": "KOTLIN",
+      "template": "flow/interaction.kt"
+    },
+    {
+      "category": "KOTLIN",
+      "template": "flow/general.kt"
+    },
+    {
+      "category": "KOTLIN",
+      "template": "nlu/nlu.kt"
+    },
+    {
+      "category": "SETTINGS",
+      "template": "skill.properties"
+    },
+    {
+      "category": "BUILD",
+      "template": "build.gradle"
+    },
+    {
+      "template": "gradlew"
+    },
+    {
+      "template": "gradlew.bat"
+    },
+    {
+      "template": "gradle/wrapper/gradle-wrapper.jar"
+    },
+    {
+      "template": "gradle/wrapper/gradle-wrapper.properties"
+    },
+    {
+      "template": "assets/webTemplates/BASIC/index.html"
+    },
+    {
+      "template": "assets/webTemplates/BASIC/dist/bundle.js"
+    },
+    {
+      "template": "assets/webTemplates/BASIC/css/bootstrap.min.css"
+    },
+    {
+      "template": "assets/webTemplates/BASIC/css/style.css"
+    }
+  ]
+}
