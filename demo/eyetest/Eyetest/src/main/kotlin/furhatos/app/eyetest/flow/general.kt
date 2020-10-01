@@ -21,6 +21,16 @@ val Idle: State = state {
         furhat.attend(it)
         goto(Start)
     }
+    onUserLeave(instant = true) {
+        if (it.id == users.targetUser ) {
+            users.hasTargetUser = false
+            users.targetUser = "None"
+            furhat.say ( "Lost target user." )
+        }
+        else {
+            furhat.say( "Other user left.")
+        }
+    }
 }
 val Attending = state {
     onEntry {
