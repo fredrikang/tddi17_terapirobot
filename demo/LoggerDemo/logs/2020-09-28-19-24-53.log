@@ -1,0 +1,5 @@
+19:24:54 [Skill] INFO  Skill:139 - Connecting to Furhat server on 192.168.0.105:1932
+19:24:54 [LoggerdemoSkill] INFO  LoggerdemoSkill:166 - Starting skill
+19:25:04 [LoggerdemoSkill] WARN  JsonDialogLogger:373 - The directory provided does not end with a trailing directory separator: 
+19:25:08 [LoggerdemoSkill] WARN  JsonDialogLogger:373 - The directory provided does not end with a trailing directory separator: 
+19:25:14 [LoggerdemoSkill] WARN  JsonDialogLogger:373 - The directory provided does not end with a trailing directory separator: 
