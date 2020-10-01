@@ -1,0 +1,30 @@
+[{
+  "version": "2.0",
+  "id": "47a0666b-9ec4-4ecf-99b8-6cef834e7f9d",
+  "startTime": "14:46:13.416",
+  "endTime": "14:46:13.416",
+  "type": "logger.settings",
+  "sessionName": "2020-09-30 14-46-13"
+},{
+  "id": "09361bfa-99f1-44a6-8c30-37c7b2fcd324",
+  "type": "robot.speech",
+  "display": "Hi there. Do you like robots?",
+  "text": "Hi there. Do you like robots?",
+  "startTime": "14:46:28.052",
+  "endTime": "14:46:30.470",
+  "audio": "Hi+there.+Do+you+like+robots%3F.wav",
+  "state": [
+    "Ask",
+    "Start"
+  ]
+},{
+  "id": "4f858ade-7c93-4b2a-844f-68e093f4b7a0",
+  "type": "user.speech",
+  "silent": "true",
+  "endTime": "14:46:30.505",
+  "text": "",
+  "user": "virtual-user-0",
+  "meta": {
+    
+  }
+}]
