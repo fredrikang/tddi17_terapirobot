@@ -24,10 +24,14 @@
     <Compile Include="Application.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ChatBubble.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Log.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LogViewer.py" />
+    <Compile Include="ScreenMetrics.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
