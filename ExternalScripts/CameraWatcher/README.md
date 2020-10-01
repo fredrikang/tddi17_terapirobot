@@ -26,7 +26,7 @@ To install using pip:
 pip install -r requirements.txt
 ```
 
-To run:
+## To run
 ```
 python watchcamera.py
 ```
