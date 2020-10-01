@@ -1,0 +1,518 @@
+[{
+  "version": "2.0",
+  "id": "f00ce4da-61ae-470a-8487-7d5b574ab992",
+  "startTime": "18:36:27.761",
+  "endTime": "18:36:27.762",
+  "type": "logger.settings",
+  "sessionName": "2020-09-30 18-36-27"
+},{
+  "id": "986943e9-319a-4d20-a863-31079c307766",
+  "type": "robot.speech",
+  "display": "Welcome to Pizza house. How may I help you?",
+  "text": "Welcome to Pizza house. How may I help you?",
+  "startTime": "18:36:42.175",
+  "endTime": "18:36:44.973",
+  "audio": "Welcome+to+Pizza+house.+How+may+I+help+you%3F.wav",
+  "state": [
+    "Ask",
+    "Start"
+  ]
+},{
+  "id": "3d5792ca-f3a7-4721-a878-aae5796cf0eb",
+  "type": "user.speech",
+  "startTime": "18:36:44.761",
+  "startSpeechTime": "18:36:46.173",
+  "endTime": "18:36:48.761",
+  "text": "I would like to order a pizza",
+  "user": "virtual-user-0",
+  "audio": "18.36.48.753.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "3d5792ca-f3a7-4721-a878-aae5796cf0eb",
+  "type": "user.response",
+  "text": "I would like to order a pizza",
+  "startTime": "18:36:48.772",
+  "endTime": "18:36:48.772",
+  "intent": "OrderPizzaIntent",
+  "state": [
+    "Listen",
+    "Ask",
+    "Start"
+  ],
+  "meta": {
+    "intent": [
+      {
+        "intent_name": "OrderPizzaIntent",
+        "conf": 0.5433319691867416,
+        "precision": 1,
+        "recall": 0.5433319691867416
+      }
+    ]
+  }
+},{
+  "id": "1a379eff-ec40-4894-abef-7efd6b9e72e0",
+  "type": "robot.speech",
+  "display": "Ok, you want a pizza",
+  "text": "Ok, you want a pizza",
+  "startTime": "18:36:48.875",
+  "endTime": "18:36:50.510",
+  "audio": "Ok%2C+you+want+a+pizza.wav",
+  "state": [
+    "Start"
+  ]
+},{
+  "id": "f8c888f4-2b2e-44b6-bce1-460398aea435",
+  "type": "robot.speech",
+  "display": "All our pizzas come with tomato and cheese. Do you want any extra topping?",
+  "text": "All our pizzas come with tomato and cheese. Do you want any extra topping?",
+  "startTime": "18:36:50.590",
+  "endTime": "18:36:55.222",
+  "audio": "All+our+pizzas+come+with+tomato+and+cheese.+Do+you+want+any+extra+topping%3F.wav",
+  "state": [
+    "Ask",
+    "RequestTopping"
+  ]
+},{
+  "id": "362aadaa-8950-4412-88ca-b62a6f93530f",
+  "type": "user.speech",
+  "startTime": "18:36:54.991",
+  "startSpeechTime": "18:36:56.870",
+  "endTime": "18:36:59.491",
+  "text": "what's the topping do you have",
+  "user": "virtual-user-0",
+  "audio": "18.36.59.489.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "362aadaa-8950-4412-88ca-b62a6f93530f",
+  "type": "user.response",
+  "text": "what's the topping do you have",
+  "startTime": "18:36:59.497",
+  "endTime": "18:36:59.497",
+  "intent": "RequestToppingOptionsIntent",
+  "state": [
+    "Listen",
+    "Ask",
+    "RequestTopping"
+  ],
+  "meta": {
+    "intent": [
+      {
+        "intent_name": "RequestToppingOptionsIntent",
+        "conf": 0.8301455906626523,
+        "precision": 0.7096144477780615,
+        "recall": 0.8301455906626523
+      }
+    ]
+  }
+},{
+  "id": "d76574fd-ef3c-4b7b-bd49-c2b53b659102",
+  "type": "robot.speech",
+  "display": "We have onion , ham , mozzarella , bacon , rocket salad and pepper",
+  "text": "We have onion , ham , mozzarella , bacon , rocket salad and pepper",
+  "startTime": "18:37:00.738",
+  "endTime": "18:37:05.521",
+  "audio": "We+have+onion+%2C+ham+%2C+mozzarella+%2C+bacon+%2C+rocket+salad+and+pepper.wav",
+  "state": [
+    "RequestTopping"
+  ]
+},{
+  "id": "5da367b7-0e3d-4890-ad78-67d8424f8e39",
+  "type": "robot.speech",
+  "display": "Do you want any extra topping?",
+  "text": "Do you want any extra topping?",
+  "startTime": "18:37:05.603",
+  "endTime": "18:37:07.441",
+  "audio": "Do+you+want+any+extra+topping%3F.wav",
+  "state": [
+    "Ask",
+    "RequestTopping"
+  ]
+},{
+  "id": "0829561c-fa07-4a12-916b-7ff2c08f5c6c",
+  "type": "user.speech",
+  "startTime": "18:37:07.235",
+  "startSpeechTime": "18:37:08.125",
+  "endTime": "18:37:10.635",
+  "text": "I would like some bacon",
+  "user": "virtual-user-0",
+  "audio": "18.37.10.634.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "0829561c-fa07-4a12-916b-7ff2c08f5c6c",
+  "type": "user.response",
+  "text": "I would like some bacon",
+  "startTime": "18:37:10.648",
+  "endTime": "18:37:10.648",
+  "intent": "ToppingIntent",
+  "state": [
+    "Listen",
+    "Ask",
+    "RequestTopping"
+  ],
+  "meta": {
+    "entities": {
+      "class": "furhatos.records.Record",
+      "topping": {
+        "class": "furhatos.app.pizzaorder.nlu.ListOfTopping",
+        "text": "bacon",
+        "list": [
+          {
+            "text": "bacon",
+            "value": "bacon"
+          }
+        ]
+      }
+    },
+    "intent": [
+      {
+        "intent_name": "ToppingIntent",
+        "conf": 1,
+        "precision": 0.13963065296284327,
+        "recall": 1
+      }
+    ]
+  }
+},{
+  "id": "8eddee25-88a3-4f7f-a055-a70e66c53f8e",
+  "type": "robot.speech",
+  "display": "Okay, bacon",
+  "text": "Okay, bacon",
+  "startTime": "18:37:11.136",
+  "endTime": "18:37:12.331",
+  "audio": "Okay%2C+bacon.wav",
+  "state": [
+    "RequestTopping"
+  ]
+},{
+  "id": "ec27a4de-540c-46c5-8473-ce04b859e2d1",
+  "type": "robot.speech",
+  "display": "Where do you want it delivered?",
+  "text": "Where do you want it delivered?",
+  "startTime": "18:37:12.398",
+  "endTime": "18:37:13.879",
+  "audio": "Where+do+you+want+it+delivered%3F.wav",
+  "state": [
+    "Ask",
+    "RequestDelivery"
+  ]
+},{
+  "id": "77e86881-c304-48ed-983b-57402b7c7c5e",
+  "type": "user.speech",
+  "startTime": "18:37:13.634",
+  "startSpeechTime": "18:37:14.686",
+  "endTime": "18:37:15.734",
+  "text": "home",
+  "user": "virtual-user-0",
+  "audio": "18.37.15.732.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "77e86881-c304-48ed-983b-57402b7c7c5e",
+  "type": "user.response",
+  "text": "home",
+  "startTime": "18:37:15.738",
+  "endTime": "18:37:15.738",
+  "intent": "TellPlaceIntent",
+  "state": [
+    "Listen",
+    "Ask",
+    "RequestDelivery"
+  ],
+  "meta": {
+    "entities": {
+      "class": "furhatos.records.Record",
+      "deliverTo": {
+        "class": "furhatos.app.pizzaorder.nlu.Place",
+        "text": "home",
+        "value": "home"
+      }
+    },
+    "intent": [
+      {
+        "intent_name": "TellPlaceIntent",
+        "conf": 1,
+        "precision": 1,
+        "recall": 1
+      }
+    ]
+  }
+},{
+  "id": "4402ca0d-dc0e-4283-9367-74314a1bd283",
+  "type": "robot.speech",
+  "display": "Okay, to your home",
+  "text": "Okay, to your home",
+  "startTime": "18:37:15.822",
+  "endTime": "18:37:17.216",
+  "audio": "Okay%2C+to+your+home.wav",
+  "state": [
+    "RequestDelivery"
+  ]
+},{
+  "id": "fd0de7a7-055c-4b88-ae0e-4466735ef63b",
+  "type": "robot.speech",
+  "display": "At what time do you want it delivered?",
+  "text": "At what time do you want it delivered?",
+  "startTime": "18:37:17.295",
+  "endTime": "18:37:19.108",
+  "audio": "At+what+time+do+you+want+it+delivered%3F.wav",
+  "state": [
+    "Ask",
+    "RequestTime"
+  ]
+},{
+  "id": "571bb50b-2ced-4eca-b5da-9df4bc2ca73c",
+  "type": "user.speech",
+  "startTime": "18:37:18.918",
+  "startSpeechTime": "18:37:20.116",
+  "endTime": "18:37:21.818",
+  "text": "right now please",
+  "user": "virtual-user-0",
+  "audio": "18.37.21.816.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "571bb50b-2ced-4eca-b5da-9df4bc2ca73c",
+  "type": "user.response",
+  "text": "right now please",
+  "startTime": "18:37:21.834",
+  "endTime": "18:37:21.834",
+  "intent": "TellTimeIntent",
+  "state": [
+    "Listen",
+    "Ask",
+    "RequestTime"
+  ],
+  "meta": {
+    "entities": {
+      "class": "furhatos.records.Record",
+      "time": {
+        "class": "furhatos.nlu.common.Time",
+        "text": "now",
+        "value": "18:37:21.830"
+      }
+    },
+    "intent": [
+      {
+        "intent_name": "TellTimeIntent",
+        "conf": 1,
+        "precision": 0.24619683134460496,
+        "recall": 1
+      }
+    ]
+  }
+},{
+  "id": "bbadb08e-1be0-456a-a8b6-cc2d0ff8d300",
+  "type": "robot.speech",
+  "display": "Okay, now",
+  "text": "Okay, now",
+  "startTime": "18:37:22.321",
+  "endTime": "18:37:23.523",
+  "audio": "Okay%2C+now.wav",
+  "state": [
+    "RequestTime"
+  ]
+},{
+  "id": "aed51cc7-335f-439b-8d6e-f33fa26198b4",
+  "type": "robot.speech",
+  "display": "Alright, so you want to order a pizza with bacon to your home delivered now",
+  "text": "Alright, so you want to order a pizza with bacon to your home delivered now",
+  "startTime": "18:37:24.033",
+  "endTime": "18:37:28.432",
+  "audio": "Alright%2C+so+you+want+to+order+a+pizza+with+bacon+to+your+home+delivered+now.wav",
+  "state": [
+    "CheckOrder"
+  ]
+},{
+  "id": "dde1db93-4479-4fbd-925e-ab914b14a69e",
+  "type": "robot.speech",
+  "display": "Does that sound good?",
+  "text": "Does that sound good?",
+  "startTime": "18:37:28.490",
+  "endTime": "18:37:29.722",
+  "audio": "Does+that+sound+good%3F.wav",
+  "state": [
+    "Ask",
+    "ConfirmOrder"
+  ]
+},{
+  "id": "9608a46d-ba2d-4e6a-a33e-25042c7312c8",
+  "type": "user.speech",
+  "startTime": "18:37:29.495",
+  "startSpeechTime": "18:37:30.996",
+  "endTime": "18:37:32.695",
+  "text": "that sounds perfect",
+  "user": "virtual-user-0",
+  "audio": "18.37.32.693.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "9608a46d-ba2d-4e6a-a33e-25042c7312c8",
+  "type": "user.response",
+  "text": "that sounds perfect",
+  "startTime": "18:37:32.698",
+  "endTime": "18:37:32.698",
+  "intent": "NullIntent",
+  "state": [
+    "Listen",
+    "Ask",
+    "ConfirmOrder"
+  ],
+  "meta": {
+    
+  }
+},{
+  "id": "8a7ad587-9c8d-4106-8671-57af021dd967",
+  "type": "robot.speech",
+  "display": "I didn't get that, sorry. Try again!",
+  "text": "I didn't get that, sorry. Try again!",
+  "startTime": "18:37:32.762",
+  "endTime": "18:37:35.492",
+  "audio": "I+didn%27t+get+that%2C+sorry.+Try+again%21.wav",
+  "state": [
+    "Ask",
+    "ConfirmOrder"
+  ]
+},{
+  "id": "cec01726-3656-40db-addd-8a6f7d39b144",
+  "type": "user.speech",
+  "startTime": "18:37:35.266",
+  "startSpeechTime": "18:37:36.853",
+  "endTime": "18:37:38.367",
+  "text": "that sounds good",
+  "user": "virtual-user-0",
+  "audio": "18.37.38.365.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "cec01726-3656-40db-addd-8a6f7d39b144",
+  "type": "user.response",
+  "text": "that sounds good",
+  "startTime": "18:37:38.370",
+  "endTime": "18:37:38.370",
+  "intent": "NullIntent",
+  "state": [
+    "Listen",
+    "Ask",
+    "ConfirmOrder"
+  ],
+  "meta": {
+    
+  }
+},{
+  "id": "787776ab-1841-49e0-8c98-2931e457f7ca",
+  "type": "robot.speech",
+  "display": "I still didn't get that, sorry. Could you rephrase?",
+  "text": "I still didn't get that, sorry. Could you rephrase?",
+  "startTime": "18:37:38.436",
+  "endTime": "18:37:41.872",
+  "audio": "I+still+didn%27t+get+that%2C+sorry.+Could+you+rephrase%3F.wav",
+  "state": [
+    "Ask",
+    "ConfirmOrder"
+  ]
+},{
+  "id": "0690c6db-fc39-4a3d-8aa2-1322f7ec0949",
+  "type": "user.speech",
+  "startTime": "18:37:41.639",
+  "startSpeechTime": "18:37:44.005",
+  "endTime": "18:37:45.139",
+  "text": "that's good",
+  "user": "virtual-user-0",
+  "audio": "18.37.45.137.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "0690c6db-fc39-4a3d-8aa2-1322f7ec0949",
+  "type": "user.response",
+  "text": "that's good",
+  "startTime": "18:37:45.145",
+  "endTime": "18:37:45.145",
+  "intent": "NullIntent",
+  "state": [
+    "Listen",
+    "Ask",
+    "ConfirmOrder"
+  ],
+  "meta": {
+    
+  }
+},{
+  "id": "056f95cc-7606-4716-b97d-4e10d1c75c17",
+  "type": "robot.speech",
+  "display": "Still couldn't get that.",
+  "text": "Still couldn't get that.",
+  "startTime": "18:37:45.220",
+  "endTime": "18:37:46.442",
+  "audio": "Still+couldn%27t+get+that..wav",
+  "state": [
+    "ConfirmOrder"
+  ]
+},{
+  "id": "91677096-d3ea-453a-9472-f6c38f203373",
+  "type": "robot.speech",
+  "display": "Does that sound good?",
+  "text": "Does that sound good?",
+  "startTime": "18:37:46.507",
+  "endTime": "18:37:47.738",
+  "audio": "Does+that+sound+good%3F.wav",
+  "state": [
+    "Ask",
+    "ConfirmOrder"
+  ]
+},{
+  "id": "caa3aca2-054f-4da7-b3da-0c366163a840",
+  "type": "user.speech",
+  "startTime": "18:37:47.554",
+  "startSpeechTime": "18:37:48.743",
+  "endTime": "18:37:49.755",
+  "text": "yes",
+  "user": "virtual-user-0",
+  "audio": "18.37.49.753.wav",
+  "meta": {
+    
+  }
+},{
+  "id": "caa3aca2-054f-4da7-b3da-0c366163a840",
+  "type": "user.response",
+  "text": "yes",
+  "startTime": "18:37:49.757",
+  "endTime": "18:37:49.757",
+  "intent": "Yes",
+  "state": [
+    "Listen",
+    "Ask",
+    "ConfirmOrder"
+  ],
+  "meta": {
+    "intent": [
+      {
+        "intent_name": "Yes",
+        "conf": 1,
+        "precision": 1,
+        "recall": 1
+      }
+    ]
+  }
+},{
+  "id": "eb63890a-135f-48a0-b2c4-4a47b0b9aa2c",
+  "type": "robot.speech",
+  "display": "Great! Thanks for your order. Goodbye",
+  "text": "Great! Thanks for your order. Goodbye",
+  "startTime": "18:37:49.821",
+  "endTime": "18:37:52.597",
+  "audio": "Great%21+Thanks+for+your+order.+Goodbye.wav",
+  "state": [
+    "EndOrder"
+  ]
+}]

@@ -9,7 +9,7 @@
  * Can save a log with any filename. This will however impact the browser UI as that debug console will stop working
  * if the log name is different from the standard format which is a timestamp.
  *
- * Should be called in the corresponding "general.kt" file to get it started before any States are entered (this is not a requirement).
+ * Should be called in the corresponding "main.kt" file to get it started before any States are entered (this is not a requirement).
  * Should only be started ONCE per logging session, i.e. stop before starting a new one (unless maximum time is reached).
  * Should be stopped at the end of the skill. The current log will save either way but will NOT automatically export to the target LOG folder.
  */
@@ -29,14 +29,14 @@ class Logger {
 
     /**
      * Starts a logging session
-     * @param logName Preferred log filename. Standard is a timestamp. If set to other than null the web UI will fail to print information.
+     * @param logName Preferred filename. Standard is a timestamp. If set to other than null the web UI will fail to print information.
      * @param debug If true a debug file will be created in ./debug/ (WIP)
      */
     fun startLogging(logName: String? = null, debug: Boolean = true) {
         logger.startSession(name = logName, maxLength = 3600)
-        this@Logger.filename = logName
-        if (debug && !this@Logger.debugActive) {
-            this@Logger.debugActive = true
+        filename = logName
+        if (debug && !debugActive) {
+            debugActive = true
             //startDebugLog()
         }
     }

@@ -1,0 +1,53 @@
+{
+  "version": "2.0",
+  "id": "36a9d937-1c37-4975-88d4-e33fcad50dd6",
+  "startTime": "23:09:26.450",
+  "endTime": "23:09:26.451",
+  "type": "logger.settings",
+  "sessionName": "2020-09-28 23-09-26"
+},{
+  "id": "9b74588a-e41b-42b1-9252-ad0269eef29c",
+  "type": "robot.speech",
+  "display": "Hi there. Do you like robots?",
+  "text": "Hi there. Do you like robots?",
+  "startTime": "23:09:59.296",
+  "endTime": "23:10:01.714",
+  "audio": "Hi+there.+Do+you+like+robots%3F.wav",
+  "state": [
+    "Ask",
+    "Start"
+  ]
+},{
+  "id": "91aad47b-69ca-4d48-8aeb-24925e18d269",
+  "type": "user.speech",
+  "silent": "true",
+  "endTime": "23:10:06.600",
+  "text": "",
+  "user": "virtual-user-0",
+  "meta": {
+    
+  }
+},{
+  "id": "24cc3797-4a49-49e1-91ad-e7bbb3da9840",
+  "type": "robot.speech",
+  "display": "Sorry, I didn't hear you",
+  "text": "Sorry, I didn't hear you",
+  "startTime": "23:10:06.721",
+  "endTime": "23:10:08.405",
+  "audio": "Sorry%2C+I+didn%27t+hear+you.wav",
+  "state": [
+    "Start"
+  ]
+},{
+  "id": "1665b86e-6d64-42ca-bcb0-ca6e55e97dd8",
+  "type": "robot.speech",
+  "display": "Hi there. Do you like robots?",
+  "text": "Hi there. Do you like robots?",
+  "startTime": "23:10:08.491",
+  "endTime": "23:10:10.909",
+  "audio": "Hi+there.+Do+you+like+robots%3F.wav",
+  "state": [
+    "Ask",
+    "Start"
+  ]
+}
