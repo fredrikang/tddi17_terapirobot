@@ -40,8 +40,10 @@ fun queryUser(user: User) = state(parent = Interaction) {
             furhat.ask("Hello! Do you want to speak to me?")
     }
     onResponse<Yes> {
+
             furhat.say( "Okay nice to meet you!")
             furhat.gesture(Gestures.BigSmile)
+            users.targetUser = user.id
             goto(Test)
     }
 
@@ -55,6 +57,7 @@ fun queryUser(user: User) = state(parent = Interaction) {
 val Test : State = state(Interaction) {
     onEntry {
         furhat.say("Entered Test state.")
-        furhat.gesture((Gestures.CloseEyes))
+        furhat.say("Current user is.")
+        furhat.say(users.targetUser)
     }
 }

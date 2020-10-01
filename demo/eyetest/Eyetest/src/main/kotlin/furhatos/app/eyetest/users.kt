@@ -8,3 +8,10 @@ import furhatos.skills.UserManager
 
 
 var User.disregard by NullSafeUserDataDelegate {false}
+
+var targetUserID : String = ""
+
+var UserManager.targetUser : String
+    get() = targetUserID
+    set(value) {targetUserID = value}
+
