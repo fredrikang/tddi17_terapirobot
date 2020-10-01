@@ -6,15 +6,14 @@ import furhatos.flow.kotlin.*
 class ProgramHandler {
 
     public val nextAvailableButtonIndex = 0;
-    public val ProgramToIncludes = hashMapOf<State, List<State>>();
+    public val ProgramToIncludes = hashMapOf<State, ArrayList<State>>();
     public class ProgramHandler constructor() {
         
     }
 
-    public fun includeAll(program: State, func: ()) {
-        val includeList = ProgramToIncludes[program];
-        for(i in 1 until includeList.size) {
-            func(includeList[i]);
+    public fun includeAll(program: State) {
+        for(v in ProgramToIncludes[program]) {
+            program.include(v)
         }
     }
 
