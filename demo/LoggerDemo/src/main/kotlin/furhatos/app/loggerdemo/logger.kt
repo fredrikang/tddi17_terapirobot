@@ -32,8 +32,8 @@ class Logger {
      * @param logName Preferred filename. Standard is a timestamp. If set to other than null the web UI will fail to print information.
      * @param debug If true a debug file will be created in ./debug/ (WIP)
      */
-    fun startLogging(logName: String? = null, debug: Boolean = true) {
-        logger.startSession(name = logName, maxLength = 3600)
+    fun startLogging(logName: String? = null, token: String? = null, debug: Boolean = true) {
+        logger.startSession(name = logName, cloudToken = token, maxLength = 3600)
         filename = logName
         if (debug && !debugActive) {
             debugActive = true
