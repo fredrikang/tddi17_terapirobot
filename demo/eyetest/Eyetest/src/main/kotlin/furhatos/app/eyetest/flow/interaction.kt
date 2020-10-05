@@ -28,7 +28,7 @@ val Start : State = state(Interaction) {
                         goto(Test)
                     }
                     else {
-                        furhat.attendNobody() // If no user can be established as the parient furhat will ignore all users.
+                        furhat.attendNobody() // If no user can be established as the patient furhat will ignore all users.
                     }
                 }
             }
@@ -47,6 +47,7 @@ val Start : State = state(Interaction) {
             }
         }
     }
+
 }
 
 

@@ -15,6 +15,8 @@ val Idle: State = state {
 
     onEntry {
         furhat.attendNobody()
+        furhat.say("Entered idle state.")
+
     }
 
     onUserEnter {
