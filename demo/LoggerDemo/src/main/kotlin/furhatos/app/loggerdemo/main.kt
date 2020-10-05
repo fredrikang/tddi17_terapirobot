@@ -8,7 +8,7 @@ var logHandler : Logger = Logger()
 
 class LoggerdemoSkill : Skill() {
     override fun start() {
-        logHandler.startLogging(debug = false)
+        logHandler.startLogging(debug = false, token = "e2cecca6-d817-4679-9cb9-90bf70d856d2")
         Flow().run(Idle)
     }
 }
