@@ -43,7 +43,6 @@ repositories {
 
 dependencies {
     compile 'com.furhatrobotics.furhatos:furhat-commons:1.21.0'
-    compile 'org.java-websocket:Java-WebSocket:1.5.1'
 }
 
 jar {

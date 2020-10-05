@@ -1,35 +1,25 @@
 package furhatos.app.audiostreaming.flow
 
-import org.java_websocket.WebSocket
-import org.java_websocket.handshake.ClientHandshake
-import org.java_websocket.server.WebSocketServer
-import java.net.InetSocketAddress
-import java.nio.ByteBuffer
+import java.net.ServerSocket
+import java.net.Socket
+import java.util.*
 
-class AudioStreamingServer(port: Int) : WebSocketServer(InetSocketAddress(port)) {
+class AudioStreamingServer(port: Int) : ServerSocket(port) {
 
-    override fun onOpen(conn: WebSocket, handshake: ClientHandshake) {
-        println(conn.remoteSocketAddress.address.hostAddress + " connected")
+    val clients = Collections.synchronizedList(ArrayList<Socket>())
+
+    fun start() {
+        Thread({
+            while (true) {
+                val client = accept()
+                clients.add(client)
+            }
+        }).start()
     }
 
-    override fun onClose(conn: WebSocket, code: Int, reason: String, remote: Boolean) {
-        println("$conn left")
-    }
-
-    override fun onMessage(conn: WebSocket, message: String) {
-        println("$conn: $message")
-    }
-
-    override fun onMessage(conn: WebSocket, message: ByteBuffer) {
-        println("$conn: $message")
-    }
-
-    override fun onError(conn: WebSocket, e: Exception) {
-        e.printStackTrace()
-    }
-
-    override fun onStart() {
-        println("Started audio streaming server")
-        connectionLostTimeout = 200
+    fun broadcast(bytes: ByteArray) {
+        clients.forEach {
+            it.getOutputStream().write(bytes)
+        }
     }
 }

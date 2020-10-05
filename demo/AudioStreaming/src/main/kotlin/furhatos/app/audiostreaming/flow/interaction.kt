@@ -9,6 +9,7 @@ import furhatos.nlu.common.Yes
 import furhatos.util.Gender
 import furhatos.util.Language
 import java.io.ByteArrayOutputStream
+import java.net.ServerSocket
 import java.util.*
 import javax.sound.sampled.*
 
@@ -55,7 +56,7 @@ val Start : State = state(Interaction) {
 
         val s = AudioStreamingServer(8887)
         s.start()
-        furhat.say("Server started on port: " + s.port)
+        furhat.say("Server started on port: " + s.localPort)
 
         //furhat.say("Test")
         val format = AudioFormat(16000.0f, 16, 1, true, true) // built-in mic & ReSpeaker
@@ -68,7 +69,7 @@ val Start : State = state(Interaction) {
             //microphone = AudioSystem.getTargetDataLine(format, mixers[7]); // ReSpeaker (robot)
             //microphone = AudioSystem.getTargetDataLine(format, mixers[3]); // ReSpeaker (local)
             furhat.say("Found microphone")
-            val info = DataLine.Info(TargetDataLine::class.java, format)
+            //val info = DataLine.Info(TargetDataLine::class.java, format)
             //furhat.say("Microphone info " + info.toString())
             //microphone = AudioSystem.getLine(info) as TargetDataLine
             microphone.open(format)
@@ -79,20 +80,26 @@ val Start : State = state(Interaction) {
             val data = ByteArray(microphone.bufferSize / 5)
             microphone.start()
             furhat.say("Started microphone")
-            var bytesRead = 0
             val dataLineInfo = DataLine.Info(SourceDataLine::class.java, format)
             speakers = AudioSystem.getLine(dataLineInfo) as SourceDataLine
             speakers.open(format)
             furhat.say("Opened speakers")
             speakers.start()
             furhat.say("Started speakers")
-            while (bytesRead < 10000000) {
+
+            while (true) {
                 numBytesRead = microphone.read(data, 0, CHUNK_SIZE)
-                bytesRead += numBytesRead
+
+                for (i in 0..numBytesRead step 2) {
+                    val temp = data[i]
+                    data[i] = data[i + 1];
+                    data[i + 1] = temp
+                }
+
                 // write the mic data to a stream for use later
                 out.write(data, 0, numBytesRead)
                 s.broadcast(data.copyOfRange(0, numBytesRead))
-                println(Arrays.toString(data.copyOfRange(0, numBytesRead)))
+                //println(Arrays.toString(data.copyOfRange(0, numBytesRead)))
                 // write mic data to stream for immediate playback
                 //speakers.write(data.copyOfRange(0, numBytesRead), 0, numBytesRead)
                 //speakers.write(data, 0, numBytesRead)
