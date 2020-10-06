@@ -1,25 +1,42 @@
 import pyaudio
+import wave
 import socket
 
-p = pyaudio.PyAudio()
 
-stream = p.open(format=pyaudio.paInt16,
-                channels=1,
-                rate=16000,
-                output=True)
+class MicrophoneStream: 
 
-HOST = '127.0.0.1'  # The server's hostname or IP address
-PORT = 8887         # The port used by the server
+    BUFFER_SIZE = 1024
 
-#with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((HOST, PORT))
-data = s.recv(1024)
-while data != '':
-	stream.write(data)
-	data = s.recv(1024)
+    def __init__(self, address, record):
+        self.audio_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.audio_socket.connect(address)
+        self.record = record
 
-stream.stop_stream()
-stream.close()
+        wave_obj = wave.open(self.audio_socket.makefile(), 'rb')
 
-p.terminate()
+        p = pyaudio.PyAudio()
+        self.speaker_stream = p.open(format   = p.get_format_from_width(wave_obj.getsampwidth()),
+                                     channels = wave_obj.getnchannels(),
+                                     rate     = wave_obj.getframerate(),
+                                     output   = True)
+        if record:
+            self.audio_writer = wave.open("output.wav", 'wb')
+            self.audio_writer.setparams(wave_obj.getparams())
+
+    def run(self):
+        while True:
+            try:
+                data = self.audio_socket.recv(self.BUFFER_SIZE)
+                self.speaker_stream.write(data)
+
+                if self.record:
+                    self.audio_writer.writeframesraw(data)
+
+            except KeyboardInterrupt:
+                if self.record:
+                    self.audio_writer.close()
+                break
+
+
+stream = MicrophoneStream(address = ('127.0.0.1', 8887), record = False)
+stream.run()
