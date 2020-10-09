@@ -1,1 +1,0 @@
-bin\LogViewer.exe

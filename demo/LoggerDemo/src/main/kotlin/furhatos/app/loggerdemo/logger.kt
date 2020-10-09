@@ -20,6 +20,7 @@
 package furhatos.app.loggerdemo
 import furhatos.flow.kotlin.*
 import java.io.File
+import java.io.FilenameFilter
 import java.io.IOException
 import java.net.ServerSocket
 import java.net.Socket
@@ -33,17 +34,16 @@ import kotlin.String as String
  * Can log communication and AI states.
  */
 class Logger {
-    var filename              : String? = null
-    var debugActive           : Boolean = false
-    var autoExport            : Boolean = true
-    var sessions              : ArrayList<String> = ArrayList()
-    var cloudSave             : Boolean = false
+    var filename: String? = null
+    var debugActive: Boolean = false
+    var autoExport: Boolean = true
+    var cloudSave: Boolean = false
 
-    private var cloudIDToken  : String = "62df5e87-7fea-427a-9dc1-179a38107269"
-    private var cloudTokenApi : String? = null
-    private var sessionName   : String? = null
-    private var logger        : DialogLogger = dialogLogger
-    private var servSocket    : ServerSocket? = null
+    private var cloudIDToken: String = "62df5e87-7fea-427a-9dc1-179a38107269"
+    private var cloudTokenApi: String? = null
+    private var sessionName: String? = null
+    private var logger: DialogLogger = dialogLogger
+    private var servSocket: ServerSocket? = null
 
 
     /**
@@ -51,7 +51,7 @@ class Logger {
      * Must use startLogging with all parameters for logging to function.
      * @return Logger object with all null values.
      */
-    constructor() { }
+    constructor() {}
 
     /**
      * Constructor.
@@ -64,31 +64,28 @@ class Logger {
     constructor (fname: String?, token: String?, debug: Boolean = false) {
         filename = fname
         cloudTokenApi = token
-        if (cloudTokenApi != null) {
-            servSocket = ServerSocket(8888) // Default port 8888
-            servSocket!!.soTimeout = 5000        // Set 5s timeout for accepting clients.
-        }
+        servSocket = ServerSocket(8888) // Default port 8888
+        servSocket!!.soTimeout = 5000        // Set 5s timeout for accepting clients.
+
         debugActive = debug
     }
 
     /**
      * Starts a logging session based on class members.
      */
-    fun startLogging(){
+    fun startLogging() {
         sessionName = logger.timestamp("YYYY-MM-dd%YYHH-mm-ss") // Name based on AWS save format presented by furhat.io
         logger.startSession(name = filename, cloudToken = cloudTokenApi, maxLength = 3600)
-        sessions.add(sessionName!!)
     }
 
     /**
      * Starts a logging session based on class members
      * @param logName The name of the log.
      */
-    fun startLogging(logName: String){
+    fun startLogging(logName: String) {
         filename = logName
         sessionName = logger.timestamp("YYYY-MM-dd%YYHH-mm-ss") // Name based on AWS save format presented by furhat.io
         logger.startSession(name = filename, cloudToken = cloudTokenApi, maxLength = 3600)
-        sessions.add(sessionName!!)
     }
 
     /**
@@ -101,13 +98,10 @@ class Logger {
     fun startLogging(logName: String?, token: String?, debug: Boolean = false) {
         sessionName = logger.timestamp("YYYY-MM-dd%YYHH-mm-ss") // Name based on AWS save format presented by furhat.io
         logger.startSession(name = logName, cloudToken = token, maxLength = 3600)
-        sessions.add(sessionName!!)
 
         cloudTokenApi = token
-        if (cloudTokenApi != null) {
-            servSocket = ServerSocket(8888) // Default port 8888
-            servSocket!!.soTimeout = 5000        // Set 5s timeout for accepting clients.
-        }
+        servSocket = ServerSocket(8888) // Default port 8888
+        servSocket!!.soTimeout = 5000        // Set 5s timeout for accepting clients.
 
         filename = logName
         if (debug && !debugActive) {
@@ -120,32 +114,32 @@ class Logger {
      * Get the active logger object.
      * @return Furhat logger object used.
      */
-    fun getLogger() : DialogLogger { return logger }
+    fun getLogger(): DialogLogger {
+        return logger
+    }
 
     /**
      * Get the current logging session's ID.
      * @return Furhat cloudToken for cloud saving. (null if no token)
      */
-    fun getCloudToken() : String? { return cloudTokenApi }
+    fun getCloudToken(): String? {
+        return cloudTokenApi
+    }
 
     /**
      * See if current logger is cloud based or locally based
      * @return true if cloud based else false.
      */
-    fun isCloudBased() : Boolean { return cloudSave }
+    fun isCloudBased(): Boolean {
+        return cloudSave
+    }
 
     /**
-     * Currently not working
-     * @TODO find if any workaround is possible
+     * Get the current year-month-day of this call.
+     * @return Date as of the call to this function.
      */
-    fun startDebugLog() {
-        val debugDirectory : File = File(System.getProperty("user.dir") + File.separator + "debug")
-
-        if (!debugDirectory.exists())
-            debugDirectory.mkdir()
-
-        val log = File("$debugDirectory" + "debug.json")
-        //furhatos.flow.kotlin.flowLogger.start(log)
+    fun getDate(): String {
+        return logger.timestamp("YYYY-MM-dd")
     }
 
     /**
@@ -153,12 +147,34 @@ class Logger {
      * Ends the current logging session!
      */
     fun exportActiveLog() {
+        logger.endSession()
         if (cloudSave) {
             exportLogCloudBased()
         } else {
             exportLocalBased()
         }
-        logger.endSession()
+    }
+
+    /**
+     * Clear logs from the robot's memory.
+     * @param date Logs of this date will be deleted. If null all logs will be deleted.
+     */
+    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    fun clearLogsFromFurhatMem(date: String? = null) {
+        try{
+            for (log in File("/home/furnix/logs").listFiles {
+                _,
+                name
+                -> when (date) {
+                    null -> true
+                    else -> name.contains(date)
+                }
+            }) {
+                log.deleteRecursively()
+            }
+        } catch(e:IOException) {
+            println("Failed to delete logs. ${e.message}\n${e.stackTrace}")
+        }
     }
 
     /**
@@ -166,24 +182,70 @@ class Logger {
      * Sends the session id followed by the file byte data.
      */
     fun exportLocalBased(){
-        var fname = sessionName!!.split('%')[0] + " " + sessionName!!.split('%')[1].substring(2)
-        val logFile : File = findNewLogName("/home/furnix/logs")
-                ?: return
+        val logFile : File = findNewLogName("/home/furnix/logs") ?: return
         var session : String? = sessionName
         var socket  : Socket? = try { servSocket?.accept() } catch (e: IOException) { null }
         if (socket != null) {
             try {
-                socket?.getOutputStream()?.write(session!!.toByteArray())
-                socket = servSocket?.accept()
-                socket?.getOutputStream()?.write(logFile.readBytes())
-                sessions!!.remove(session)
+                socket.getOutputStream()?.write(session!!.toByteArray())
+                socket = servSocket?.accept() ?: throw(IOException("Failed to bind socket."))
+                socket.getOutputStream()?.write(logFile.readBytes())
             } catch(e: IOException) {
-                println("Failed to read file.")
+                println("Failed to read file. " + e.message)
                 // DebugLogger for logging here.
             }
         }
     }
 
+    /**
+     * Export all logs from the /logs/ folder that are of the specified date (YYYY-MM-DD).
+     * If clear is set all files will be removed after they're exported.
+     * @param date The date of the logs (YYYY-MM-DD)
+     * @param clear Clear all files after export.
+     */
+    fun exportDateLogs(date : String, clear : Boolean = false){
+        val folder : File = File("/home/furnix/logs")
+        var socket : Socket?
+        try{
+            for(log in folder.listFiles{_, name -> name.contains(date)}) {
+                socket = servSocket?.accept() ?: return
+                socket.getOutputStream()?.write(log.name.toByteArray())
+                socket = servSocket?.accept() ?: return
+                socket.getOutputStream()?.write(File(log.path + File.separator + "dialog.json").readBytes())
+                if(clear) log.deleteRecursively()
+            }
+        } catch (e:IOException){
+            println("Failed to export.")
+        }
+    }
+
+    /**
+     * Export all files from the /logs/ folder.
+     * If clear is set all files will be removed after they're exported.
+     * @param clear Clear all files after export.
+     */
+    fun exportAllLocalFiles(clear : Boolean = false) {
+        val folder : File = File("/home/furnix/logs")
+        var socket : Socket?
+        try{
+            for(log in folder.listFiles()) {
+                socket = servSocket?.accept() ?: return
+                socket.getOutputStream()?.write(log.name.toByteArray())
+                socket = servSocket?.accept() ?: return
+                socket.getOutputStream()?.write(File(log.path + File.separator + "dialog.json").readBytes())
+                if(clear) log.deleteRecursively()
+            }
+        } catch (e:IOException){
+            println("Failed to export.")
+        }
+    }
+
+    /**
+     * Find the most recently modified log file.
+     * Used as the timestamp seems to not be accurate.
+     * @param path Directory to search in.
+     * @return Latest modified file.
+     */
     private fun findNewLogName(path : String) : File? {
         val dir = File(path)
         val files = dir.listFiles(File::isDirectory)
@@ -200,7 +262,10 @@ class Logger {
         latest = File(latest?.path + File.separator + "dialog.json")
         return latest
     }
+
     /**
+     * UNRELIABLE FUNCTION! Timestamp is unreliable on robot, avoid using this hack.
+     *
      * Export/Copy specific log in the AWS cloud.
      * Opens socket to send url of log to listening client.
      * This can either be saved for later or instantly fetched on that clients computer.
@@ -211,8 +276,6 @@ class Logger {
      * Creates a new thread for accepting and sending data.
      *
      * @param id session ID to export (formatted as YYYY-MM-DD%YY-HH-mm-ss)
-     *
-     * @TODO Might work with searching through folders on the robot. Check if folders are created.
      */
     fun exportLogCloudBased(id : String? = sessionName) {
         var session : String? = id
@@ -221,28 +284,12 @@ class Logger {
         if (socket != null) {
             thread(start = true) {
                 try {
-                    socket?.getOutputStream()?.write(url.toByteArray())
-                    sessions!!.remove(session)
+                    socket.getOutputStream()?.write(url.toByteArray())
                 } catch(e: IOException) {
-                    // DebugLogger for logging here.
+                    println("Failed to send url to client. " + e.message)
                 }
                 return@thread
             }
-        }
-    }
-
-    /**
-     * Export/Copy all logs from AWS cloud to connected client.
-     */
-    fun exportAllLogsCloudBased() {
-        var socket: Socket? = try { servSocket?.accept() } catch (e: IOException) { null }
-        if (socket != null) {
-           thread(start = true) {
-               sessions!!.forEach {
-                   id -> try { socket?.getOutputStream()?.write("http://log-viewer.furhat.io/getSkillLog/$cloudIDToken/$id".toByteArray()) } catch(e: IOException) { return@thread }
-               }
-               return@thread
-           }
         }
     }
 
