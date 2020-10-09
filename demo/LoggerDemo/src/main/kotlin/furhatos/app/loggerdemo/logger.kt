@@ -34,16 +34,16 @@ import kotlin.String as String
  * Can log communication and AI states.
  */
 class Logger {
-    var filename: String? = null
-    var debugActive: Boolean = false
-    var autoExport: Boolean = true
-    var cloudSave: Boolean = false
+    var filename    : String? = null
+    var debugActive : Boolean = false
+    var autoExport  : Boolean = true
+    var cloudSave   : Boolean = false
 
-    private var cloudIDToken: String = "62df5e87-7fea-427a-9dc1-179a38107269"
-    private var cloudTokenApi: String? = null
-    private var sessionName: String? = null
-    private var logger: DialogLogger = dialogLogger
-    private var servSocket: ServerSocket? = null
+    private var cloudIDToken  : String = "62df5e87-7fea-427a-9dc1-179a38107269"
+    private var cloudTokenApi : String? = null
+    private var sessionName   : String? = null
+    private var logger        : DialogLogger = dialogLogger
+    private var servSocket    : ServerSocket? = null
 
 
     /**
