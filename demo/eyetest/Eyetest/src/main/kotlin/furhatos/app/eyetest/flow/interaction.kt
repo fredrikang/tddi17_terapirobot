@@ -87,9 +87,10 @@ fun findTargetUser(user: User, stringAsk: String, stringYes: String, stringNo: S
     This is the first state involved in choosing the apperarance of the robot therapist. In this state, the patient
     is asked if they prefer a male or female therapist. This information is then carried over to the next state,
     where appearance can be fine-tuned. This state uses the MaleIntent and FemaleIntent intents to evaluate user
-    choices. 
+    choices.
 */
 val AppearanceStateGender : State = state(Interaction) {
+    include(userEnterLeave)
     onEntry {
         furhat.say({+"Jag kan ta flera olika utseenden. Jag kan se ut som en kvinna"
             +delay(1000)})
@@ -112,6 +113,7 @@ val AppearanceStateGender : State = state(Interaction) {
         furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
         furhat.setTexture("Angelina")
         call(AppearanceStateSpecifics(true))
+        goto(Test)
     }
 }
 
@@ -120,9 +122,9 @@ val AppearanceStateGender : State = state(Interaction) {
     according to the therapist gender chosen in the previous state.
 */
 fun AppearanceStateSpecifics(female : Boolean) : State = state(Interaction) {
+    include(userEnterLeave)
+
     onEntry {
-
-
         furhat.say({+"Jag kan ta flera olika utseenden. Jag kan se ut så här."
                     +delay(1000)})
         if(female)
@@ -155,26 +157,32 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state(Interaction) {
             furhat.setInputLanguage(Language.SWEDISH)
         }
         furhat.say("Okej, då tar jag det här utseendet.")
-        goto(Test)
+        terminate()
     }
 
     onResponse<Nr2Intent> {
         furhat.say("Okej, då tar jag det här utseendet.")
-        goto(Test)
+        terminate()
     }
+
+    
 
 }
 
 
 
 val Test : State = state(Interaction) {
+    include(userEnterLeave)
     onEntry {
         furhat.say("Gick in i teststadiet.")
         furhat.say("Den nuvarande användaren är.")
         furhat.say(users.targetUser) // For debugging purposes only.
     }
 
-/*
+}
+
+val userEnterLeave = partialState {
+    /*
         If the targetUser has been lost and a new user enters we once again check if the User is our patient.
         If the we are still focused on the target user we simply glance at the new user.
  */
@@ -195,14 +203,13 @@ val Test : State = state(Interaction) {
         If our target user leaves, variables concerning the target user are reset and furhat acknowledges audibly that the targetUser has been lost.
  */
     onUserLeave(instant = true) {
-        if (it.id == users.targetUser ) {
+        if (it.id == users.targetUser) {
             users.hasTargetUser = false
             users.targetUser = "None"
             furhat.attendNobody()
-            furhat.say ( "Huvudanvändare borta." )
+            furhat.say("Huvudanvändare borta.")
 
-        }
-        else {
+        } else {
             furhat.say("Annan användare borta.") //Purely for debugging purposes.
         }
     }
