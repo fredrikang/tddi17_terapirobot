@@ -1,21 +1,22 @@
 package furhatos.app.eyetest.flow
 
 import furhatos.app.eyetest.nlu.*
-import furhatos.nlu.common.*
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
-import furhatos.skills.SingleUserEngagementPolicy
 import furhatos.nlu.common.Yes
 import furhatos.nlu.common.No
 import furhatos.records.User
-import furhatos.skills.UserManager
 import furhatos.util.Language
 import furhatos.util.Gender
 import furhatos.flow.kotlin.voice.Voice
 
+/*
+    This state contains first time setup for the user attendance system. Here, furhat asks which user to attend
+    and sets that user as the main target for the session.
+    The state also contains intitial setup of the robot's voice and appearance
+*/
 val Start : State = state(Interaction) {
      init{
-        //furhat.setVoice(Language.SWEDISH, Gender.FEMALE, true)
         furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
         furhat.setInputLanguage(Language.SWEDISH)
         furhat.setTexture("Angelina")
@@ -55,7 +56,6 @@ val Start : State = state(Interaction) {
     }
 
 }
-
 
 /*
     The function for asking users if they are the intended target.
@@ -164,13 +164,12 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state(Interaction) {
         furhat.say("Okej, då tar jag det här utseendet.")
         terminate()
     }
-
-    
-
 }
 
 
-
+/*
+    This state is for debug purposes only.
+*/
 val Test : State = state(Interaction) {
     include(userEnterLeave)
     onEntry {
@@ -181,6 +180,12 @@ val Test : State = state(Interaction) {
 
 }
 
+
+/*
+    This partial state contains a standard response to users entering or leaving. This should be included in every
+    state occurring during a session, if no specific other behaviour is desired. This state makes sure that
+    the targetUser and hasTargetUser variables are correctly updated when users enter or leave.
+*/
 val userEnterLeave = partialState {
     /*
         If the targetUser has been lost and a new user enters we once again check if the User is our patient.

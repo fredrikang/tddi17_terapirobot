@@ -2,3 +2,6 @@ imutils
 numpy
 opencv-python
 pyzmq
+docopt
+pyaudio
+ffmpeg-python

@@ -3,6 +3,8 @@ package furhatos.app.eyetest.nlu
 import furhatos.nlu.Intent
 import furhatos.util.Language
 
+
+//Used when choosing if the therapist should be male or female, in AppearanceStateGender state
 class MaleIntent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf(
@@ -14,6 +16,7 @@ class MaleIntent : Intent() {
     }
 }
 
+//Used when choosing if the therapist should be male or female, in AppearanceStateGender state
 class FemaleIntent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf(
@@ -25,7 +28,7 @@ class FemaleIntent : Intent() {
     }
 }
 
-
+//Used when choosing specific appearance, in AppearanceStateSpecific state
 class Nr1Intent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf(
@@ -38,6 +41,7 @@ class Nr1Intent : Intent() {
     }
 }
 
+//Used when choosing specific appearance, in AppearanceStateSpecific state
 class Nr2Intent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf(
