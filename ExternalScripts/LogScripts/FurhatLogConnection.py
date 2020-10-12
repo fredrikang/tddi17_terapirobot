@@ -99,5 +99,4 @@ try:
             createLogFile(repr(data))
             connect()
 except:
-    print('Lost connection, exiting.')
-    exit(code=0)
+    print('Lost connection.')
