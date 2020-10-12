@@ -140,31 +140,37 @@ class Logger {
      */
     fun export(arg : String? = null, clear : Boolean = false){
         if(arg != null){
-            if(arg.toLowerCase() == "all"){
+            if(arg.toLowerCase() == "all") {
                 exportAllLocalFiles(clear)
                 return
             } else {
                 try {
                     var formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd"); formatter.format(formatter.parse(arg))
                     exportDateLogs(arg, clear)
-                    return
                 } catch(e:ParseException) {
                     println("Bad date format!")
                 }
             }
         } else {
-            val logFile : File = findNewLogName("/home/furnix/logs") ?: return
-            var session : String? = sessionName
-            var socket  : Socket? = try { servSocket?.accept() } catch (e: IOException) { null }
-            if (socket != null) {
-                try {
-                    socket.getOutputStream()?.write(session!!.toByteArray())
-                    socket = servSocket?.accept() ?: return
-                    socket.getOutputStream()?.write(logFile.readBytes())
-                    if(clear) logFile.delete()
-                } catch(e: IOException) {
-                    println("Failed to read file. " + e.message)
-                }
+            exportLatestLog(clear)
+        }
+    }
+
+    /**
+     * Exports the latest modified log from the robot.
+     */
+    private fun exportLatestLog(clear : Boolean) {
+        val logFile : File = findNewLogName("/home/furnix/logs") ?: return
+        var session : String? = sessionName
+        var socket  : Socket? = try { servSocket?.accept() } catch (e: IOException) { null }
+        if (socket != null) {
+            try {
+                socket.getOutputStream()?.write(session!!.toByteArray())
+                socket = servSocket?.accept() ?: return
+                socket.getOutputStream()?.write(logFile.readBytes())
+                if(clear) logFile.delete()
+            } catch(e: IOException) {
+                println("Failed to read file. " + e.message)
             }
         }
     }
