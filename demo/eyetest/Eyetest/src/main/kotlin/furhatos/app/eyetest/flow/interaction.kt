@@ -1,7 +1,6 @@
 package furhatos.app.eyetest.flow
 
-import furhatos.app.eyetest.nlu.Nr1Intent
-import furhatos.app.eyetest.nlu.Nr2Intent
+import furhatos.app.eyetest.nlu.*
 import furhatos.nlu.common.*
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
@@ -32,7 +31,7 @@ val Start : State = state(Interaction) {
                     furhat.attend(it)
                     val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej, då pratar jag inte med dig.")) as Boolean
                     if (resp) {
-                        goto(Appearance)
+                        goto(AppearanceStateGender)
                     }
                     else {
                         furhat.attendNobody() // If no user can be established as the patient furhat will ignore all users.
@@ -47,7 +46,7 @@ val Start : State = state(Interaction) {
             furhat.attend(it)
             val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej, då pratar jag inte med dig.")) as Boolean
             if (resp) {
-                goto(Appearance)
+                goto(AppearanceStateGender)
             }
             else {
                 furhat.attendNobody()
@@ -84,34 +83,90 @@ fun findTargetUser(user: User, stringAsk: String, stringYes: String, stringNo: S
     }
 }
 
-
-val Appearance : State = state(Interaction) {
+/*
+    This is the first state involved in choosing the apperarance of the robot therapist. In this state, the patient
+    is asked if they prefer a male or female therapist. This information is then carried over to the next state,
+    where appearance can be fine-tuned. This state uses the MaleIntent and FemaleIntent intents to evaluate user
+    choices. 
+*/
+val AppearanceStateGender : State = state(Interaction) {
     onEntry {
-        furhat.say({+"Jag kan ta flera olika utseenden. Jag kan se ut så här."
-                    +delay(2000)})
-        furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "low")
+        furhat.say({+"Jag kan ta flera olika utseenden. Jag kan se ut som en kvinna"
+            +delay(1000)})
+        furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB)
+        furhat.setTexture("Geremy")
         furhat.setInputLanguage(Language.SWEDISH)
-        furhat.setTexture("Arianna")
+        furhat.ask("Eller så kan jag se ut som en man. Vilket föredrar du, manligt eller kvinnligt?")
+    }
+
+    onReentry{
+        furhat.ask("Vilket föredrar du, manligt eller kvinnligt?")
+    }
+    onResponse<MaleIntent> {
+        furhat.say("Okej, då behåller jag det här utseendet.")
+        call(AppearanceStateSpecifics(false))
+    }
+
+    onResponse<FemaleIntent> {
+        furhat.say("Okej, då återgår jag till kvinnligt utseende.")
+        furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
+        furhat.setTexture("Angelina")
+        call(AppearanceStateSpecifics(true))
+    }
+}
+
+/*
+    In this state, appearance selection is finalized. Here, the user is given two different options
+    according to the therapist gender chosen in the previous state.
+*/
+fun AppearanceStateSpecifics(female : Boolean) : State = state(Interaction) {
+    onEntry {
+
+
+        furhat.say({+"Jag kan ta flera olika utseenden. Jag kan se ut så här."
+                    +delay(1000)})
+        if(female)
+        {
+            furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH)
+            furhat.setTexture("Arianna")
+        }
+        else{
+            furhat.voice = Voice(gender =Gender.MALE, language = Language.ENGLISH_GB, pitch = "low")
+            furhat.setTexture("Max")
+            furhat.setInputLanguage(Language.SWEDISH)
+        }
         furhat.say("Jag kan också se ut så här.")
+
+        furhat.ask("Vilket föredrar du, det första eller det andra?")
+    }
+    onReentry{
         furhat.ask("Vilket föredrar du, det första eller det andra?")
     }
 
     onResponse<Nr1Intent> {
-        furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
-        furhat.setTexture("Angelina")
+        if(female)
+        {
+            furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
+            furhat.setTexture("Angelina")
+        }
+        else{
+            furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB)
+            furhat.setTexture("Geremy")
+            furhat.setInputLanguage(Language.SWEDISH)
+        }
+        furhat.say("Okej, då tar jag det här utseendet.")
         goto(Test)
     }
 
     onResponse<Nr2Intent> {
-        furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "low")
-        furhat.setInputLanguage(Language.SWEDISH)
+        furhat.say("Okej, då tar jag det här utseendet.")
         goto(Test)
     }
 
-    onExit {
-        furhat.say("Okej, då tar jag det här utseendet.")
-    }
 }
+
+
+
 val Test : State = state(Interaction) {
     onEntry {
         furhat.say("Gick in i teststadiet.")
