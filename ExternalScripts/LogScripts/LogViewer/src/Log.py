@@ -23,7 +23,7 @@ class Log:
                     if len(self.data[logName]) <= 1:
                         del(self.data[logName])
         except:
-            print('\"Failed to find folder FurhatLogs\"')
+            print('\"Failed to open file ' + logName + '\"')
 
     def formatJsonFile(self, file):
         """
