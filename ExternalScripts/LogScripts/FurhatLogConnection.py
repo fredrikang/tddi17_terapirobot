@@ -18,12 +18,24 @@ if len(sys.argv) > 1:
 
 
 def connect():
+    """
+    Connect to the server
+    """
     global s    
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     while(s.connect_ex((HOST, PORT)) != 0):
           sleep(5)
 
 def createLogFile(data):
+    """
+    Create a log file with the timestamp received before this call.
+    Fetches log file data from either webaddress or from the robot itself.
+    This is decided based on the format of the timestamp, as there's currently no support
+    from the from the robot for sending the cloud link this can somewhat be ignored.
+
+    Will only accept timestamps (filenames) of 'YYYY-MM-dd%YYHH-mm-ss', 'YYYY-MM-dd%HH-mm-ss', 'YYYY-MM-dd HH-mm-ss'
+    any other format of the timestamp may result in exception. Other names may get approved but can still cause errors.
+    """
     logDir = os.path.join(Path.home(), 'FurhatLogs', 'logs')
     try:
         if data.find('%') != -1:
@@ -55,7 +67,7 @@ def createLogFile(data):
         except:
             print('Failed to create folder: ' + os.path.dirname(fname))
             return
-    try:
+    try: # Try to fetch from url
         log = requests.get(data[2:len(data)-1]).content
         log = log[str(log).index('[') - 4:len(log) - 10]
         with open(fname, "wb") as f:
@@ -63,15 +75,15 @@ def createLogFile(data):
             f.close()
     except:        
         connect()
-        flog = s.recv(8169)
+        flog = s.recv(65350)
         if str(flog).find('version') != -1:
             with open(fname, "wb") as f:
                 f.write(flog)                    
                 f.close()
-            return 0
+            return
         else:
             print('Bad file!')
-            return -1
+            return
 
 print('Trying to connect to: ' + HOST + ' via port: ' + str(PORT))
 connect()  

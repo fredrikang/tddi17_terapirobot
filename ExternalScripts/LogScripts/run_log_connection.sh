@@ -4,4 +4,4 @@ then
 	pip3 install requests
 fi
 
-python3 ./FurhatLogConnection.py
+python3 ./FurhatLogConnection.py $1
