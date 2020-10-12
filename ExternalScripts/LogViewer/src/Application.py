@@ -115,7 +115,7 @@ class Application(tk.Frame):
         pdf.add_page()
         pdf.set_font("Arial", size=12)
         pdf.set_title(self.selected)
-        f = tk.filedialog.asksaveasfile(initialdir = "user.home", mode="wb", title="Export Log", filetypes=(("pdf files", "*.pdf"),("all files", "*.*")))
+        f = tk.filedialog.asksaveasfile(initialdir = "user.home", mode="wb", title="Export Log", defaultextension="*.*", filetypes=(("pdf files", "*.pdf"),("all files", "*.*")))
         for idx in range(1, len(self.log.data[self.selected])):
             user = self.log.getUser(self.selected, idx)
             if user != 'null':

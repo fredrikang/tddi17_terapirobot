@@ -10,8 +10,7 @@ root = tk.Tk(className = 'Log Viewer')
 screenmetrics = ScreenMetrics(root)
 root.geometry(screenmetrics.resolution)
 
-# This row makes it impossible to resize window.
-root.resizable(0,0)
+root.resizable(0,0) # This disables resize-able window.
 
 app = Application(Log = log, master = root, ScreenMetrics = screenmetrics)
 app.createWidgets()
