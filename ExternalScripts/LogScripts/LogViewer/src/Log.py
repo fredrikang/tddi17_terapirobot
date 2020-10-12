@@ -27,7 +27,7 @@ class Log:
 
     def formatJsonFile(self, file):
         """
-        Formats the Furhat created log file to be readable with json. Encapulates log with [] if there aren't already none
+        Formats the Furhat created log file to be readable with json. Encapulates log with [].
         """
         needFormatting = False
         with open(file, 'r+') as f:

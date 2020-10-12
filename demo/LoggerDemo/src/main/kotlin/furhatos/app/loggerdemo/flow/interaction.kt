@@ -2,7 +2,6 @@ package furhatos.app.loggerdemo.flow
 
 import furhatos.nlu.common.*
 import furhatos.flow.kotlin.*
-import furhatos.app.loggerdemo.nlu.*
 
 val Start : State = state(Interaction) {
 
