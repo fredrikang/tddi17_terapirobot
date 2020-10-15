@@ -82,7 +82,7 @@ class Log:
             
             return ' '.join(formatted) 
     
-    def get_teimstamp(self, selected, index):
+    def get_timestamp(self, selected, index):
         """
         Get the timestamp of the json object. Will return the 'endTime' value if no 'startTime' exists.
 
