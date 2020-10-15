@@ -1,6 +1,5 @@
 import json
-import time
-
+import datetime
 
 
 class Location(object):
@@ -10,14 +9,18 @@ class Location(object):
         self.z = z 
 
 class FurhatEvent(object):
+    """Calculate the sum of value1 and value2."""
+    eventCount = 0
     def __init__(self, event_name : str):
-        self.event_id = 0
-        self.event_time = "2020-10-15 15:14:28:5085"
+        self.event_id = FurhatEvent.eventCount
+        self.event_time = str(datetime.datetime.now())
         self.event_name = event_name
+        FurhatEvent.eventCount += 1
     def byte_count(self):
         return str(len(bytes(self.__str__(), 'ascii')))   
     def __str__(self):
-        return json.dumps(self.__dict__, indent=4, separators=(',', ':'), default=lambda o: o.__dict__)
+        return json.dumps(self.__dict__, indent=4, default=lambda o: o.__dict__)
+      #  return json.dumps(self.__dict__, indent=4, separators=(',', ':'), default=lambda o: o.__dict__)
 
 class SpeechEvent(FurhatEvent):
     def __init__(self, text: str, monitorWords : bool):
