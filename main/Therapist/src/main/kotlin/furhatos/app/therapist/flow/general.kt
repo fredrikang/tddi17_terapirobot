@@ -8,10 +8,10 @@ import furhatos.flow.kotlin.*
     the targetUser and hasTargetUser variables are correctly updated when users enter or leave.
 */
 val userEnterLeave = partialState {
-    /*
+/*
         If the targetUser has been lost and a new user enters we once again check if the User is our patient.
         If the we are still focused on the target user we simply glance at the new user.
- */
+*/
     onUserEnter(instant = true) {
         if ( !users.hasTargetUser ) {
             furhat.attend(it)

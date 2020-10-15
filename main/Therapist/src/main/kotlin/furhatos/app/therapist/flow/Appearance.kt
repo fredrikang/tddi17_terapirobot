@@ -5,6 +5,7 @@ import furhatos.flow.kotlin.voice.Voice
 import furhatos.util.Gender
 import furhatos.util.Language
 import furhatos.app.therapist.nlu.*
+import furhatos.autobehavior.userSpeechStartGesture
 
 
 /*
@@ -49,7 +50,7 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state {
     include(userEnterLeave)
 
     onEntry {
-        furhat.say{+"Jag kan ta flera olika utseenden. Jag kan se ut så här."
+        furhat.say{+"Jag kan se ut så här."
             +delay(1000)}
         if(female)
         {
@@ -99,7 +100,8 @@ val Test : State = state {
     onEntry {
         furhat.say("Gick in i teststadiet.")
         furhat.say("Den nuvarande användaren är.")
-        furhat.say(users.targetUser) // For debugging purposes only.
+        furhat.say(users.targetUser)
+
     }
 
 }

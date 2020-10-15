@@ -6,7 +6,7 @@ import furhatos.flow.kotlin.*
 
 class TherapistSkill : Skill() {
     override fun start() {
-        Flow().run(Init)
+        Flow().run(DialogInit)
     }
 }
 
