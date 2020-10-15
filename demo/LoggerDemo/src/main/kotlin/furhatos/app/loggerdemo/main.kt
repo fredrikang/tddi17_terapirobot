@@ -10,8 +10,8 @@ var logHandler : Logger = Logger()
 
 class LoggerdemoSkill : Skill() {
     override fun start() {
-        //logHandler.export(arg=null, clear=false)
-        logHandler.clearLogsFromFurhatMem()
+        logHandler.export(arg=null, clear=false)
+       // logHandler.clearLogsFromFurhatMem()
         exitProcess(1) // For debugging.
     }
 }
