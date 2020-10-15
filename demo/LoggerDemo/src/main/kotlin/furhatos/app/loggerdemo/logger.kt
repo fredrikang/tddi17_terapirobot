@@ -19,15 +19,11 @@
 package furhatos.app.loggerdemo
 import furhatos.flow.kotlin.*
 import java.io.File
-import java.io.FilenameFilter
 import java.io.IOException
 import java.net.ServerSocket
 import java.net.Socket
 import java.text.ParseException
 import java.time.format.DateTimeFormatter
-import kotlin.concurrent.thread
-import kotlin.math.log
-import kotlin.system.exitProcess
 import kotlin.String as String
 
 /**
@@ -59,7 +55,7 @@ class Logger {
      * @param token Cloud token.
      * @return Logger object with set values based on parameters.
      */
-    constructor (token: String?, debug: Boolean = false) {
+    constructor (token: String?) {
         cloudTokenApi = token
         servSocket = ServerSocket(8888) // Default port 8888
         servSocket!!.soTimeout = 5000        // Set 5s timeout for accepting clients.
@@ -107,7 +103,7 @@ class Logger {
      * Exports/Moves the most recent log from the furhat robot's memory.
      * Ends the current logging session!
      */
-    fun exportActiveLog() {
+    private fun exportActiveLog() {
         logger.endSession()
         export()
     }
@@ -125,7 +121,7 @@ class Logger {
                     null -> true
                     else -> name.contains(date)
                 }
-            }) {
+            }!!) {
                 log.deleteRecursively()
             }
         } catch(e:IOException) {
@@ -145,7 +141,7 @@ class Logger {
                 return
             } else {
                 try {
-                    var formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd"); formatter.format(formatter.parse(arg))
+                    val formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd"); formatter.format(formatter.parse(arg))
                     exportDateLogs(arg, clear)
                 } catch(e:ParseException) {
                     println("Bad date format!")
@@ -160,8 +156,8 @@ class Logger {
      * Exports the latest modified log from the robot.
      */
     private fun exportLatestLog(clear : Boolean) {
-        val logFile : File = findNewLogName("/home/furnix/logs") ?: return
-        var session : String? = sessionName
+        val logFile : File = findNewLogName() ?: return
+        val session : String? = sessionName
         var socket  : Socket? = try { servSocket?.accept() } catch (e: IOException) { null }
         if (socket != null) {
             try {
@@ -182,10 +178,10 @@ class Logger {
      * @param clear Remove read files from robot after export.
      */
     private fun exportDateLogs(date : String, clear : Boolean = false){
-        val folder : File = File("/home/furnix/logs")
+        val folder = File("/home/furnix/logs")
         var socket : Socket?
         try{
-            for(log in folder.listFiles{_, name -> name.contains(date)}) {
+            for(log in folder.listFiles{_, name -> name.contains(date)}!!) {
                 socket = servSocket?.accept() ?: return
                 socket.getOutputStream()?.write(log.name.toByteArray())
                 socket = servSocket?.accept() ?: return
@@ -203,10 +199,10 @@ class Logger {
      * @param clear Remove all read files from robot after export.
      */
     private fun exportAllLocalFiles(clear : Boolean = false) {
-        val folder : File = File("/home/furnix/logs")
+        val folder = File("/home/furnix/logs")
         var socket : Socket?
         try{
-            for(log in folder.listFiles()) {
+            for(log in folder.listFiles()!!) {
                 socket = servSocket?.accept() ?: return
                 socket.getOutputStream()?.write(log.name.toByteArray())
                 socket = servSocket?.accept() ?: return
@@ -221,11 +217,10 @@ class Logger {
     /**
      * Find the most recently modified log file.
      * Used as the timestamp seems to not be accurate.
-     * @param path Directory to search in.
      * @return Latest modified file.
      */
-    private fun findNewLogName(path : String) : File? {
-        val dir = File(path)
+    private fun findNewLogName() : File? {
+        val dir = File("/home/furnix/logs")
         val files = dir.listFiles(File::isDirectory)
         var lastModifiedTime : Long = Long.MIN_VALUE
         var latest : File? = null
