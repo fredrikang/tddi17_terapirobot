@@ -25,7 +25,7 @@ class Application(tk.Frame):
         Create all chat bubbles (log text) from the selected log.
         """
         for idx in range(1, len(self.log.data[selected])):
-            user = self.log.getUser(selected, idx)
+            user = self.log.get_user(selected, idx)
             if user != 'null':
                 self.bubbles.append(ChatBubble(self.canvas, color="light grey", timestamp=self.log.get_timestamp(selected, idx), message=self.log.get_message(selected, idx, 56), user=user, screenmetrics=self.screenmetrics))
        
@@ -101,7 +101,7 @@ class Application(tk.Frame):
         """
         f = tk.filedialog.asksaveasfile(initialdir = "user.home", title="Export Log", filetypes=(("text files", "*.txt"),("all files", "*.*")))
         for idx in range(1, len(self.log.data[self.selected])):
-            user = self.log.getUser(self.selected, idx)
+            user = self.log.get_user(self.selected, idx)
             if user != 'null':
                 f.write(user.upper()  + ' (' + self.log.get_timestamp(self.selected, idx) + '):')
                 f.write('\n' + self.log.get_message(self.selected, idx, 128) + '\n\n\n')
@@ -117,7 +117,7 @@ class Application(tk.Frame):
         pdf.set_title(self.selected)
         f = tk.filedialog.asksaveasfile(initialdir = "user.home", mode="wb", title="Export Log", defaultextension="*.*", filetypes=(("pdf files", "*.pdf"),("all files", "*.*")))
         for idx in range(1, len(self.log.data[self.selected])):
-            user = self.log.getUser(self.selected, idx)
+            user = self.log.get_user(self.selected, idx)
             if user != 'null':
                 text = user.upper()  + ' (' + self.log.get_timestamp(self.selected, idx) + '):' 
                 pdf.set_font("Arial", size=12, style='B')
