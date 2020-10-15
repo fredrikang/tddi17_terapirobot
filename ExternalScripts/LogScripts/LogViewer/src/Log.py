@@ -82,7 +82,7 @@ class Log:
             
             return ' '.join(formatted) 
     
-    def getTimeStamp(self, selected, index):
+    def get_teimstamp(self, selected, index):
         """
         Get the timestamp of the json object. Will return the 'endTime' value if no 'startTime' exists.
 
@@ -94,7 +94,7 @@ class Log:
         else:
             return self.data[selected][index]['endTime'].split('.')[0]
 
-    def getUser(self, selected, index):
+    def get_user(self, selected, index):
         """
         Get the user based on type (either user or robot).
 
