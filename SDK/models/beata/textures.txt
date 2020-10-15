@@ -1,2 +1,0 @@
-Group_babyface/Beata.obj_0:Group_babyface/Beata.obj_head_Geometry_0	skin
-Group_babyface/Beata.obj_0:Group_babyface/Beata.obj_sphere_Geometry_0	eye

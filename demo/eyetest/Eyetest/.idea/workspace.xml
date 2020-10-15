@@ -23,9 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5c0b4e90-f096-49ac-b1a9-dde870498b9e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../main/Main/.idea/Main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../SDK/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../../SDK/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../SDK/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../../SDK/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/furhatos/app/eyetest/flow/interaction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/furhatos/app/eyetest/flow/interaction.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/furhatos/app/eyetest/nlu/nlu.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/furhatos/app/eyetest/nlu/nlu.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../main/Main/.gradle/4.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../../main/Main/.gradle/4.5/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../main/Main/.gradle/4.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../../main/Main/.gradle/4.5/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../main/Main/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../main/Main/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../main/Main/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../main/Main/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../main/Main/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../main/Main/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../main/Main/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../main/Main/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,14 +62,16 @@
     </option>
   </component>
   <component name="ProjectId" id="1hxMXp5cvuXCE0DjrNFs8ebNq3C" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../demo-skill-master/build.gradle" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../main/Therapist/build.gradle" />
     <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
@@ -90,10 +99,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="581" y="185" key="FileChooserDialogImpl" timestamp="1602150229520">
+    <state x="581" y="185" key="FileChooserDialogImpl" timestamp="1602752187613">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="581" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1602150229520" />
+    <state x="581" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1602752187613" />
     <state x="464" y="182" width="672" height="678" key="search.everywhere.popup" timestamp="1602158783237">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
