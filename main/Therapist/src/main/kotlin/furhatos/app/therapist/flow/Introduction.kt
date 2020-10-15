@@ -7,12 +7,10 @@ import furhatos.flow.kotlin.*
 val Introduction: State = state {
     onEntry {
 
-        //First, attend present users and run through introduction
-        furhat.attendAll()
+        //First, run through introduction
         furhat.say("Tillfälligt introduktionsstadie.")
 
-        //When introduction is done, stop attending and go to primary user selection in SelectUser state
-        furhat.attendNobody()
+        //When introduction is done,go to primary user selection in SelectUser state
         goto(SelectUser)
     }
 }

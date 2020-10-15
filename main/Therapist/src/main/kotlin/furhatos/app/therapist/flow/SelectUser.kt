@@ -58,9 +58,12 @@ fun findTargetUser(user: User, stringAsk: String, stringYes: String, stringNo: S
             users.targetUser = user.id
             users.hasTargetUser = true
         }
-        else {
+        else if (ans == false){
             furhat.say(stringNo)
             user.disregard = true
+        }
+        else {
+            reentry()
         }
         terminate(ans)
         //furhat.ask(stringAsk)
