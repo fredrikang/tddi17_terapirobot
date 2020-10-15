@@ -51,11 +51,24 @@ val SelectUser : State = state {
  */
 fun findTargetUser(user: User, stringAsk: String, stringYes: String, stringNo: String) = state {
     onEntry {
-        furhat.ask(stringAsk)
+        val ans = furhat.askYN(stringAsk)
+        if (ans == true) {
+            furhat.say(stringYes)
+            furhat.gesture(Gestures.BigSmile)
+            users.targetUser = user.id
+            users.hasTargetUser = true
+        }
+        else {
+            furhat.say(stringNo)
+            user.disregard = true
+        }
+        terminate(ans)
+        //furhat.ask(stringAsk)
     }
+    /*
     onResponse<Yes> {
 
-        furhat.say( stringYes)
+        furhat.say(stringYes)
         furhat.gesture(Gestures.BigSmile)
         users.targetUser = user.id
         users.hasTargetUser = true
@@ -66,5 +79,7 @@ fun findTargetUser(user: User, stringAsk: String, stringYes: String, stringNo: S
         furhat.say(stringNo)
         user.disregard = true
         terminate(false)
+
     }
+     */
 }
