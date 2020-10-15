@@ -69,10 +69,7 @@ class Logger {
     fun startLogging(token: String? = null) {
         sessionName = logger.timestamp("YYYY-MM-dd%YYHH-mm-ss") // Name based on AWS save format presented by furhat.io
         logger.startSession(name = null, cloudToken = token, maxLength = 3600)
-
         cloudTokenApi = token
-        servSocket = ServerSocket(8888) // Default port 8888
-        servSocket!!.soTimeout = 5000        // Set 5s timeout for accepting clients.
     }
 
     /**

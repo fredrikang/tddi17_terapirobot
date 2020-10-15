@@ -1,11 +1,13 @@
 package furhatos.app.therapist.flow
 
+import furhatos.app.therapist.logHandler
 import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.Voice
 import furhatos.util.Gender
 import furhatos.util.Language
 import furhatos.app.therapist.nlu.*
 import furhatos.autobehavior.userSpeechStartGesture
+
 
 
 /*
@@ -101,7 +103,8 @@ val Test : State = state {
         furhat.say("Gick in i teststadiet.")
         furhat.say("Den nuvarande användaren är.")
         furhat.say(users.targetUser)
-        logHandler.export(arg=null, clear=false)
+        //logHandler.export(arg=null, clear=false)
+        logHandler.stopLogging()
     }
 }
 

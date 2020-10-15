@@ -7,7 +7,6 @@ import furhatos.flow.kotlin.voice.Voice
 import furhatos.util.*
 import furhatos.app.therapist.logger.*
 
-var logHandler : Logger = Logger()
 
 /*
     This state is for initializing things that are necessary for the dialog flow.
@@ -35,7 +34,6 @@ val DialogInit: State = state {
         furhat.cameraFeed.enable()
 
         //Start logging
-        logHandler.startLogging()
 
         goto(Introduction)
     }

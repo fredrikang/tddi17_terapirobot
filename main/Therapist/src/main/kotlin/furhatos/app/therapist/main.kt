@@ -1,11 +1,16 @@
 package furhatos.app.therapist
 
 import furhatos.app.therapist.flow.*
+import furhatos.app.therapist.logger.Logger
 import furhatos.skills.Skill
 import furhatos.flow.kotlin.*
 
+var logHandler : Logger = Logger()
+
 class TherapistSkill : Skill() {
     override fun start() {
+        logHandler.autoExport = true
+        logHandler.startLogging()
         Flow().run(DialogInit)
     }
 }
