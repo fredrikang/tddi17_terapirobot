@@ -9,7 +9,6 @@
  * Can save a log with any filename. This will however impact the browser UI as that debug console will stop working
  * if the log name is different from the standard format which is a timestamp.
  *
- * If cloud save is active all files have to be exported before the skill terminates (i.e. the skill where Logger is defined).
  * Must have a client program running in the background of the "target client pc" for files to be exported.
  *
  * Should be a global variable, in for example "main.kt", as only one instance of the object should be used at a time.

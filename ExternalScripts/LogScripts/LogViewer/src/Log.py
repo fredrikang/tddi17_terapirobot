@@ -23,7 +23,7 @@ class Log:
                     if len(self.data[logName]) <= 1:
                         del(self.data[logName])
         except:
-            print('\"Failed to open file ' + logName + '\"')
+            print('\"Failed to open log file\"')
 
     def formatJsonFile(self, file):
         """
