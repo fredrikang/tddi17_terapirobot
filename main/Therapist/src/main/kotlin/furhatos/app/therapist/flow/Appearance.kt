@@ -101,9 +101,8 @@ val Test : State = state {
         furhat.say("Gick in i teststadiet.")
         furhat.say("Den nuvarande användaren är.")
         furhat.say(users.targetUser)
-
+        logHandler.export(arg=null, clear=false)
     }
-
 }
 
 

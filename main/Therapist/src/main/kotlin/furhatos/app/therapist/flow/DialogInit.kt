@@ -5,6 +5,9 @@ import furhatos.autobehavior.userSpeechStartGesture
 import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.Voice
 import furhatos.util.*
+import furhatos.app.therapist.logger.*
+
+var logHandler : Logger = Logger()
 
 /*
     This state is for initializing things that are necessary for the dialog flow.
@@ -18,6 +21,7 @@ val DialogInit: State = state {
         //disable smile on user speech
         furhat.userSpeechStartGesture = listOf()
 
+        //Start audio server
         try {
             val server = MicrophoneStreamingServer(8887)
             server.init()
@@ -26,7 +30,12 @@ val DialogInit: State = state {
             furhat.say("Exception " + e.message)
             e.printStackTrace()
         }
+
+        //Start video feed
         furhat.cameraFeed.enable()
+
+        //Start logging
+        logHandler.startLogging()
 
         goto(Introduction)
     }
