@@ -19,6 +19,7 @@ class App(QApplication):
         super().__init__(stringArray)
         self.initLayout()
         self.initWindow()
+        self.setStyleSheet("Fusion")
 
     def initLayout(self):
         self.layout = QVBoxLayout()
@@ -30,7 +31,7 @@ class App(QApplication):
     @Slot(QWidget)
     def addWidget(self, widget):
         self.layout.addWidget(widget)
-
+    
     def addWidgets(self, widgets):
         for w in widgets:
             self.addWidget(w)
@@ -39,16 +40,37 @@ class App(QApplication):
         self.window.show()
         super().exec_()
 
-class Button(QPushButton):
-    def __init__(self, text):
-        super().__init__(text)
+def turnOffVideo(widget):
+    widget.setVisible(not widget.isVisible())
 
-
+def menuButton(button):
+    button.setFixedSize(150, 50)
+    button.move(100, 100)
+    
 
 
 app = App([])
 cvVideo = opencvwindow.OpenCVWindow()
-button = Button("Hej")
-app.addWidget(button)
-app.addWidget(cvVideo)
+
+videolayout = QVBoxLayout()
+videolayout.addWidget(cvVideo)
+
+videoHolder = QWidget()
+videoHolder.setFixedSize(1800,1200)
+videoHolder.setLayout(videolayout)
+
+button = QPushButton("CameraFeedToggle")
+button.clicked.connect(lambda: turnOffVideo(cvVideo))
+
+menuButton(button)
+menuButtonlayout = QVBoxLayout()
+menuButtonlayout.addWidget(button)
+
+menuButtonHolder = QWidget()
+menuButtonHolder.setFixedSize(200,150)
+menuButtonHolder.setLayout(menuButtonlayout)
+
+app.addWidget(menuButtonHolder)
+app.addWidget(videoHolder)
+app.setStyle("Fusion")
 app.run()
