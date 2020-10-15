@@ -17,7 +17,7 @@ class Log:
             logFolder = os.path.join(str(Path.home()), 'FurhatLogs', 'logs')
             for logName in os.listdir(logFolder):
                 file = os.path.join(logFolder, logName, 'dialog.json')
-                self.formatJsonFile(file = file)
+                self.format_json_file(file = file)
                 with open(file, 'r') as f:
                     self.data[logName] = json.load(f)
                     if len(self.data[logName]) <= 1:
@@ -25,7 +25,7 @@ class Log:
         except:
             print('\"Failed to open log file\"')
 
-    def formatJsonFile(self, file):
+    def format_json_file(self, file):
         """
         Formats the Furhat created log file to be readable with json. Encapulates log with [].
         """
@@ -46,7 +46,7 @@ class Log:
             f.close()
 
 
-    def getMessage(self, selected, index, maxLength = -1):
+    def get_message(self, selected, index, maxLength = -1):
         """
         Get the message(text) of the json object. If maxLength is > 0 the resulting string will try to fit maxLength characters per line.
 

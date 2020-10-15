@@ -13,5 +13,5 @@ root.geometry(screenmetrics.resolution)
 root.resizable(0,0) # This disables resize-able window.
 
 app = Application(Log = log, master = root, ScreenMetrics = screenmetrics)
-app.createWidgets()
+app.create_widgets()
 app.mainloop()

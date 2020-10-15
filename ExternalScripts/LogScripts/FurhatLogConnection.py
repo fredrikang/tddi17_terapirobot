@@ -26,7 +26,7 @@ def connect():
     while(s.connect_ex((HOST, PORT)) != 0):
           sleep(5)
 
-def createLogFile(data):
+def create_log_file(data):
     """
     Create a log file with the timestamp received before this call.
     Fetches log file data from either webaddress or from the robot itself.
@@ -96,7 +96,7 @@ try:
             connect()
         else:
             print('received', repr(data))
-            createLogFile(repr(data))
+            create_log_file(repr(data))
             connect()
 except:
     print('Lost connection.')
