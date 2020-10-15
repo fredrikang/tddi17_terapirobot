@@ -1,10 +1,16 @@
 #!/usr/bin/python
 import socket
 import opencvwindow
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import  QWidget, QLabel, QApplication, QVBoxLayout, QPushButton
-from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QImage, QPixmap
+from PySide2.QtWidgets import *
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import  QWidget, QLabel, QApplication, QVBoxLayout, QPushButton
+from PySide2.QtCore import QThread, Qt, Signal, Slot
+from PySide2.QtGui import QImage, QPixmap
+
+#from PyQt5.QtWidgets import  QWidget, QLabel, QApplication, QVBoxLayout, QPushButton
+#from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
+#from PyQt5.QtGui import QImage, QPixmap
 import cv2
 import sys
 
@@ -21,7 +27,7 @@ class App(QApplication):
         self.window = QWidget()
         self.window.setLayout(self.layout)
 
-    @pyqtSlot(QWidget)
+    @Slot(QWidget)
     def addWidget(self, widget):
         self.layout.addWidget(widget)
 
