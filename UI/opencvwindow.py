@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-from PyQt5.QtWidgets import  QWidget, QLabel, QApplication
-from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QImage, QPixmap
+from PySide2.QtWidgets import  QWidget, QLabel, QApplication
+from PySide2.QtCore import QThread, Qt, Signal, Slot
+from PySide2.QtGui import QImage, QPixmap
 import cv2
 import sys
 
 class Thread(QThread):
-    changePixmap = pyqtSignal(QImage)
+    changePixmap = Signal(QImage)
 
     def run(self):
         cap = cv2.VideoCapture(0)
@@ -33,7 +33,7 @@ class OpenCVWindow(QWidget):
         self.height = 480
         self.initUI()
 
-    @pyqtSlot(QImage)
+    @Slot(QImage)
     def setImage(self, image):
         self.label.setPixmap(QPixmap.fromImage(image))
 
@@ -49,3 +49,4 @@ class OpenCVWindow(QWidget):
         th = Thread(self)
         th.changePixmap.connect(self.setImage)
         th.start()
+
