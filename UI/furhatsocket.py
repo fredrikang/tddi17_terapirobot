@@ -3,6 +3,7 @@ import socket
 from furhatevent import *
 import threading
 import collections
+import time
 
 
 class SubscriptionHandler:
@@ -12,9 +13,9 @@ class SubscriptionHandler:
         self.values[event].add(callback)
     def remove(self, event, callback):
         self.values[event].remove(callback)
-    def trigger(self, event, **kwargs):
-        for callback in self.values.get(event, []):
-            callback(**kwargs)
+    def trigger(self, event : FurhatIncomingEvent):
+        for callback in self.values.get(event.event_name, []):
+            callback(event)
 
 
 class FurhatTCPConnection():
@@ -26,21 +27,26 @@ class FurhatTCPConnection():
         self.host = host
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.settimeout(.1)
-        self.listen_thread = threading.Thread(target = self.listen)
-        self.listen = False
+        self.listen_thread = threading.Thread(target = self.__listen)
+        self.listen = True
         self.subscriptions = SubscriptionHandler()
     def connect(self):
         """This is called to connect to the robot"""
-        print("Connecting to host: ", self.host, " on port: ", 1932)
-       # self.socket.connect((self.host, 1932))
+        print("Connecting to host: {} on port: {}".format(self.host, 1932))
+        self.socket.connect((self.host, 1932))
         self.listen_thread.start()
-        #self.socket.send("CONNECT broker ", self.name, "\n")
-    def listen(self):
+        self.socket.send(bytes("CONNECT broker " + self.name + "\n","utf-8"))
+    def __listen(self):
         while self.listen:
             try:
-                message = self.socket.recv(4096)
+                message = self.socket.recv(4096).decode('utf-8')
                 #Trigger events here
-                print("RECEIVED: ", message)
+                if "EVENT" not in message: 
+                    continue
+                message = self.socket.recv(4096).decode('utf-8')
+                event = FurhatIncomingEvent(message)
+                print("RECEIVED EVENT: ", event.event_name)
+                self.subscriptions.trigger(event)
             except socket.timeout:
                 pass
 
@@ -49,19 +55,11 @@ class FurhatTCPConnection():
         self.listen = False
         self.listen_thread.join()
 
-
-
     def send_event(self, event : FurhatEvent):
         """Used to send a event to the robot."""
-        #self.socket.send(bytes("EVENT ", event.event_name, " -1 " +  event.byte_count() + "\n"))
-        #self.socket.send(bytes(event))
-        print("EVENT ", event.event_name, " -1 " +  event.byte_count() + "\n")
-        print(event)
-#To be removed
-    def recv(self):
-        data = self.socket.recv(self.BUFFER_SIZE)
-        print("Recv: ", data)
-#To be removed
+        event.print_event()
+        event.send(self.socket)
+
 
 class FurhatInterface():
     """This will handle all the communtication with the Furhat robot."""
@@ -72,8 +70,6 @@ class FurhatInterface():
     def subscribe(self, event :str, callback : callable):
         self.connection.subscriptions.register(event, callback)
 
-
-
     """Used to send a event to the robot."""
     def speak(self, text: str, monitorWords = True):
         self.connection.send_event(SpeechEvent(text, monitorWords))
@@ -83,18 +79,15 @@ class FurhatInterface():
 
 
 def Test(data):
-    print(data.connection.host)
+    print(data.text)
 
-def Test2(data):
-    print(data.connection.name)
 
-furhat = FurhatInterface("TestingFurhat", "192.168.43.90")
-furhat.subscribe("a", Test)
-furhat.subscribe("a", Test2)
+furhat = FurhatInterface("TestingFurhat", "127.0.0.1")#"192.168.43.131")
+furhat.subscribe("furhatos.event.actions.ActionSpeech", Test)
 
 while 1:
-    #furhat.gaze(5,6,7)
-    #furhat.speak(input())
-    furhat.connection.subscriptions.trigger(input(), data = furhat)
+    #furhat.gaze(i,0,10)
+    furhat.speak(input())
+    #furhat.connection.subscriptions.trigger(input(), data = furhat)
     
   

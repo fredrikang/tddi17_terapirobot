@@ -1,6 +1,11 @@
 import json
 import datetime
+import socket
 
+class FurhatIncomingEvent(object):
+    event_name = ""
+    def __init__(self, j):
+        self.__dict__ = json.loads(j)
 
 class Location(object):
     def __init__(self, x : int, y:int, z:int):
@@ -13,14 +18,24 @@ class FurhatEvent(object):
     eventCount = 0
     def __init__(self, event_name : str):
         self.event_id = FurhatEvent.eventCount
-        self.event_time = str(datetime.datetime.now())
+        self.event_time = "2020-10-15 15:14:28:5085" #str(datetime.datetime.now())
+        self.event_real_time =  datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S:%f")[:-2]
         self.event_name = event_name
         FurhatEvent.eventCount += 1
-    def byte_count(self):
+    
+    def print_event(self):
+        print("EVENT -1 {} {}\n".format(self.event_name, self.__byte_count()) + str(self))
+    
+    def send(self, sock : socket):
+        sock.send(bytes("EVENT -1 {} {}\n".format(self.event_name, self.__byte_count()), 'utf-8'))
+        sock.send(bytes(str(self), 'utf-8'))
+    
+    def __byte_count(self):
         return str(len(bytes(self.__str__(), 'ascii')))   
     def __str__(self):
         return json.dumps(self.__dict__, indent=4, default=lambda o: o.__dict__)
-      #  return json.dumps(self.__dict__, indent=4, separators=(',', ':'), default=lambda o: o.__dict__)
+    def __bytes__(self):
+        return bytes(str(self), 'utf-8')
 
 class SpeechEvent(FurhatEvent):
     def __init__(self, text: str, monitorWords : bool):
