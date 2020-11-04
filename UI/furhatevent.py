@@ -5,7 +5,10 @@ import socket
 class FurhatIncomingEvent(object):
     event_name = ""
     def __init__(self, j):
-        self.__dict__ = json.loads(j)
+        try:
+            self.__dict__ = json.loads(j)
+        except ValueError as e:
+            return
 
 class Location(object):
     def __init__(self, x : int, y:int, z:int):
@@ -90,16 +93,18 @@ class FaceTextureEvent(FurhatEvent):
         self.texture = texture
 
 class LEDSolidEvent(FurhatEvent):
-    def __init__(self, text: str):
+    def __init__(self, red: int, green:int, blue:int):
         super().__init__("furhatos.event.actions.ActionSetSolidLED")
-        self.text = text
-        self.monitorWords = True
+        self.red = red
+        self.green = green
+        self.blue = blue
 
 class AttendEvent(FurhatEvent):
-    def __init__(self, text: str):
+    def __init__(self, target: str, mode:int, speed:int):
         super().__init__("furhatos.event.actions.ActionAttend")
-        self.text = text
-        self.monitorWords = True
+        self.target = target
+        self.mode = mode
+        self.speed = speed
 
 class SkillConnectEvent(FurhatEvent):
     def __init__(self, text: str):
