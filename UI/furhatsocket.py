@@ -67,13 +67,14 @@ class FurhatInterface():
         self.connection = FurhatTCPConnection(name, host)
         self.connection.connect()
 
+    """Used to subscribe to an event that is sent from the robot."""
     def subscribe(self, event :str, callback : callable):
         self.connection.subscriptions.register(event, callback)
 
-    """Used to send a event to the robot."""
+    """Used to make the robot speak."""
     def speak(self, text: str, monitorWords = True):
         self.connection.send_event(SpeechEvent(text, monitorWords))
-
+    """Used to make the robot look at a point(x, y, z)"""
     def gaze(self, x: int, y:int, z:int, mode : str = 2,  speed : str = 2):
         self.connection.send_event(GazeEvent(Location(x, y, z), mode, speed))
 
@@ -82,7 +83,7 @@ def Test(data):
     print(data.text)
 
 
-furhat = FurhatInterface("TestingFurhat", "127.0.0.1")#"192.168.43.131")
+furhat = FurhatInterface("TestingFurhat", "192.168.43.131")
 furhat.subscribe("furhatos.event.actions.ActionSpeech", Test)
 
 while 1:
