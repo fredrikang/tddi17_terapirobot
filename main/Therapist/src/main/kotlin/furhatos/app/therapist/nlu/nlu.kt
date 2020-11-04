@@ -53,3 +53,13 @@ class Nr2Intent : Intent() {
         )
     }
 }
+/*
+    Used when transferring to controlled dialog, obscure phrasing since this is intended mostly as debug.
+*/
+class EnableControlledDialogIntent : Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf(
+                "Testa distans"
+        )
+    }
+}

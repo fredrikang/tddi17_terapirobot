@@ -8,7 +8,7 @@ val Introduction: State = state {
     onEntry {
 
         //First, run through introduction
-        furhat.say("Tillfälligt introduktionsstadie.")
+        //furhat.say("Tillfälligt introduktionsstadie.")
 
         //When introduction is done,go to primary user selection in SelectUser state
         goto(SelectUser)

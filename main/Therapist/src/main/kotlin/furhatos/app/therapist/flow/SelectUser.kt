@@ -8,12 +8,13 @@ import furhatos.records.User
 import furhatos.flow.kotlin.*
 
 val SelectUser : State = state {
+    include(goToControlledDialog)
     /*  onEntry to make sure we ask all users in view of furhat if they are the intended patient.
         Users who have been establish to not be patients are marked with a diregard boolean. So that they can be ignored.
      */
     onEntry {
         if (users.count > 0) {
-            for ( it in users.list){
+            for (it in users.list){
                 if (!it.disregard) {
                     furhat.attend(it)
                     val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej, då pratar jag inte med dig.")) as Boolean
@@ -66,23 +67,5 @@ fun findTargetUser(user: User, stringAsk: String, stringYes: String, stringNo: S
             reentry()
         }
         terminate(ans)
-        //furhat.ask(stringAsk)
-    }
-    /*
-    onResponse<Yes> {
-
-        furhat.say(stringYes)
-        furhat.gesture(Gestures.BigSmile)
-        users.targetUser = user.id
-        users.hasTargetUser = true
-        terminate(true)
-    }
-
-    onResponse<No> {
-        furhat.say(stringNo)
-        user.disregard = true
-        terminate(false)
-
-    }
-     */
+     }
 }

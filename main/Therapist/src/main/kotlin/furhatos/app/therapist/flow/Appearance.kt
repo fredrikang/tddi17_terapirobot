@@ -18,6 +18,7 @@ import furhatos.autobehavior.userSpeechStartGesture
 */
 val AppearanceStateGender : State = state {
     include(userEnterLeave)
+    include(goToControlledDialog)
     onEntry {
         furhat.say{+"Jag kan ta flera olika utseenden. Jag kan se ut som en kvinna"
             +delay(1000)}
@@ -50,7 +51,7 @@ val AppearanceStateGender : State = state {
 */
 fun AppearanceStateSpecifics(female : Boolean) : State = state {
     include(userEnterLeave)
-
+    include(goToControlledDialog)
     onEntry {
         furhat.say{+"Jag kan se ut så här."
             +delay(1000)}
@@ -99,6 +100,7 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state {
 */
 val Test : State = state {
     include(userEnterLeave)
+    include(goToControlledDialog)
     onEntry {
         furhat.say("Gick in i teststadiet.")
         furhat.say("Den nuvarande användaren är.")
