@@ -18,16 +18,17 @@ class FurhatEvent(object):
     eventCount = 0
     def __init__(self, event_name : str):
         self.event_id = FurhatEvent.eventCount
-        self.event_time = "2020-10-15 15:14:28:5085" #str(datetime.datetime.now())
-        self.event_real_time =  datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S:%f")[:-2]
+        #self.event_time = "2020-10-15 15:14:28:5085" #str(datetime.datetime.now())
+        self.event_time =  datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S:%f")[:-2]
         self.event_name = event_name
         FurhatEvent.eventCount += 1
     
     def print_event(self):
-        print("EVENT -1 {} {}\n".format(self.event_name, self.__byte_count()) + str(self))
+        print("EVENT {} -1 {}\n".format(self.event_name, self.__byte_count()))
+        print(str(self))
     
     def send(self, sock : socket):
-        sock.send(bytes("EVENT -1 {} {}\n".format(self.event_name, self.__byte_count()), 'utf-8'))
+        sock.send(bytes("EVENT {} -1 {}\n".format(self.event_name, self.__byte_count()), 'utf-8'))
         sock.send(bytes(str(self), 'utf-8'))
     
     def __byte_count(self):
