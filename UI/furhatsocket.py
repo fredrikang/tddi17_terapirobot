@@ -83,12 +83,12 @@ def Test(data):
     print(data.text)
 
 
-furhat = FurhatInterface("TestingFurhat", "192.168.43.131")
-furhat.subscribe("furhatos.event.actions.ActionSpeech", Test)
+#furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
+#furhat.subscribe("furhatos.event.actions.ActionSpeech", Test)
 
-while 1:
+#while 1:
     #furhat.gaze(i,0,10)
-    furhat.speak(input())
+#    furhat.speak(input())
     #furhat.connection.subscriptions.trigger(input(), data = furhat)
     
   

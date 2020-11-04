@@ -14,6 +14,8 @@ from PySide2.QtGui import QImage, QPixmap
 import cv2
 import sys
 
+from furhatsocket import FurhatInterface
+
 class App(QApplication):
     def __init__(self, stringArray):
         super().__init__(stringArray)
@@ -51,4 +53,17 @@ cvVideo = opencvwindow.OpenCVWindow()
 button = Button("Hej")
 app.addWidget(button)
 app.addWidget(cvVideo)
+
+furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
+
+defaultPhrasesFile = open('defaultphrases.txt', 'r')
+defaultPhrases = defaultPhrasesFile.readlines()
+#defaultPhrases = [ "Hej", "Ja", "Nej" ]
+
+for phrase in defaultPhrases:
+    phrase = phrase.strip()
+    b = Button(phrase)
+    b.clicked.connect(lambda: furhat.speak(phrase))
+    app.addWidget(b)
+
 app.run()
