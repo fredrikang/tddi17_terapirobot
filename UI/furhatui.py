@@ -14,7 +14,7 @@ from PySide2.QtGui import QImage, QPixmap
 import cv2
 import sys
 
-from furhatsocket import FurhatInterface
+from furhatinterface import FurhatInterface
 
 class App(QApplication):
     def __init__(self, stringArray):
