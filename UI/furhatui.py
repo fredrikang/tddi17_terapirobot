@@ -48,6 +48,7 @@ class Button(QPushButton):
 
 
 
+
 app = App([])
 cvVideo = opencvwindow.OpenCVWindow()
 button = Button("Hej")
@@ -58,12 +59,15 @@ furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
 
 defaultPhrasesFile = open('defaultphrases.txt', 'r')
 defaultPhrases = defaultPhrasesFile.readlines()
-#defaultPhrases = [ "Hej", "Ja", "Nej" ]
+#defaultbuttons = [ "Hej", "Ja", "Nej" ]
+#defaultPhrases = [ "hej och välkommen", "ja va bra", "nej va synd"]
 
 for phrase in defaultPhrases:
-    phrase = phrase.strip()
-    b = Button(phrase)
-    b.clicked.connect(lambda: furhat.speak(phrase))
+    fras = phrase.strip()
+    result = phrase.find(':')
+    b = Button(phrase[0:result])
+    b.clicked.connect(lambda state = False, phrase=fras[result+1:]:furhat.speak(phrase))
+    print(fras[result+1:])
     app.addWidget(b)
 
 app.run()
