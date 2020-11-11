@@ -70,4 +70,8 @@ for phrase in defaultPhrases:
     print(fras[result+1:])
     app.addWidget(b)
 
+changemodebutton = Button("ändra läge")
+changemodebutton.clicked.connect(lambda: furhat.changemode())
+app.addWidget(changemodebutton)
+
 app.run()
