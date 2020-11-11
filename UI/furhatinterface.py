@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import socket
 from furhatevent import *
 import threading
@@ -43,7 +42,7 @@ class FurhatTCPConnection():
                 #Trigger events here
                 if "EVENT" not in message: 
                     continue
-                message = self.socket.recv(4096).decode('utf-8')
+                message = message.split("\n")[1]#self.socket.recv(4096).decode('utf-8')
                 event = FurhatIncomingEvent(message)
                 print("RECEIVED EVENT: ", event.event_name)
                 self.subscriptions.trigger(event)
@@ -59,7 +58,9 @@ class FurhatTCPConnection():
         """Used to send a event to the robot."""
         event.print_event()
         event.send(self.socket)
-
+    def subscribe(self, event : str):
+        """Used to send a event to the robot."""
+        self.socket.send(bytes("SUBSCRIBE {} \n".format(event),"utf-8"))
 
 class FurhatInterface():
     """This will handle all the communtication with the Furhat robot."""
@@ -70,6 +71,7 @@ class FurhatInterface():
     """Used to subscribe to an event that is sent from the robot."""
     def subscribe(self, event :str, callback : callable):
         self.connection.subscriptions.register(event, callback)
+        self.connection.subscribe(event)
 
     """Used to make the robot speak."""
     def speak(self, text: str, monitorWords = True):
@@ -77,18 +79,11 @@ class FurhatInterface():
     """Used to make the robot look at a point(x, y, z)"""
     def gaze(self, x: int, y:int, z:int, mode : str = 2,  speed : str = 2):
         self.connection.send_event(GazeEvent(Location(x, y, z), mode, speed))
+    def led(self, red: int, green:int, blue:int):
+        self.connection.send_event(LEDSolidEvent(red, green, blue))
 
 
-def Test(data):
-    print(data.text)
-
-
-#furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
-#furhat.subscribe("furhatos.event.actions.ActionSpeech", Test)
-
-#while 1:
-    #furhat.gaze(i,0,10)
-#    furhat.speak(input())
-    #furhat.connection.subscriptions.trigger(input(), data = furhat)
+        
+    
     
   
