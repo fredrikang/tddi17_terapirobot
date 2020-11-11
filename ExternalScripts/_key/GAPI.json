@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "proven-aviary-291112",
+  "private_key_id": "c1594e0db43487b6e94cfd6da54823fc090abb36",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC+luvkGjsuLEG0\n43e0Z9h9b9g2zv24zo/2QTEU3p+a8m/lOR/kSAbWUyky4wviUOMcMo4rN9tTmT4a\n7cly+ElaZLfG3jY3tD8p/Yn9TH8m2lFyqcf75nuHywHHN3wwFxi+fyzCo5Q6OVK1\n/8IlB4ECk1Q//fHXxem83imQQHYIBXNonUjKoGmeEWlAxuUBQ61IqUKMCb6gYYgR\n5u/ygEKlZwhfPCmS0HCJCsie9qM5WjZiHTPltj+d+uXbgPmZ1gFzybozQuGvnuL8\n2PMh4uPljSxnvsYFyP7cb4TPjO8DWA9RqDvoFXw59CSLy9F9gY0dH1kiQYFCR/VN\n2C6OMtQJAgMBAAECggEABzvManEF7b3ThRlsi8n0tScTcFoZFmRtoZmuEpYT/fIl\nZdBuGdCThNstaT9ljjKGeiWfkHubXRAIA8biYlUS2KXRtVAuA915F7+GFxlqCogW\n9wiDXPfNmLTvZXehRKR9xY4nXWBOwgp2rY5uWJAxOO8tT4v0e71o3oiakH1n1WxJ\nv1zEIknJBgx/zWZOEsHUIjSOzPcu1DNulRjmzyK6CusVV19aYHgIFvCL/KR/Ec9F\n8a3ss7Os7RtwCPObYZStuQ1AfYRWwpnjA3Qr1eGJC4s8L6/pPsJ6VWB67q7W6wIc\n3p91b4fus5O8vmqjssPNDmS+6jJIITPy9N58u3cd0QKBgQDpC9gXcIVEQfF0NxS7\naSZsuhH/1WB/cBhDLpahATkTPXmKSK0cTStf3m1lO6xkGNQtARXtectMKHU57fP1\nHlzfnFUHk7mu5Orhvdvz2SYK83Y9WOK8o5b/+u099w4Qa6k0xrASUtkcDPfbQT1Q\nkOtjrJA0p6dq55zm1It62hgJkQKBgQDRXIzYN8cbCJPPBPnwXUr4/6DlVlErLsRb\nkN0gBSaXvSHdZXcizPSAETLplqynlbbBgd+SuTkeRTPV9NFcThRUY93gnQ7Fx73w\nDJPB+iitJSkQBq4kM8tMQL3fwTh5kRSDKlu36L45Ps9Nlc2RmBo2pRTa3xvIuoEM\ngucVggYm+QKBgQC2PvfvZKQjO/qJ6qVA5jsRXfXDfudm4Y9nwmAzatRqknGgzbLq\n5gJch4I/X4oyASS0SRwPyWZNmXoLImXcs7DngccRFNppxkVU4ffHW3Kfr8MwuHkg\nEkJ8zouHINQTzU3WouaAfd+hSxbtlLhRb/NU0Fc5hj6roJMYBPFK0pFnsQKBgQCI\ngarH0957buVJBvqcUYfvwGU9A0HbQRwAg/zZwuH97/CjtWOviiklU5F5oqeigUhu\n9Wo79Y8bgI2ixIS5haNVvuPNbzpRlMHwQZMZ2C0rb95NN73VlvvIFTJ4MTjMct8I\nAtdYm2VkV+K8uJ8XfjAhTxPA/dXU1F4ONU/Mw0GVqQKBgDodN4FLkuFKF9LzGJBk\nZin+XwL8fjgW+D2DLdMTq0zzuChZhLtq8zhmUFJYLbf141sX4AbfRopfZQEfMx0i\nUH1Lb+yhOGVTVhoqnv9WyaJe6uVOZwsUfaXZImb9mxAve3EF6onsrhgWmNEZpDyz\n3YkWXi3GgnCwROGHesGN8CkM\n-----END PRIVATE KEY-----\n",
+  "client_email": "furhatprojdev@proven-aviary-291112.iam.gserviceaccount.com",
+  "client_id": "104673011443431356522",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/furhatprojdev%40proven-aviary-291112.iam.gserviceaccount.com"
+}

@@ -1,9 +1,9 @@
-import MicrophoneHandler
+from microphonehandler import MicrophoneHandler
 import shutil
 import os
 import io
 import queue
-
+import json
 import grpc
 from google.cloud import speech
 from google.protobuf.json_format import MessageToDict, MessageToJson
@@ -27,7 +27,7 @@ class SpeechRecognition:
         # Set environment variable.
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = API_KEY_LOCATION
         
-        self.current_session    = []
+        self.current_session    = []    
         self.record_length      = 0
         self.save_audio_file    = save_audio_files
         self.client             = speech.SpeechClient()
@@ -38,7 +38,7 @@ class SpeechRecognition:
         else:
             self.audio_file_folder = preffered_audio_folder
 
-        self.microphone_handler = MicrophoneHandler.MicrophoneHandler(self.audio_file_folder)
+        self.microphone_handler = MicrophoneHandler(self.audio_file_folder)
 
         # If any language isn't here add it to enable support for it or load from text file (the recognizer will check if the language is present here)
         # See all supported languages on: https://cloud.google.com/speech-to-text/docs/languages
@@ -130,7 +130,7 @@ class SpeechRecognition:
         elif return_options == "all":
             return str(response)
         else:
-            return self.__get_message_from_proto(response)['transcript']   
+            return self.__get_message_from_proto(response)['transcript']
     
     # pylint: disable=too-many-function-args
     def recognize_async_audio_stream(self, language_code = "en-US"):
@@ -170,8 +170,8 @@ class SpeechRecognition:
                 for response in responses:
                     if response.results[0].is_final:
                         self.final_result_queue.put(response.results[0].alternatives[0].transcript)
-                    #else:
-                       # print(response.results[0].alternatives[0].transcript + '\n') # Print all non final results (debug).
+                    else:
+                        print(response.results[0].alternatives[0].transcript + '\n') # Print all non final results (debug).
             except:
                 print('Failed to get response.')
 
@@ -195,17 +195,13 @@ class SpeechRecognition:
             Dictionary containing transcript and confidence.
         """     
         result = { 'transcript' : '' , 'confidence' : 0.0 }
-        try:
-            alt = str(message).split('alternatives {')[1].split('}')[0]     
-            
-            if (alt.find('transcript:') != -1):
-                alt = alt.split('\"')
-                result['transcript'] = alt[1]
-                result['confidence'] = alt[2].split(':')[1]
+        try:          
+            result = MessageToDict(message._pb)['results'][0]['alternatives'][0]
         except:
             result['transcript'] = ''
             result['confidence'] = 0.0
 
+        
         return result
 
     def __del__(self):

@@ -110,8 +110,8 @@ class MicrophoneHandler:
                 rate               = self.RATE,
                 input              = True,
                 input_device_index = self._get_default_microphone(),
-                frames_per_buffer  = self.CHUNK,
-                stream_callback    = self._audio_callback_handler,
+                frames_per_buffer  = self.CHUNK
+               # stream_callback    = self._audio_callback_handler,
             )
         except: 
             sys.sterr.write("Failed to open audio stream.")

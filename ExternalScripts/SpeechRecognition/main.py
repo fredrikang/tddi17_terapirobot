@@ -1,9 +1,9 @@
-import SpeechRecognition
+from speechrecognition import SpeechRecognition
 import time
 import os
 from threading import Thread
 
-recognizer = SpeechRecognition.SpeechRecognition(
+recognizer = SpeechRecognition(
         API_KEY_LOCATION=os.path.join('../_key', 'GAPI.json'), 
         save_audio_files=True
 )
