@@ -55,6 +55,7 @@ class Nr2Intent : Intent() {
 }
 /*
     Used when transferring to controlled dialog, obscure phrasing since this is intended mostly as debug.
+    Not currently in use.
 */
 class EnableControlledDialogIntent : Intent() {
     override fun getExamples(lang: Language): List<String> {

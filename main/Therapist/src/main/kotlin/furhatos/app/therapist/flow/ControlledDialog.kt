@@ -9,16 +9,22 @@ import furhatos.flow.kotlin.state
     this partial state, so that the normal flow can be interrupted and resumed whenever desired.
 */
 fun controlledDialogState() = state {
-    onEntry {
-        furhat.say("Gick in i teststadie för fri dialog.")
-        terminate()
-    }
 
     /*
-    TODO
-    Here, we want to implement a way to trigger a return to the normal flow.
-    onEVENT {
-    terminate()
+        This is placeholder, to see that the state transition is working. In the final product, this state should not
+        have any interaction built-in at all. The onEntry function could then be removed.
+    */
+    onEntry {
+        furhat.say("Gick in i teststadie för fri dialog.")
     }
-     */
+
+
+    /*
+        This event terminates the controlled dialog state, returning to the calling state.
+        As such, normal flow is restarted from the point of departure.
+        The event used is the same event that triggered the state in the first place.
+    */
+    onEvent("ChangeModeEvent") {
+        terminate()
+    }
 }

@@ -5,7 +5,6 @@ import furhatos.autobehavior.userSpeechStartGesture
 import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.Voice
 import furhatos.util.*
-import furhatos.app.therapist.logger.*
 
 
 /*
@@ -26,7 +25,7 @@ val DialogInit: State = state {
             server.init()
             server.start()
         } catch (e: Exception) {
-            furhat.say("Exception " + e.message)
+           // furhat.say("Exception " + e.message)
             e.printStackTrace()
         }
 

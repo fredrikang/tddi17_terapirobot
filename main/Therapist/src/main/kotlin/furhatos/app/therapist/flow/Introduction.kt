@@ -5,6 +5,7 @@ import furhatos.flow.kotlin.*
     This state will contain the robot's introduction, in which it will eventually introduce itself to the patient.
 */
 val Introduction: State = state {
+    include(goToControlledDialog)
     onEntry {
 
         //First, run through introduction

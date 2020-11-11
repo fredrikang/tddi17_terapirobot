@@ -6,7 +6,7 @@ import furhatos.flow.kotlin.voice.Voice
 import furhatos.util.Gender
 import furhatos.util.Language
 import furhatos.app.therapist.nlu.*
-import furhatos.autobehavior.userSpeechStartGesture
+
 
 
 
@@ -32,12 +32,15 @@ val AppearanceStateGender : State = state {
         furhat.ask("Vilket föredrar du, manligt eller kvinnligt?")
     }
     onResponse<MaleIntent> {
-        furhat.say("Okej, då behåller jag det här utseendet.")
+        furhat.say("Okej, då tar jag manligt utseende.")
+        furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB)
+        furhat.setTexture("Geremy")
+        furhat.setInputLanguage(Language.SWEDISH)
         call(AppearanceStateSpecifics(false))
     }
 
     onResponse<FemaleIntent> {
-        furhat.say("Okej, då återgår jag till kvinnligt utseende.")
+        furhat.say("Okej, då tar jag kvinnligt utseende.")
         furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
         furhat.setTexture("Angelina")
         call(AppearanceStateSpecifics(true))
@@ -66,7 +69,6 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state {
             furhat.setInputLanguage(Language.SWEDISH)
         }
         furhat.say("Jag kan också se ut så här.")
-
         furhat.ask("Vilket föredrar du, det första eller det andra?")
     }
     onReentry{
@@ -96,16 +98,15 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state {
 
 
 /*
-    This state is for debug purposes only.
+    This state is for debug purposes only. It represents an end state.
 */
 val Test : State = state {
     include(userEnterLeave)
     include(goToControlledDialog)
     onEntry {
-        furhat.say("Gick in i teststadiet.")
+        furhat.say("Slut på konversation.")
         furhat.say("Den nuvarande användaren är.")
         furhat.say(users.targetUser)
-        //logHandler.export(arg=null, clear=false)
         logHandler.stopLogging()
     }
 }

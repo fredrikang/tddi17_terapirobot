@@ -1,7 +1,6 @@
 package furhatos.app.therapist.flow
 
 import furhatos.flow.kotlin.*
-import furhatos.app.therapist.nlu.EnableControlledDialogIntent
 
 /*
     This partial state contains a standard response to users entering or leaving. This should be included in every
@@ -49,12 +48,14 @@ val userEnterLeave = partialState {
     reentry() is used to make sure that the most recent state entry function is repeated when returning.
 */
 val goToControlledDialog = partialState {
+
     /*
-        TODO
-        This is intended to be extended with a trigger that can be used from the UI.
+        This trigger is used to enter into the controlled dialog state.
+        The event is raised through the user interface, allowing the therapist to change mode at will.
     */
-    onResponse<EnableControlledDialogIntent> {
+    onEvent("ChangeModeEvent") {
         call(controlledDialogState())
         reentry()
     }
 }
+

@@ -1,8 +1,6 @@
 package furhatos.app.therapist.flow
 
 import furhatos.gestures.Gestures
-import furhatos.nlu.common.No
-import furhatos.nlu.common.Yes
 import furhatos.records.User
 
 import furhatos.flow.kotlin.*
@@ -11,7 +9,7 @@ val SelectUser : State = state {
     include(goToControlledDialog)
     /*  onEntry to make sure we ask all users in view of furhat if they are the intended patient.
         Users who have been establish to not be patients are marked with a diregard boolean. So that they can be ignored.
-     */
+    */
     onEntry {
         if (users.count > 0) {
             for (it in users.list){
