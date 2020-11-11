@@ -170,8 +170,8 @@ class SpeechRecognition:
                 for response in responses:
                     if response.results[0].is_final:
                         self.final_result_queue.put(response.results[0].alternatives[0].transcript)
-                    else:
-                        print(response.results[0].alternatives[0].transcript + '\n') # Print all non final results (debug).
+                    #else:
+                       # print(response.results[0].alternatives[0].transcript + '\n') # Print all non final results (debug).
             except:
                 print('Failed to get response.')
 
