@@ -1,0 +1,12 @@
+ca-ES
+my-MM
+hr-HR
+da-DK
+nl-BE
+en-US
+fi-FI
+fr-FR
+de-AT
+de-DE
+sv-SE
+no-NO     
