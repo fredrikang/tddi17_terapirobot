@@ -111,3 +111,6 @@ class SkillConnectEvent(FurhatEvent):
         super().__init__("furhatos.event.actions.ActionSkillConnect")
         self.text = text
         self.monitorWords = True
+class ChangeModeEvent(FurhatEvent):
+    def __init__(self):
+        super().__init__("ChangeModeEvent")
