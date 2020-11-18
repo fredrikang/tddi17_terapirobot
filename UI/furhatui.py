@@ -1,16 +1,10 @@
 #!/usr/bin/python
 import socket
 import opencvwindow
+import furhatvideo
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
-from PySide2.QtWidgets import  QWidget, QLabel, QApplication, QVBoxLayout, QPushButton
-from PySide2.QtCore import QThread, Qt, Signal, Slot
-from PySide2.QtGui import QImage, QPixmap
-
-#from PyQt5.QtWidgets import  QWidget, QLabel, QApplication, QVBoxLayout, QPushButton
-#from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
-#from PyQt5.QtGui import QImage, QPixmap
 import cv2
 import sys
 
@@ -19,7 +13,6 @@ class App(QApplication):
         super().__init__(stringArray)
         self.initLayout()
         self.initWindow()
-        self.setStyleSheet("Fusion")
 
     def initLayout(self):
         self.layout = QVBoxLayout()
@@ -43,6 +36,7 @@ class App(QApplication):
 def turnOffVideo(widget):
     widget.setVisible(not widget.isVisible())
 
+
 def menuButton(button):
     button.setFixedSize(150, 50)
     button.move(100, 100)
@@ -51,6 +45,7 @@ def menuButton(button):
 
 app = App([])
 cvVideo = opencvwindow.OpenCVWindow()
+#furhatstream = furhatvideo.FurHatStream(host="192.168.43.131", size=(int(640), int(480)), record_output="")
 
 videolayout = QVBoxLayout()
 videolayout.addWidget(cvVideo)
@@ -60,7 +55,7 @@ videoHolder.setFixedSize(1800,1200)
 videoHolder.setLayout(videolayout)
 
 button = QPushButton("CameraFeedToggle")
-button.clicked.connect(lambda: turnOffVideo(cvVideo))
+button.clicked.connect(lambda: widget.setVisible(not widget.isVisible()))
 
 menuButton(button)
 menuButtonlayout = QVBoxLayout()
