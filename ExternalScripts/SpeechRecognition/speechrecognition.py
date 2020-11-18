@@ -1,10 +1,11 @@
-from microphonehandler import MicrophoneHandler
 import shutil
 import os
 import io
 import queue
 import json
 import grpc
+
+from microphonehandler import MicrophoneHandler
 from google.cloud import speech
 from google.protobuf.json_format import MessageToDict, MessageToJson
 
@@ -85,27 +86,20 @@ class SpeechRecognition:
         Stop recording, saves audio file.
 
         Returns: 
-            the filename of the audio file.
+            The filename of the audio file.
         """
         return self.microphone_handler.stop_recording()
                   
-    def recognize_sync_audio_file(self, file, language_code = "en-US", is_long_recording = False, return_options = None):
+    def recognize_sync_audio_file(self, file, language_code = "en-US", is_long_recording = False):
         """
-        Send audio through Google API for Speech To Text and
-        return the string representation of the audio.
-        
-        If return_all_options is set it will return a str object of the results message.
-        
+        Send audio through Google API for Speech To Text and return the string representation of the audio.
+
         Args:
             file -- the filepath to file for STT. 
             language_code  -- language to use for recognition. See languages for supported languages.   
-            return_options -- options for object to be returned:
-                              * "all"  = return the str object of the protobuf message.
-                              * "dict" = return dictionary with transcription and confidence of the best choice.
-                              *  None  = return the transcription of the most probable result. 
         
         Returns:
-            String or Dictionary of the speech recognition result. If any error occurs returns -1.
+            The transcript of the most likely translation.
         """
         with io.open(file, "rb") as audio_file:
             content = audio_file.read()
@@ -126,12 +120,7 @@ class SpeechRecognition:
         except:
             return -1
 
-        if return_options == "dict":
-            return self.__get_message_from_proto(response) 
-        elif return_options == "all":
-            return str(response)
-        else:
-            return self.__get_message_from_proto(response)['transcript']
+        return self.__get_message_from_proto(response)['transcript']
     
     # pylint: disable=too-many-function-args
     def recognize_async_audio_stream(self, language_code = "en-US"):
@@ -212,7 +201,7 @@ class SpeechRecognition:
         except:
             result['transcript'] = ''
             result['confidence'] = 0.0
-       
+
         return result
 
     def __del__(self):

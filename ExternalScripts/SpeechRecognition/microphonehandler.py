@@ -5,6 +5,7 @@ import time
 import os
 import sys
 import queue
+
 from threading import Thread
 
 class MicrophoneHandler:
@@ -113,7 +114,7 @@ class MicrophoneHandler:
                 frames_per_buffer  = self.CHUNK
             )
         except: 
-            sys.sterr.write("Failed to open audio stream.")
+            print("Failed to open audio stream.")
             return
 
         self.recording = True       
@@ -123,7 +124,7 @@ class MicrophoneHandler:
                 data = self._stream.read(self.CHUNK)
                 frames.append(data)
         except:
-            sys.stderr.write("Error when recording audio.")
+            print("Error when recording audio.")
 
         self._stream.stop_stream()
         self._stream.close()
