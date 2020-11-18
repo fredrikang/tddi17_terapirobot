@@ -6,7 +6,7 @@ from PySide2.QtGui import QImage, QPixmap
 import cv2
 import sys
 
-class Thread(QThread):
+class OpenCVWindowThread(QThread):
     changePixmap = Signal(QImage)
 
     def run(self):
@@ -26,7 +26,7 @@ class Thread(QThread):
 class OpenCVWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.title = 'PyQt5 Video'
+        self.title = 'Webcam'
         self.left = 100
         self.top = 100
         self.width = 640
@@ -42,11 +42,10 @@ class OpenCVWindow(QWidget):
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.resize(1800, 1200)
         self.setStyleSheet("border: 2px solid black;")
-        # create a label
         self.label = QLabel(self)
         self.label.move(280, 120)
         self.label.resize(640, 480)
-        th = Thread(self)
+        th = OpenCVWindowThread(self)
         th.changePixmap.connect(self.setImage)
         th.start()
 

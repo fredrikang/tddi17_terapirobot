@@ -2,16 +2,10 @@
 import socket
 import opencvwindow
 import defaultphraseswidget
+import furhatvideo
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
-from PySide2.QtWidgets import  QWidget, QLabel, QApplication, QVBoxLayout, QPushButton
-from PySide2.QtCore import QThread, Qt, Signal, Slot
-from PySide2.QtGui import QImage, QPixmap
-
-#from PyQt5.QtWidgets import  QWidget, QLabel, QApplication, QVBoxLayout, QPushButton
-#from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
-#from PyQt5.QtGui import QImage, QPixmap
 import cv2
 import sys
 
@@ -33,7 +27,7 @@ class App(QApplication):
     @Slot(QWidget)
     def addWidget(self, widget):
         self.layout.addWidget(widget)
-
+    
     def addWidgets(self, widgets):
         for w in widgets:
             self.addWidget(w)
@@ -42,27 +36,43 @@ class App(QApplication):
         self.window.show()
         super().exec_()
 
-class Button(QPushButton):
-    def __init__(self, text):
-        super().__init__(text)
+def turnOffVideo(widget):
+    widget.setVisible(not widget.isVisible())
 
 
+def menuButton(button):
+    button.setFixedSize(150, 50)
+    button.move(100, 100)
+    
 
 
 
 app = App([])
 cvVideo = opencvwindow.OpenCVWindow()
-button = Button("Hej")
-app.addWidget(button)
-app.addWidget(cvVideo)
+#furhatstream = furhatvideo.FurHatStream(host="192.168.43.131", size=(int(640), int(480)), record_output="")
+
+videolayout = QVBoxLayout()
+videolayout.addWidget(cvVideo)
+
+videoHolder = QWidget()
+videoHolder.setFixedSize(1800,1200)
+videoHolder.setLayout(videolayout)
+
+button = QPushButton("CameraFeedToggle")
+button.clicked.connect(lambda: widget.setVisible(not widget.isVisible()))
+
+menuButton(button)
+menuButtonlayout = QVBoxLayout()
+menuButtonlayout.addWidget(button)
+
+menuButtonHolder = QWidget()
+menuButtonHolder.setFixedSize(200,150)
+menuButtonHolder.setLayout(menuButtonlayout)
 
 furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
 
 defaultPhrasesFile = open('defaultphrases.txt', 'r')
 defaultPhrases = defaultPhrasesFile.readlines()
-#defaultbuttons = [ "Hej", "Ja", "Nej" ]
-#defaultPhrases = [ "hej och välkommen", "ja va bra", "nej va synd"]
-
 defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
 
 for phrase in defaultPhrases:
@@ -72,8 +82,11 @@ for phrase in defaultPhrases:
 
 app.addWidget(defaultPhrasesWidget)
 
-changemodebutton = Button("ändra läge")
+changemodebutton = QPushButton("ändra läge")
 changemodebutton.clicked.connect(lambda: furhat.changemode())
 app.addWidget(changemodebutton)
 
+app.addWidget(menuButtonHolder)
+app.addWidget(videoHolder)
+app.setStyle("Fusion")
 app.run()
