@@ -27,11 +27,12 @@ class SpeechRecognition:
         # Set environment variable.
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = API_KEY_LOCATION
         
-        self.current_session    = []    
+        self.current_session    = queue.Queue() # Save all recent recordings, fetching the earliest recording when used.    
         self.record_length      = 0
         self.save_audio_file    = save_audio_files
         self.client             = speech.SpeechClient()
         self.final_result_queue = queue.Queue() # Used to store all streamed transcriptions for most recent session.
+        self.debug              = True
 
         if (preffered_audio_folder == None):
             self.audio_file_folder = './audio'
@@ -77,7 +78,7 @@ class SpeechRecognition:
             os.makedirs(self.audio_file_folder)
 
         self.microphone_handler.start_recording()
-        self.current_session.append(self.microphone_handler.current_session)
+        self.current_session.put(self.microphone_handler.current_session)
 
     def stop_record_microphone(self):
         """
@@ -156,6 +157,7 @@ class SpeechRecognition:
                 encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
                 sample_rate_hertz=self.microphone_handler.RATE,
                 language_code=language_code,
+                enable_automatic_punctuation=True,
             ),
             interim_results=True      
         )
@@ -170,10 +172,20 @@ class SpeechRecognition:
                 for response in responses:
                     if response.results[0].is_final:
                         self.final_result_queue.put(response.results[0].alternatives[0].transcript)
-                    else:
+                    if self.debug:
                         print(response.results[0].alternatives[0].transcript + '\n') # Print all non final results (debug).
             except:
                 print('Failed to get response.')
+
+
+    def get(self, wait = True):
+        """
+        Returns the FIFO session names.
+
+        Args:
+            wait -- await for a name to exist in the session.
+        """
+        return self.current_session.get(wait)
 
     def __clear_audio_files(self):
         """
@@ -200,8 +212,7 @@ class SpeechRecognition:
         except:
             result['transcript'] = ''
             result['confidence'] = 0.0
-
-        
+       
         return result
 
     def __del__(self):

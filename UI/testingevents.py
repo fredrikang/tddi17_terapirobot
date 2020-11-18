@@ -7,35 +7,51 @@ from furhatinterface import *
 sys.path.insert(1, '/home/jesper/Documents/Programming/Skolarbete/tddi17_terapirobot/ExternalScripts/SpeechRecognition') 
 from speechrecognition import SpeechRecognition
 
-def Test(data):
-    print("works")
-    #print(data.text)
 
+humanoids="10.137.31.224"
+furhat = FurhatInterface("TestingFurhat", "192.168.43.131")
 
+###
+# Setup recognizer by setting the path to the Google API key .json file,
+# and if the audio will be saved after exit of program or not.
+#
+# Note that if 'save_audio_files=False' the entire audio folder will be deleted, including old files
+##
 recognizer = SpeechRecognition(
         API_KEY_LOCATION=os.path.join('../ExternalScripts/_key', 'GAPI.json'), 
         save_audio_files=True
 )
 
-# Create thread for async recognition.
-# Use thread for not stalling main thread and allow for better control.
+###
+# Streaming recognition test.
+# Streams audio to Google Cloud until it has found a 'final' result.
+# This method will block the current thread until there exists an item in the 'final_result_queue'
+# and after it has found one and sent it to furhat, will stop recording.
+#
+# Note the creation of a thread for the async recognition.
+##
+active_thread = threading.Thread(target=recognizer.recognize_async_audio_stream, args=( "sv-SE" , ) )       
+active_thread.start()
+#while True:
+furhat.speak(recognizer.final_result_queue.get())
+recognizer.stop_record_microphone()
 
-furhat = FurhatInterface("TestingFurhat", "192.168.43.131")
-#active_thread = threading.Thread(target=recognizer.recognize_async_audio_stream, args=( "sv-SE" , ) )       
-#active_thread.start()
-#furhat.subscribe("furhatos.event.senses.SenseUsers", Test)
-#furhat.subscribe("**", Test)
+#####
 
+###
+# Recording test.
+# Recods a .wav file for around 10 seconds.
+# This file will then be sent to Google Cloud by using the 
+# 'recognize_sync_audio_file' function.
+#
+# Note recognizer.get() function used to get the first recording of the current session.
+# (False is used here as no await is needed.)
+##
 recognizer.start_record_microphone()
-time.sleep(5)
+time.sleep(10)
 recognizer.stop_record_microphone()
 furhat.speak(
     recognizer.recognize_sync_audio_file(
-        file='./audio/' + recognizer.current_session[0] + '.raw',
+        file='./audio/' + recognizer.get(False) + '.raw',
         language_code="sv-SE"
     ))
-
-#furhat.connectionstop()
-#furhat.speak(recognizer.final_result_queue.get())
-#while 1:
-    #furhat.speak(input())

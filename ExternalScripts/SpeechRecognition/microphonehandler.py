@@ -111,7 +111,6 @@ class MicrophoneHandler:
                 input              = True,
                 input_device_index = self._get_default_microphone(),
                 frames_per_buffer  = self.CHUNK
-               # stream_callback    = self._audio_callback_handler,
             )
         except: 
             sys.sterr.write("Failed to open audio stream.")
@@ -136,11 +135,10 @@ class MicrophoneHandler:
             file.setsampwidth(self.paudio.get_sample_size(self.FORMAT))
             file.setframerate(self.RATE)
             file.writeframesraw(b''.join(frames))
-            file.close()
         except:
             print('Failure to write file {}{}'.format(filename, self.EXTENSION))
-            if not file.closed:
-                file.close()
+        finally:
+            file.close()
 
     def __active_streaming(self, filename = None):
         """
@@ -167,7 +165,7 @@ class MicrophoneHandler:
 
         self.streaming = True
         self._stream.start_stream()
-
+        
     def stream_generator(self):
         """
         Yield all currently recorded chunks of audio.
