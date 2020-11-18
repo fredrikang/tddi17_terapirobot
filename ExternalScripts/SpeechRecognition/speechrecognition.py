@@ -18,7 +18,7 @@ class SpeechRecognition:
     Files will be saved in the preffered_audio_folder or in the default ./audio folder.
     If save_audio_files is False all recorded audio will be deleted on destruction of this object.
     The microphone recording is handled in its own thread by using the MicrophoneHandler.
-   
+
     Args:   
         API_KEY_LOCATION -- path to the API KEY json file
         preffered_audio_folder -- preffered folder for recorded audio files (defaults to ./audio)

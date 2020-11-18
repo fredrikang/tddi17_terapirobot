@@ -32,7 +32,7 @@ recognizer = SpeechRecognition(
 ##
 active_thread = threading.Thread(target=recognizer.recognize_async_audio_stream, args=( "sv-SE" , ) )       
 active_thread.start()
-#while True:
+#while Speaking:
 furhat.speak(recognizer.final_result_queue.get())
 recognizer.stop_record_microphone()
 
