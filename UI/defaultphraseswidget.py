@@ -26,5 +26,12 @@ class DefaultPhrasesWidget(QGroupBox):
     def addButton(self, buttonLabel, textToSay):
         b = QPushButton(buttonLabel)
         b.clicked.connect(lambda state = False: self.furhat.speak(textToSay))
+        b.setToolTip(textToSay)
         self.layout.addWidget(b)
+
+    def addPhrases(self, phrases):
+        for phrase in phrases:
+            fras = phrase.strip()
+            result = phrase.find(':')
+            self.addButton(phrase[0:result], fras[result+1:])
 

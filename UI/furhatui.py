@@ -71,14 +71,11 @@ menuButtonHolder.setLayout(menuButtonlayout)
 
 furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
 
-defaultPhrasesFile = open('defaultphrases.txt', 'r')
-defaultPhrases = defaultPhrasesFile.readlines()
 defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
 
-for phrase in defaultPhrases:
-    fras = phrase.strip()
-    result = phrase.find(':')
-    defaultPhrasesWidget.addButton(phrase[0:result], fras[result+1:])
+defaultPhrasesFile = open('defaultphrases.txt', 'r')
+defaultPhrases = defaultPhrasesFile.readlines()
+defaultPhrasesWidget.addPhrases(defaultPhrases)
 
 app.addWidget(defaultPhrasesWidget)
 
