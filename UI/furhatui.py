@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import socket
 import opencvwindow
+import defaultphraseswidget
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
@@ -62,13 +63,14 @@ defaultPhrases = defaultPhrasesFile.readlines()
 #defaultbuttons = [ "Hej", "Ja", "Nej" ]
 #defaultPhrases = [ "hej och välkommen", "ja va bra", "nej va synd"]
 
+defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
+
 for phrase in defaultPhrases:
     fras = phrase.strip()
     result = phrase.find(':')
-    b = Button(phrase[0:result])
-    b.clicked.connect(lambda state = False, phrase=fras[result+1:]:furhat.speak(phrase))
-    print(fras[result+1:])
-    app.addWidget(b)
+    defaultPhrasesWidget.addButton(phrase[0:result], fras[result+1:])
+
+app.addWidget(defaultPhrasesWidget)
 
 changemodebutton = Button("ändra läge")
 changemodebutton.clicked.connect(lambda: furhat.changemode())
