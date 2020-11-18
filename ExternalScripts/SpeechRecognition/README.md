@@ -1,7 +1,8 @@
 # Python implementation of Google Speech To Text
 Implementation in python using PyAudio and google.cloud to record and recognize speech.
 
-The file UI/testingstt.py has the test for running with furhat.
+The file ```UI/testingstt.py``` has the test for running with furhat.
+Below is the ```testingstt.py``` example for running both streaming and recording.
 
 ```
 import threading
