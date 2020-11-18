@@ -8,7 +8,6 @@ import sys
 
 class OpenCVWindowThread(QThread):
     changePixmap = Signal(QImage)
-
     def run(self):
         cap = cv2.VideoCapture(0)
         while True:
@@ -48,4 +47,3 @@ class OpenCVWindow(QWidget):
         th = OpenCVWindowThread(self)
         th.changePixmap.connect(self.setImage)
         th.start()
-

@@ -33,10 +33,6 @@ class App(QApplication):
         self.window.show()
         super().exec_()
 
-def turnOffVideo(widget):
-    widget.setVisible(not widget.isVisible())
-
-
 def menuButton(button):
     button.setFixedSize(150, 50)
     button.move(100, 100)
@@ -44,22 +40,35 @@ def menuButton(button):
 
 
 app = App([])
-cvVideo = opencvwindow.OpenCVWindow()
-#furhatstream = furhatvideo.FurHatStream(host="192.168.43.131", size=(int(640), int(480)), record_output="")
+#cvVideo = opencvwindow.OpenCVWindow()
+fVideoWindow = furhatvideo.FurhatVideoWindow()
 
 videolayout = QVBoxLayout()
-videolayout.addWidget(cvVideo)
+videolayout.addWidget(fVideoWindow)
 
 videoHolder = QWidget()
 videoHolder.setFixedSize(1800,1200)
 videoHolder.setLayout(videolayout)
 
+startRecording = QPushButton("start")
+stopRecording = QPushButton("stop")
 button = QPushButton("CameraFeedToggle")
-button.clicked.connect(lambda: widget.setVisible(not widget.isVisible()))
+button.clicked.connect(lambda: videoHolder.setVisible(not videoHolder.isVisible()))
+startRecording.clicked.connect(lambda: fVideoWindow.StartRecording("recordingTest"))
+stopRecording.clicked.connect(lambda: fVideoWindow.StopRecording())
+
+
+#button.clicked.connect(lambda: videoHolder.setVisible(not videoHolder.isVisible()))
 
 menuButton(button)
 menuButtonlayout = QVBoxLayout()
 menuButtonlayout.addWidget(button)
+
+menuButton(startRecording)
+menuButtonlayout.addWidget(startRecording)
+
+menuButton(stopRecording)
+menuButtonlayout.addWidget(stopRecording)
 
 menuButtonHolder = QWidget()
 menuButtonHolder.setFixedSize(200,150)
