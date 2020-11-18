@@ -22,9 +22,12 @@ def connect():
     Connect to the server
     """
     global s    
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    while(s.connect_ex((HOST, PORT)) != 0):
-          sleep(5)
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        while(s.connect_ex((HOST, PORT)) != 0):
+            sleep(5)
+    except:
+        print("Failure to connect socket.")
 
 def create_log_file(data):
     """
@@ -100,3 +103,4 @@ try:
             connect()
 except:
     print('Lost connection.')
+    s.close()
