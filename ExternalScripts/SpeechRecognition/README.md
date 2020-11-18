@@ -7,10 +7,8 @@ Below is the ```testingstt.py``` example for running both streaming and recordin
 ```
 import threading
 import os
-import sys
 import time
 from furhatinterface import *
-sys.path.insert(1, '/home/jesper/Documents/Programming/Skolarbete/tddi17_terapirobot/ExternalScripts/SpeechRecognition')
 from speechrecognition import SpeechRecognition
 
 
