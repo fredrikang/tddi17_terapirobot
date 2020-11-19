@@ -39,7 +39,7 @@ active_thread.start()
 #while Speaking:
 furhat.speak(recognizer.final_result_queue.get())
 recognizer.stop_record_microphone()
-
+active_thread.stop()
 #####
 
 ###
