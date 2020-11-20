@@ -33,13 +33,15 @@ recognizer = SpeechRecognition(
 # and after it has found one and sent it to furhat, will stop recording.
 #
 # Note the creation of a thread for the async recognition.
+# The 'stop_record_microphone' enables the thread to finish and as such
+# no thread stop or join is explicitly needed.
 ##
 active_thread = threading.Thread(target=recognizer.recognize_async_audio_stream, args=( "sv-SE" , ) )       
 active_thread.start()
 #while Speaking:
 furhat.speak(recognizer.final_result_queue.get())
 recognizer.stop_record_microphone()
-active_thread.stop()
+
 #####
 
 ###
