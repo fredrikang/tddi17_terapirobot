@@ -1,33 +1,28 @@
 #!/usr/bin/python
 
 from PySide2.QtWidgets import *
-from PySide2.QtCore import QThread, Qt, Signal, Slot
-from PySide2.QtGui import QImage, QPixmap
-import sys
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from flowlayout import *
 
-class DefaultPhrasesWidget(QGroupBox):
+class DefaultPhrasesWidget(QWidget):
     def __init__(self, furhat):
         super().__init__()
         self.furhat = furhat
         self.title = 'Standardfraser'
-        self.left = 100
-        self.top = 100
-        self.width = 640
-        self.height = 480
         self.initUI()
 
     def initUI(self):
-        self.setTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
-        self.resize(1800, 1200)
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
+        self.setWindowTitle(self.title)
+        self.scroller = ScrollingFlowWidget(self)
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(self.scroller)
 
     def addButton(self, buttonLabel, textToSay):
         b = QPushButton(buttonLabel)
         b.clicked.connect(lambda state = False: self.furhat.speak(textToSay))
         b.setToolTip(textToSay)
-        self.layout.addWidget(b)
+        self.scroller.addWidget(b)
 
     def addPhrases(self, phrases):
         for phrase in phrases:
