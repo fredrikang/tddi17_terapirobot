@@ -10,6 +10,11 @@
 
 from PySide2 import QtCore, QtGui, QtWidgets
 
+import sys
+sys.path.append('../')
+
+import defaultphraseswidget
+from furhatinterface import FurhatInterface
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -109,7 +114,23 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.addWidgets()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "Send"))
+
+    def addWidgets(self):
+        layout = QtWidgets.QVBoxLayout()
+        self.frame_3.setLayout(layout)
+
+        furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
+
+        defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
+
+        defaultPhrasesFile = open('defaultphrases.txt', 'r')
+        defaultPhrases = defaultPhrasesFile.readlines()
+        defaultPhrasesWidget.addPhrases(defaultPhrases)
+
+        layout.addWidget(defaultPhrasesWidget)
