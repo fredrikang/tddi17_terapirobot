@@ -9,12 +9,13 @@
 
 
 from PySide2 import QtCore, QtGui, QtWidgets
-
+import time
 import sys
 sys.path.append('../')
 
 import defaultphraseswidget
 from furhatinterface import FurhatInterface
+from furhatvideo import FurhatVideoWindow
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -53,7 +54,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.frame_2 = QtWidgets.QFrame(self.frame)
+
+        self.furhatvideoWindow = FurhatVideoWindow(self.frame)
+
+        """self.frame_2 = QtWidgets.QFrame(self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -63,8 +67,10 @@ class Ui_MainWindow(object):
         self.frame_2.setMaximumSize(QtCore.QSize(640, 480))
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_2.setObjectName("frame_2")
-        self.verticalLayout_2.addWidget(self.frame_2, 0, QtCore.Qt.AlignTop)
+        self.frame_2.setObjectName("frame_2")"""
+
+
+        #self.verticalLayout_2.addWidget(self.frame_2, 0, QtCore.Qt.AlignTop)
         self.listView = QtWidgets.QListView(self.frame)
         self.listView.setMinimumSize(QtCore.QSize(0, 200))
         self.listView.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -122,15 +128,19 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Send"))
 
     def addWidgets(self):
-        layout = QtWidgets.QVBoxLayout()
-        self.frame_3.setLayout(layout)
-
-        furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
-
+        furhat = FurhatInterface("TestingFurhat", "192.168.43.131")
+        furhat.startSkill("Therapist-all")
+        time.sleep(10)
+        ## Default Buttons ##
+        defaultButtonslayout = QtWidgets.QVBoxLayout()
+        self.frame_3.setLayout(defaultButtonslayout)
         defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
-
         defaultPhrasesFile = open('defaultphrases.txt', 'r')
         defaultPhrases = defaultPhrasesFile.readlines()
         defaultPhrasesWidget.addPhrases(defaultPhrases)
+        defaultButtonslayout.addWidget(defaultPhrasesWidget)
 
-        layout.addWidget(defaultPhrasesWidget)
+        
+
+        
+        
