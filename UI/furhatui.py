@@ -3,18 +3,29 @@ import socket
 import opencvwindow
 import furhatvideo
 import subprocess
+import os
+
+from threading import Thread
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 import cv2
 import sys
 
+sys.path.insert(1, '../ExternalScripts/SpeechRecognition') # Istället för att flytta alla filer.
+from speechrecognition import SpeechRecognition
+
 class App(QApplication):
     def __init__(self, stringArray):
         super().__init__(stringArray)
         self.initLayout()
         self.initWindow()
-
+        self.recognizer = SpeechRecognition(
+            API_KEY_LOCATION=os.path.join('../ExternalScripts/_key', 'GAPI.json'), 
+            save_audio_files=True
+        )
+        #self.recognizer.debug=False # disable "on-the-fly" printing to terminal
+    
     def initLayout(self):
         self.layout = QVBoxLayout()
 
@@ -33,6 +44,14 @@ class App(QApplication):
     def run(self):
         self.window.show()
         super().exec_()
+
+    ## No extra thread needed!
+    def startSpeechRecognition(self):
+        active_thread = Thread(target=self.recognizer.recognize_async_audio_stream, args=( "sv-SE" , ) )       
+        active_thread.start()
+        furhat.speak(self.recognizer.final_result_queue.get())
+        self.recognizer.stop_record_microphone()
+        active_thread.join()
 
 def menuButton(button):
     button.setFixedSize(150, 50)
@@ -54,8 +73,13 @@ videoHolder.setLayout(videolayout)
 startRecording = QPushButton("start")
 stopRecording = QPushButton("stop")
 button = QPushButton("CameraFeedToggle")
+
 openLogViewerButton = QPushButton("LogViewer")
+startSpeakButton = QPushButton("Speak")
+
+startSpeakButton.clicked.connect(app.startSpeechRecognition)
 openLogViewerButton.clicked.connect(lambda: subprocess.Popen(['../ExternalScripts/LogScripts/LogViewer/run_linux.sh'])) # Se över path vid implementationen.
+
 button.clicked.connect(lambda: videoHolder.setVisible(not videoHolder.isVisible()))
 startRecording.clicked.connect(lambda: fVideoWindow.StartRecording("recordingTest"))
 stopRecording.clicked.connect(lambda: fVideoWindow.StopRecording())
@@ -79,5 +103,9 @@ menuButtonHolder.setLayout(menuButtonlayout)
 
 app.addWidget(menuButtonHolder)
 app.addWidget(videoHolder)
+
+app.addWidget(openLogViewerButton)
+app.addWidget(startSpeakButton)
+
 app.setStyle("Fusion")
 app.run()
