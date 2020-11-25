@@ -2,6 +2,7 @@
 import socket
 import opencvwindow
 import furhatvideo
+import subprocess
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
@@ -53,6 +54,8 @@ videoHolder.setLayout(videolayout)
 startRecording = QPushButton("start")
 stopRecording = QPushButton("stop")
 button = QPushButton("CameraFeedToggle")
+openLogViewerButton = QPushButton("LogViewer")
+openLogViewerButton.clicked.connect(lambda: subprocess.Popen(['../ExternalScripts/LogScripts/LogViewer/run_linux.sh'])) # Se över path vid implementationen.
 button.clicked.connect(lambda: videoHolder.setVisible(not videoHolder.isVisible()))
 startRecording.clicked.connect(lambda: fVideoWindow.StartRecording("recordingTest"))
 stopRecording.clicked.connect(lambda: fVideoWindow.StopRecording())
