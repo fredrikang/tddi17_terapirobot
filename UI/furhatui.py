@@ -53,7 +53,7 @@ class App(QApplication):
     def startSpeechRecognition(self):
         active_thread = Thread(target=self.recognizer.recognize_async_audio_stream, args=( "sv-SE" , ) )       
         active_thread.start()
-        print(self.recognizer.final_result_queue.get())
+        furhat.speak(self.recognizer.final_result_queue.get())
         self.recognizer.stop_record_microphone()
         active_thread.join()
 
