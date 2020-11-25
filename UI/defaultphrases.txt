@@ -1,0 +1,7 @@
+Hälsning :hej och välkommen
+Ja :ja 
+Nej :nej 
+Funderar :jag får fundera lite på det
+Hejdå :hejdå och ha det bra
+Presentation :hej mitt namn är furhat och jag är en terapirobot
+Hur var dagen :hur har din dag varit

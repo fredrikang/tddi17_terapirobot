@@ -30,7 +30,9 @@ class FurhatVideoThread(QThread):
         self.footage_socket.connect(host)
         
     def run(self):
-        while True:
+        print('Listening to camera stream')
+        global stop_threads
+        while not stop_threads:
             frame = self.footage_socket.recv()
             imgBuff = np.frombuffer(frame, dtype=np.uint8)
             img = cv2.imdecode(imgBuff, cv2.IMREAD_COLOR)
@@ -153,6 +155,6 @@ class CombineAudioVideoThread(QThread):
         output.run(overwrite_output=True) #This crashed the whole UI
         print("stopped _ 5")
 
-        # Remove the temporary audio and video files
-        os.remove("temp_audio_output.wav")
-        os.remove("temp_video_output.avi")
+def run_stream(host, width, height, record_output):
+    stream = FurHatStream(host=host, size=(int(width), int(height)), record_output=record_output)
+    stream.run()

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import socket
 import opencvwindow
+import defaultphraseswidget
 import furhatvideo
 import subprocess
 import os
@@ -12,8 +13,7 @@ from PySide2.QtGui import *
 import cv2
 import sys
 
-sys.path.insert(1, '../ExternalScripts/SpeechRecognition') # Istället för att flytta alla filer.
-from speechrecognition import SpeechRecognition
+from furhatinterface import FurhatInterface
 
 class App(QApplication):
     def __init__(self, stringArray):
@@ -59,6 +59,7 @@ def menuButton(button):
     
 
 
+
 app = App([])
 #cvVideo = opencvwindow.OpenCVWindow()
 fVideoWindow = furhatvideo.FurhatVideoWindow()
@@ -100,6 +101,20 @@ menuButtonlayout.addWidget(stopRecording)
 menuButtonHolder = QWidget()
 menuButtonHolder.setFixedSize(200,150)
 menuButtonHolder.setLayout(menuButtonlayout)
+
+furhat = FurhatInterface("TestingFurhat", "192.168.137.1")
+
+defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
+
+defaultPhrasesFile = open('defaultphrases.txt', 'r')
+defaultPhrases = defaultPhrasesFile.readlines()
+defaultPhrasesWidget.addPhrases(defaultPhrases)
+
+app.addWidget(defaultPhrasesWidget)
+
+changemodebutton = QPushButton("ändra läge")
+changemodebutton.clicked.connect(lambda: furhat.changemode())
+app.addWidget(changemodebutton)
 
 app.addWidget(menuButtonHolder)
 app.addWidget(videoHolder)
