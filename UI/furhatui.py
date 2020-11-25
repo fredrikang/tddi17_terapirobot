@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import socket
 import opencvwindow
+import subprocess
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
@@ -48,7 +49,8 @@ class Button(QPushButton):
 
 app = App([])
 cvVideo = opencvwindow.OpenCVWindow()
-button = Button("Hej")
+button = QPushButton("Open LogViewer")
+button.clicked.connect(lambda: subprocess.Popen(['../ExternalScripts/LogScripts/LogViewer/run_linux.sh']))
 app.addWidget(button)
 app.addWidget(cvVideo)
 app.run()
