@@ -64,12 +64,22 @@ class Log:
         @param index     - Index of the json object from selected.
         @param maxLength - Maximum amount of characters per line. -1 => all characters per line. 
         """
+        pitch = (self.data[selected][index]['text'].find('>') != -1)
+
         if self.data[selected][index]['text'] == '':
             return "[SILENT]"
         elif maxLength < 0:
-            return self.data[selected][index]['text']
+            if not pitch:
+                return self.data[selected][index]['text']
+            else:
+                return self.data[selected][index]['text'].split('>')[1].split('<')[0]
         else:
-            stok = self.data[selected][index]['text'].split(' ')
+            stok = self.data[selected][index]['text']
+            
+            if pitch:
+                stok = stok.split('>')[1].split('<')[0]
+
+            stok = stok.split(' ')
             formatted = []
             curLen = 0
             for s in stok:
@@ -106,6 +116,3 @@ class Log:
             return 'null'
         else:
             return stok[0]
-
-    def toString():
-        return ""
