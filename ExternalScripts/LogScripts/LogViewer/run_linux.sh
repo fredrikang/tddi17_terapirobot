@@ -12,4 +12,7 @@ then
 	sudo apt-get install python3-tk
 fi
 
-python3 ./src/LogViewer.py
+SCRIPT=`realpath -s $0`
+echo $SCRIPT
+SCRIPTPATH=`dirname $SCRIPT` 
+python3 $SCRIPTPATH/src/LogViewer.py
