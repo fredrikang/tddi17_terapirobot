@@ -1,5 +1,6 @@
 package furhatos.app.therapist.flow
 
+import furhatos.event.Event
 import furhatos.flow.kotlin.*
 
 /*
@@ -59,3 +60,18 @@ val goToControlledDialog = partialState {
     }
 }
 
+val changeState = partialState {
+    onEvent<ChangeStateEvent> {
+        when (it.stateName) {
+            "DialogInit" -> goto(DialogInit)
+            "Introduction" -> goto(Introduction)
+            "SelectUser" -> goto(SelectUser)
+            "AppearanceStateGender" -> goto(AppearanceStateGender)
+            "Test" -> goto(Test)
+            else -> {}
+        }
+    }
+
+}
+
+class ChangeStateEvent(val stateName: String) : Event()
