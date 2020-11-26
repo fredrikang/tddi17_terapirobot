@@ -40,11 +40,12 @@ class FurhatTCPConnection():
             try:
                 message = self.socket.recv(4096).decode('utf-8')
                 #Trigger events here
+                print(message)
                 if "EVENT" not in message: 
                     continue
                 message = message.split("\n")[1]#self.socket.recv(4096).decode('utf-8')              
                 event = FurhatIncomingEvent(message)
-                print("RECEIVED EVENT: ", event.event_name)
+                #print("RECEIVED EVENT: ", event.event_name)
                 self.subscriptions.trigger(event)
             except (socket.timeout, IndexError):
                 pass
@@ -58,6 +59,7 @@ class FurhatTCPConnection():
         """Used to send a event to the robot."""
         event.print_event()
         event.send(self.socket)
+        self.subscriptions.trigger(event)
     def subscribe(self, event : str):
         """Used to send subscribe to an event from the robot."""
         

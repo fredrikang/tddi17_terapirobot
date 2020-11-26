@@ -140,12 +140,17 @@ class MainWindow(QMainWindow):
     def setup_log(self, furhat):
         print("setup log")
         #furhat.subscribe("furhatos.event.senses.speech.rec", append_log_client)
-        furhat.subscribe("furhatos.event.actions.ActionSpeech", self.append_log_client)
+        furhat.subscribe("furhatos.event.actions.ActionSpeech", self.append_log_furhat_skill)
+        furhat.subscribe("furhatos.event.senses.SenseNLUIntent", self.append_log_client)
+        
         self.listView_model = QtGui.QStandardItemModel()
         self.listView.setModel(self.listView_model)
     def append_log_client(self, event):
-        print("appending log")
-        item = QtGui.QStandardItem(event.event_name)
+        item = QtGui.QStandardItem("CLIENT: " + event.text)
+        self.listView_model.appendRow(item)
+
+    def append_log_furhat_skill(self, event):
+        item = QtGui.QStandardItem("FURHAT: " + event.text)
         self.listView_model.appendRow(item)
 
     def addVideoStream(self, host: str):
@@ -155,6 +160,16 @@ class MainWindow(QMainWindow):
     def addChangeStateButtons(self, furhat):
         self.pushButtonChangeMode = QtWidgets.QPushButton(self.frame)
         self.pushButtonChangeMode.setText(_translate("MainWindow", "Change Mode"))
+    
+    def setupSendButton(self, furhat):
+        self.pushButtonSend.clicked.connect(lambda state = False: self.speak(furhat))
+
+    
+    def speak(self, furhat):
+        furhat.speak(self.textEdit.toPlainText())
+        self.textEdit.setPlainText("")
+
+    
     
 
         
