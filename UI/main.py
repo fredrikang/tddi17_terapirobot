@@ -16,5 +16,6 @@ if __name__ == "__main__":
     window.addVideoStream("192.168.43.131")
     window.setup_log(furhat)
     window.setupSendButton(furhat)
+    window.setupSpeech(furhat)
     window.show()
     sys.exit(app.exec_())

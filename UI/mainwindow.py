@@ -15,6 +15,7 @@ import sys
 import defaultphraseswidget
 from furhatinterface import FurhatInterface
 from furhatvideo import FurhatVideoWindow
+from furhatspeech import FurhatSpeechWidget
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -168,6 +169,10 @@ class MainWindow(QMainWindow):
     def speak(self, furhat):
         furhat.speak(self.textEdit.toPlainText())
         self.textEdit.setPlainText("")
+
+    def setupSpeech(self, furhat):
+        speech = FurhatSpeechWidget(furhat)
+        self.verticalLayout_2.addWidget(speech)
 
     
     
