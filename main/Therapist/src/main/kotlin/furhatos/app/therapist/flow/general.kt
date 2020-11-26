@@ -60,8 +60,11 @@ val goToControlledDialog = partialState {
     }
 }
 
+
 val changeState = partialState {
+/*
     onEvent<ChangeStateEvent> {
+        furhat.say("Tog emot event.")
         when (it.stateName) {
             "DialogInit" -> goto(DialogInit)
             "Introduction" -> goto(Introduction)
@@ -70,8 +73,25 @@ val changeState = partialState {
             "Test" -> goto(Test)
             else -> {}
         }
+  */
+
+
+    onEvent("GoToDialogInitEvent") {
+        goto(DialogInit)
+    }
+    onEvent("GoToIntroductionEvent") {
+        goto(Introduction)
+    }
+    onEvent("GoToSelectUserEvent") {
+        goto(SelectUser)
+    }
+    onEvent("GoToAppearanceStateGenderEvent") {
+        goto(AppearanceStateGender)
+    }
+    onEvent("GoToTestEvent") {
+        goto(Test)
     }
 
 }
 
-class ChangeStateEvent(val stateName: String) : Event()
+//class ChangeStateEvent(val stateName: String) : Event()

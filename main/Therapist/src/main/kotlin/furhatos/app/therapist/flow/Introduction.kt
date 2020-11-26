@@ -8,7 +8,6 @@ val Introduction: State = state {
     include(goToControlledDialog)
     include(changeState)
     onEntry {
-
         //First, run through introduction
         //furhat.say("Tillfälligt introduktionsstadie.")
 
