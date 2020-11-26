@@ -6,3 +6,6 @@ docopt
 pyaudio
 pyside2
 ffmpeg-python
+grpcio
+google-api
+google-cloud-speech
