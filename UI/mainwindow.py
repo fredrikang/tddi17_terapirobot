@@ -76,7 +76,7 @@ class MainWindow(QMainWindow):
         
         
         self.listView = QtWidgets.QListView(self.frame)
-        self.listView.setMinimumSize(QtCore.QSize(0, 200))
+        self.listView.setMinimumSize(QtCore.QSize(0, 50))
         self.listView.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.listView.setObjectName("listView")
         self.verticalLayout_2.addWidget(self.listView)
@@ -113,6 +113,8 @@ class MainWindow(QMainWindow):
         self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.frame_3)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.gridLayout.addWidget(self.frame_3, 0, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -130,13 +132,11 @@ class MainWindow(QMainWindow):
 
     def addDefaultPhraseButtons(self, furhat):
         ## Default Buttons ##
-        defaultButtonslayout = QtWidgets.QVBoxLayout()
-        self.frame_3.setLayout(defaultButtonslayout)
         defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
         defaultPhrasesFile = open('defaultphrases.txt', 'r')
         defaultPhrases = defaultPhrasesFile.readlines()
         defaultPhrasesWidget.addPhrases(defaultPhrases)
-        defaultButtonslayout.addWidget(defaultPhrasesWidget)
+        self.verticalLayout_4.addWidget(defaultPhrasesWidget)
 
     def setup_log(self, furhat):
         print("setup log")
