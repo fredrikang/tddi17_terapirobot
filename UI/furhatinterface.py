@@ -42,11 +42,11 @@ class FurhatTCPConnection():
                 #Trigger events here
                 if "EVENT" not in message: 
                     continue
-                message = message.split("\n")[1]#self.socket.recv(4096).decode('utf-8')
+                message = message.split("\n")[1]#self.socket.recv(4096).decode('utf-8')              
                 event = FurhatIncomingEvent(message)
                 print("RECEIVED EVENT: ", event.event_name)
                 self.subscriptions.trigger(event)
-            except socket.timeout:
+            except (socket.timeout, IndexError):
                 pass
 
     def stop(self):
@@ -89,9 +89,12 @@ class FurhatInterface():
     def led(self, red: int, green:int, blue:int):
         """Used to make the robot look at a point(x, y, z)"""
         self.connection.send_event(LEDSolidEvent(red, green, blue))
-    def changemode(self):
+    def change_mode(self):
         """Used to send a Custom ChangeModeEvent to the robot"""
         self.connection.send_event(ChangeModeEvent())
+    def start_skill(self, name : str):
+        """Used to send a SendSkill event to the robot"""
+        self.connection.send_event(SkillConnectEvent(name))
 
 
         
