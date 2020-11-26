@@ -13,8 +13,9 @@ from PySide2.QtWidgets import QMainWindow
 import time
 import sys
 import defaultphraseswidget
+from statebuttonswidget import StateButtonsWidget
 from furhatinterface import FurhatInterface
-from furhatvideo import FurhatVideoWindow
+from furhatvideo import FurhatVideoAudioWidget
 from furhatspeech import FurhatSpeechWidget
 
 class MainWindow(QMainWindow):
@@ -61,7 +62,7 @@ class MainWindow(QMainWindow):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         
-        self.fVideoWindow = FurhatVideoWindow()
+        self.fVideoWindow = FurhatVideoAudioWidget()
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -125,18 +126,28 @@ class MainWindow(QMainWindow):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "FurhatController"))
         self.pushButtonSend.setText(_translate("MainWindow", "Send"))
 
     def addDefaultPhraseButtons(self, furhat):
         ## Default Buttons ##
-        defaultButtonslayout = QtWidgets.QVBoxLayout()
-        self.frame_3.setLayout(defaultButtonslayout)
+        self.defaultButtonslayout = QtWidgets.QVBoxLayout()
+        self.frame_3.setLayout(self.defaultButtonslayout)
         defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
         defaultPhrasesFile = open('defaultphrases.txt', 'r')
         defaultPhrases = defaultPhrasesFile.readlines()
         defaultPhrasesWidget.addPhrases(defaultPhrases)
-        defaultButtonslayout.addWidget(defaultPhrasesWidget)
+        self.defaultButtonslayout.addWidget(defaultPhrasesWidget)
+        self.addStates(furhat)
+
+    def addStates(self, furhat):
+        stateWidget = StateButtonsWidget(furhat)
+        defaultStatesFile = open('states.txt', 'r')
+        defaultStates = defaultStatesFile.readlines()
+        stateWidget.addStates(defaultStates)
+        self.defaultButtonslayout.addWidget(stateWidget)
+
+
 
     def setup_log(self, furhat):
         print("setup log")

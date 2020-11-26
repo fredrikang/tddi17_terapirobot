@@ -97,6 +97,9 @@ class FurhatInterface():
     def start_skill(self, name : str):
         """Used to send a SendSkill event to the robot"""
         self.connection.send_event(SkillConnectEvent(name))
+    def goto(self, state_name : str):
+        """Used to send a SendSkill event to the robot"""
+        self.connection.send_event(ChangeStateEvent(state_name))
 
 
         

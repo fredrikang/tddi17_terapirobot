@@ -48,7 +48,7 @@ class FurhatVideoThread(QThread):
                 self.changePixmap.emit(p)
 
         if self.record_output:
-            StopRecording()
+            self.StopRecording()
 
     def StartRecording(self):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -92,7 +92,7 @@ class FurhatAudioStream(QThread):
         if self.record_output:
             self.audio_writer.close()
 
-class FurhatVideoWindow(QWidget):
+class FurhatVideoAudioWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.title = 'FurHatStream'
@@ -107,7 +107,6 @@ class FurhatVideoWindow(QWidget):
 
     def initUI(self):
         self.setWindowTitle(self.title)
-        self.resize(1800, 1200)
         self.setStyleSheet("border: 2px solid black;")
         self.label = QLabel(self)
         self.label.resize(640, 480)
