@@ -12,8 +12,6 @@ from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtWidgets import QMainWindow
 import time
 import sys
-sys.path.append('../')
-
 import defaultphraseswidget
 from furhatinterface import FurhatInterface
 from furhatvideo import FurhatVideoWindow
@@ -62,20 +60,18 @@ class MainWindow(QMainWindow):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         
-        
-        
-        self.frame_2 = QtWidgets.QFrame(self.frame)
+        self.fVideoWindow = FurhatVideoWindow()
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
-        self.frame_2.setSizePolicy(sizePolicy)
-        self.frame_2.setMinimumSize(QtCore.QSize(640, 480))
-        self.frame_2.setMaximumSize(QtCore.QSize(640, 480))
-        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_2.setObjectName("frame_2")
-        self.verticalLayout_2.addWidget(self.frame_2, 0, QtCore.Qt.AlignTop)
+        sizePolicy.setHeightForWidth(self.fVideoWindow.sizePolicy().hasHeightForWidth())
+        self.fVideoWindow.setSizePolicy(sizePolicy)
+        self.fVideoWindow.setMinimumSize(QtCore.QSize(640, 480))
+        self.fVideoWindow.setMaximumSize(QtCore.QSize(640, 480))
+        self.fVideoWindow.setObjectName("fVideoWindow")
+        self.verticalLayout_2.addWidget(self.fVideoWindow, 0, QtCore.Qt.AlignTop)
+       
+        
         
         
         self.listView = QtWidgets.QListView(self.frame)
@@ -149,18 +145,12 @@ class MainWindow(QMainWindow):
         self.listView.setModel(self.listView_model)
     def append_log_client(self, event):
         print("appending log")
-        item = QtGui.QStandardItem(event)
+        item = QtGui.QStandardItem(event.event_name)
         self.listView_model.appendRow(item)
 
-    def addVideoStream(self, furhat):
-        ## Default Buttons ##
-        defaultButtonslayout = QtWidgets.QVBoxLayout()
-        self.frame_3.setLayout(defaultButtonslayout)
-        defaultPhrasesWidget = defaultphraseswidget.DefaultPhrasesWidget(furhat)
-        defaultPhrasesFile = open('defaultphrases.txt', 'r')
-        defaultPhrases = defaultPhrasesFile.readlines()
-        defaultPhrasesWidget.addPhrases(defaultPhrases)
-        defaultButtonslayout.addWidget(defaultPhrasesWidget)
+    def addVideoStream(self, host: str):
+        self.fVideoWindow.start_videostream(host)
+        #self.fVideoWindow.start_audiostream(host)
 
     def addChangeStateButtons(self, furhat):
         self.pushButtonChangeMode = QtWidgets.QPushButton(self.frame)

@@ -31,8 +31,8 @@ class FurhatVideoThread(QThread):
         
     def run(self):
         print('Listening to camera stream')
-        global stop_threads
-        while not stop_threads:
+        #global stop_threads
+        while  True:
             frame = self.footage_socket.recv()
             imgBuff = np.frombuffer(frame, dtype=np.uint8)
             img = cv2.imdecode(imgBuff, cv2.IMREAD_COLOR)
@@ -45,6 +45,7 @@ class FurhatVideoThread(QThread):
                 bytesPerLine = ch * w
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                 p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                print('updated video')
                 self.changePixmap.emit(p)
 
         if self.record_output:
@@ -96,8 +97,6 @@ class FurhatVideoWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.title = 'FurHatStream'
-        self.left = 100
-        self.top = 100
         self.width = 640
         self.height = 480
         self.nameOfFile = None
@@ -109,18 +108,22 @@ class FurhatVideoWindow(QWidget):
 
     def initUI(self):
         self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
         self.resize(1800, 1200)
         self.setStyleSheet("border: 2px solid black;")
         self.label = QLabel(self)
-        self.label.move(280, 120)
         self.label.resize(640, 480)
+
+
+
+    def start_videostream(self, host : str):
         self.vth = FurhatVideoThread(self)
-        self.vth.StartStream("192.168.43.131")
+        self.vth.StartStream(host)
         self.vth.changePixmap.connect(self.setImage)
         self.vth.start()
+
+    def start_audiostream(self, host : str):
         self.ath = FurhatAudioStream(self)
-        self.ath.StartStream("192.168.43.131")
+        self.ath.StartStream(host)
         self.ath.start()
 
     def StartRecording(self, name):
