@@ -138,6 +138,11 @@ class MainWindow(QMainWindow):
         defaultPhrasesWidget.addPhrases(defaultPhrases)
         self.verticalLayout_4.addWidget(defaultPhrasesWidget)
 
+    def addChangeModeButton(self, furhat):
+        button = QtWidgets.QPushButton("Ändra läge")
+        button.clicked.connect(lambda: furhat.change_mode())
+        self.verticalLayout_4.addWidget(button)
+
     def setup_log(self, furhat):
         print("setup log")
         #furhat.subscribe("furhatos.event.senses.speech.rec", append_log_client)

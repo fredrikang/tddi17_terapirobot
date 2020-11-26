@@ -13,6 +13,7 @@ if __name__ == "__main__":
     furhat = FurhatInterface("TestingFurhat", "192.168.43.131")
     #furhat.start_skill("Therapist-all")
     window.addDefaultPhraseButtons(furhat)
+    window.addChangeModeButton(furhat)
     window.addVideoStream("192.168.43.131")
     window.setup_log(furhat)
     window.setupSendButton(furhat)
