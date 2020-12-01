@@ -63,17 +63,14 @@ class MainWindow(QMainWindow):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         
+
+
+
         self.fVideoWindow = FurhatVideoAudioWidget()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.fVideoWindow.sizePolicy().hasHeightForWidth())
-        self.fVideoWindow.setSizePolicy(sizePolicy)
-        self.fVideoWindow.setMinimumSize(QtCore.QSize(640, 480))
-        self.fVideoWindow.setMaximumSize(QtCore.QSize(640, 480))
-        self.fVideoWindow.setObjectName("fVideoWindow")
         self.verticalLayout_2.addWidget(self.fVideoWindow, 0, QtCore.Qt.AlignTop)
        
+
+
         self.listView = QtWidgets.QListView(self.frame)
         self.listView.setMinimumSize(QtCore.QSize(0, 50))
         self.listView.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -190,7 +187,7 @@ class MainWindow(QMainWindow):
 
     def addVideoStream(self, host: str):
         self.fVideoWindow.start_videostream(host)
-        #self.fVideoWindow.start_audiostream(host)
+        self.fVideoWindow.start_audiostream(host)
 
     def addChangeStateButtons(self, furhat):
         self.pushButtonChangeMode = QtWidgets.QPushButton(self.frame)

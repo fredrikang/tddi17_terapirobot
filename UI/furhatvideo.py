@@ -10,8 +10,8 @@ import threading
 import time
 import ffmpeg
 import os
-from PySide2.QtWidgets import  QWidget, QLabel, QApplication
-from PySide2.QtCore import QThread, Qt, Signal, Slot
+from PySide2.QtWidgets import  QWidget, QLabel, QApplication, QVBoxLayout, QHBoxLayout, QSizePolicy, QPushButton, QDialog, QFileDialog
+from PySide2.QtCore import QThread, Qt, Signal, Slot, QSize, QDir
 from PySide2.QtGui import QImage, QPixmap
 import sys
 
@@ -71,6 +71,7 @@ class FurhatAudioStream(QThread):
                                      channels = self.wave_obj.getnchannels(),
                                      rate     = self.wave_obj.getframerate(),
                                      output   = True)
+        self.isMuted = False
 
     def StartRecording(self):
         self.audio_writer = wave.open("temp_audio_output.wav", 'wb')
@@ -84,7 +85,8 @@ class FurhatAudioStream(QThread):
     def run(self):
         while True:
             data = self.audio_socket.recv(self.BUFFER_SIZE)
-            self.speaker_stream.write(data)
+            if not self.isMuted:
+                self.speaker_stream.write(data)
 
             if self.record_output:
                 self.audio_writer.writeframesraw(data)
@@ -93,6 +95,70 @@ class FurhatAudioStream(QThread):
             self.audio_writer.close()
 
 class FurhatVideoAudioWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.layout = QVBoxLayout(self)
+        self.videoWindow = FurhatVideoAudioWidgetStream()
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.videoWindow.sizePolicy().hasHeightForWidth())
+        self.videoWindow.setSizePolicy(sizePolicy)
+        self.videoWindow.setMinimumSize(QSize(640, 480))
+        self.videoWindow.setMaximumSize(QSize(640, 480))
+        self.videoWindow.setObjectName("videoWindow")
+        self.layout.addWidget(self.videoWindow)
+        self.button_layout = QHBoxLayout()
+        self.layout.addLayout(self.button_layout)
+        self.recordButton = QPushButton("Record")
+        self.recordButton.clicked.connect(self.start_recording)
+        self.button_layout.addWidget(self.recordButton)
+        self.muteButton = QPushButton("Mute")
+        self.muteButton.clicked.connect(self.mute)
+        self.button_layout.addWidget(self.muteButton)
+        self.isRecording = False
+        
+    
+
+    def start_videostream(self, host : str):
+        self.videoWindow.start_videostream(host)
+
+    def start_audiostream(self, host : str):
+        self.audioHost = host
+        self.videoWindow.start_audiostream(host)
+
+    def start_recording(self):
+        if not self.isRecording:
+            dialog = QFileDialog()
+            dialog.setFilter(dialog.filter() | QDir.Hidden)
+            dialog.setDefaultSuffix('avi')
+            dialog.setAcceptMode(QFileDialog.AcceptSave)
+            dialog.setNameFilters(['Video File (*.avi)'])
+            if dialog.exec_() == QDialog.Accepted:
+                fileName = dialog.selectedFiles()[0]
+                self.videoWindow.StartRecording(fileName)
+                self.recordButton.setText("Stop recording")
+                self.isRecording = True
+            else:
+                print('Cancelled')
+
+        else:
+            self.videoWindow.StopRecording()
+            self.recordButton.setText("Start recording")
+            self.isRecording = False
+
+
+    def StopRecording(self):
+        self.videoWindow.StopRecording()
+
+    def mute(self):
+        if not self.videoWindow.ath.isMuted:
+            self.videoWindow.ath.isMuted = True
+        else:
+            self.videoWindow.ath.isMuted = False
+
+
+class FurhatVideoAudioWidgetStream(QWidget):
     def __init__(self):
         super().__init__()
         self.title = 'FurHatStream'
@@ -107,11 +173,8 @@ class FurhatVideoAudioWidget(QWidget):
 
     def initUI(self):
         self.setWindowTitle(self.title)
-        self.setStyleSheet("border: 2px solid black;")
         self.label = QLabel(self)
         self.label.resize(640, 480)
-
-
 
     def start_videostream(self, host : str):
         self.vth = FurhatVideoThread(self)
@@ -128,8 +191,10 @@ class FurhatVideoAudioWidget(QWidget):
         self.ath.StartRecording()
         self.vth.StartRecording()
         self.nameOfFile = name
+        print(name)
         
     def StopRecording(self):
+
         if self.nameOfFile:
             print("stopped _ " + self.nameOfFile)
             self.ath.StopRecording()
@@ -144,6 +209,7 @@ class FurhatVideoAudioWidget(QWidget):
             
 
 class CombineAudioVideoThread(QThread):
+
     nameOfFile = None
     def run(self):
         video = ffmpeg.input("temp_video_output.avi")
