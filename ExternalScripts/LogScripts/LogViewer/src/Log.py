@@ -68,12 +68,16 @@ class Log:
 
         if self.data[selected][index]['text'] == '':
             return "[SILENT]"
-        elif maxLength < 0:
-            if not pitch:
-                return self.data[selected][index]['text']
-            else:
-                return self.data[selected][index]['text'].split('>')[1].split('<')[0]
         else:
+        	while True:
+		    i = self.data[selected][index]['text'].find('<')
+		    if i == -1:
+		        break
+		    self.data[selected][index]['text'] = self.data[selected][index]['text'].replace(
+                self.data[selected][index]['text'][i:self.data[selected][index]['text'].find('>', i + 1) + 1], ''
+            )
+            
+        if maxLength > 0:
             stok = self.data[selected][index]['text']
             
             if pitch:
