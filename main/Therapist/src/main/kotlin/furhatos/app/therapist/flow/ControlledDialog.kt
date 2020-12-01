@@ -25,6 +25,11 @@ fun controlledDialogState() = state {
         The event used is the same event that triggered the state in the first place.
     */
     onEvent("ChangeModeEvent") {
+        send("CancelControlledDialogState")
         terminate()
+    }
+
+    onEvent("CancelControlledDialogState") {
+        println("Exiting Controlled Dialog State by force.")
     }
 }

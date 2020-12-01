@@ -55,8 +55,13 @@ val goToControlledDialog = partialState {
         The event is raised through the user interface, allowing the therapist to change mode at will.
     */
     onEvent("ChangeModeEvent") {
+        send("CancelAutonomousState")
         call(controlledDialogState())
         reentry()
+    }
+
+    onEvent("CancelAutonomousState") {
+        println("Exiting Autonomous State")
     }
 }
 
