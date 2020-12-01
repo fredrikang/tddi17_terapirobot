@@ -23,3 +23,9 @@ var UserManager.targetUser : String
 var UserManager.hasTargetUser : Boolean
     get() = hasTargetUserID
     set(value) { hasTargetUserID = value}
+
+/*var userName : String = ""
+var userCity : String = ""
+var UserName : String
+    get() = userName
+    set(value) {userName = value}*/

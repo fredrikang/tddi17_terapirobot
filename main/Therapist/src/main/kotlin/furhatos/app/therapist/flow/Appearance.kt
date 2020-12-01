@@ -109,8 +109,13 @@ val Test : State = state {
         furhat.say("Slut på konversation.")
         furhat.say("Den nuvarande användaren är.")
         furhat.say(users.targetUser)
+       /* furhat.ask("Vad heter du?")*/
+
         logHandler.stopLogging()
     }
+   /* onResponse{
+        furhat.say("Hej ${it.text} trevligt att träffas.")
+    }*/
 }
 
 
