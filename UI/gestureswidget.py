@@ -5,11 +5,11 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from flowlayout import *
 
-class DefaultPhrasesWidget(QWidget):
+class GesturesWidget(QWidget):
     def __init__(self, furhat):
         super().__init__()
         self.furhat = furhat
-        self.title = 'Standard phrases'
+        self.title = 'Gestures'
         self.initUI()
 
     def initUI(self):
@@ -18,14 +18,14 @@ class DefaultPhrasesWidget(QWidget):
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(self.scroller)
 
-    def addButton(self, buttonLabel, textToSay):
+    def addButton(self, buttonLabel, gesture):
         b = QPushButton(buttonLabel)
-        b.clicked.connect(lambda state = False: self.furhat.speak(textToSay))
-        b.setToolTip(textToSay)
+        b.clicked.connect(lambda state = False: self.furhat.gesture(gesture))
+        b.setToolTip(buttonLabel)
         self.scroller.addWidget(b)
 
-    def addPhrases(self, phrases):
-        for phrase in phrases:
+    def addGestures(self, gestures):
+        for phrase in gestures:
             fras = phrase.strip()
             result = phrase.find(':')
             self.addButton(phrase[0:result], fras[result+1:])

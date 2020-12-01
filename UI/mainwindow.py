@@ -13,6 +13,7 @@ from PySide2.QtWidgets import QMainWindow
 import time
 import sys
 from defaultphraseswidget import DefaultPhrasesWidget
+from gestureswidget import GesturesWidget
 from statebuttonswidget import StateButtonsWidget
 from furhatinterface import FurhatInterface
 from furhatvideo import FurhatVideoAudioWidget
@@ -135,7 +136,13 @@ class MainWindow(QMainWindow):
         defaultPhrases = defaultPhrasesFile.readlines()
         defaultPhrasesWidget.addPhrases(defaultPhrases)
         self.verticalLayout_4.addWidget(defaultPhrasesWidget)
-        self.addStates(furhat)
+
+    def addGestureButtons(self, furhat):
+        gesturesWidget = GesturesWidget(furhat)
+        gesturesFile = open('gestures.txt', 'r')
+        gestures = gesturesFile.readlines()
+        gesturesWidget.addGestures(gestures)
+        self.verticalLayout_4.addWidget(gesturesWidget)
 
     def addStates(self, furhat):
         stateWidget = StateButtonsWidget(furhat)
