@@ -11,6 +11,7 @@ import furhatos.util.*
     This state is for initializing things that are necessary for the dialog flow.
 */
 val DialogInit: State = state {
+    include(changeState)
     init {
         //Set initial face texture and voice.
         furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")

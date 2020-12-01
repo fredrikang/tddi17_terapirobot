@@ -19,6 +19,7 @@ import furhatos.app.therapist.nlu.*
 val AppearanceStateGender : State = state {
     include(userEnterLeave)
     include(goToControlledDialog)
+    include(changeState)
     onEntry {
         furhat.say{+"Jag kan ta flera olika utseenden. Jag kan se ut som en kvinna"
             +delay(1000)}
@@ -103,12 +104,18 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state {
 val Test : State = state {
     include(userEnterLeave)
     include(goToControlledDialog)
+    include(changeState)
     onEntry {
         furhat.say("Slut på konversation.")
         furhat.say("Den nuvarande användaren är.")
         furhat.say(users.targetUser)
+       /* furhat.ask("Vad heter du?")*/
+
         logHandler.stopLogging()
     }
+   /* onResponse{
+        furhat.say("Hej ${it.text} trevligt att träffas.")
+    }*/
 }
 
 

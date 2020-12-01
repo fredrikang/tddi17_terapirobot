@@ -1,5 +1,6 @@
 package furhatos.app.therapist.flow
 
+import furhatos.event.Event
 import furhatos.flow.kotlin.*
 
 /*
@@ -54,8 +55,48 @@ val goToControlledDialog = partialState {
         The event is raised through the user interface, allowing the therapist to change mode at will.
     */
     onEvent("ChangeModeEvent") {
+        send("CancelAutonomousState")
         call(controlledDialogState())
         reentry()
     }
+
+    onEvent("CancelAutonomousState") {
+        println("Exiting Autonomous State")
+    }
 }
 
+
+val changeState = partialState {
+/*
+    onEvent<ChangeStateEvent> {
+        furhat.say("Tog emot event.")
+        when (it.stateName) {
+            "DialogInit" -> goto(DialogInit)
+            "Introduction" -> goto(Introduction)
+            "SelectUser" -> goto(SelectUser)
+            "AppearanceStateGender" -> goto(AppearanceStateGender)
+            "Test" -> goto(Test)
+            else -> {}
+        }
+  */
+
+
+    onEvent("GoToDialogInitEvent") {
+        goto(DialogInit)
+    }
+    onEvent("GoToIntroductionEvent") {
+        goto(Introduction)
+    }
+    onEvent("GoToSelectUserEvent") {
+        goto(SelectUser)
+    }
+    onEvent("GoToAppearanceStateGenderEvent") {
+        goto(AppearanceStateGender)
+    }
+    onEvent("GoToTestEvent") {
+        goto(Test)
+    }
+
+}
+
+//class ChangeStateEvent(val stateName: String) : Event()
