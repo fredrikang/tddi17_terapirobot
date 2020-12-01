@@ -73,9 +73,6 @@ class MainWindow(QMainWindow):
         self.fVideoWindow.setObjectName("fVideoWindow")
         self.verticalLayout_2.addWidget(self.fVideoWindow, 0, QtCore.Qt.AlignTop)
        
-        
-        
-        
         self.listView = QtWidgets.QListView(self.frame)
         self.listView.setMinimumSize(QtCore.QSize(0, 50))
         self.listView.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -150,9 +147,14 @@ class MainWindow(QMainWindow):
 
 
     def addChangeModeButton(self, furhat):
-        button = QtWidgets.QPushButton("Ändra läge")
-        button.clicked.connect(lambda: furhat.change_mode())
-        self.verticalLayout_4.addWidget(button)
+        furhat.subscribe("furhatos.event.CancelAutonomousState", self.setChangeModeButtonText("Dialog"))
+        furhat.subscribe("furhatos.event.CancelDialogState", self.setChangeModeButtonText("Autonomous"))
+        self.changeModeButton = QtWidgets.QPushButton("Ändra läge")
+        self.changeModeButton.clicked.connect(lambda: furhat.change_mode())
+        self.verticalLayout_4.addWidget(changeModeButton)
+
+    def setChangeModeButtonText(self, text):
+        self.changeModeButton.setText(text)
 
     def setup_log(self, furhat):
         print("setup log")
