@@ -159,8 +159,8 @@ class SpeechRecognition:
             try:
                 responses = self.client.streaming_recognize(config_stream, requests)
                 for response in responses:
+                    self.final_result_queue.put(response.results[0])
                     if response.results[0].is_final:
-                        self.final_result_queue.put(response.results[0].alternatives[0].transcript) 
                         return # stops more recordings than one. Doesn't halt after recording is done. (temp)
                     if self.debug:
                         print(response.results[0].alternatives[0].transcript + '\n') # Print all non final results (debug).
