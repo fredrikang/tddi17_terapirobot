@@ -165,7 +165,7 @@ class MainWindow(QMainWindow):
 
     def setup_log(self, furhat):
         print("setup log")
-        furhat.subscribe("furhatos.event.senses.speech.rec", append_log_client)
+        furhat.subscribe("furhatos.event.senses.speech.rec", self.append_log_client)
         furhat.subscribe("furhatos.event.actions.ActionSpeech", self.append_log_furhat_skill)
         furhat.subscribe("furhatos.event.senses.SenseNLUIntent", self.append_log_client)
         
@@ -176,7 +176,11 @@ class MainWindow(QMainWindow):
         self.listView_model.appendRow(item)
 
     def append_log_furhat_skill(self, event):
-        item = QtGui.QStandardItem("FURHAT: " + event.text)
+        pitch = (event.text.find('>') != -1)
+        if not pitch:
+            item = QtGui.QStandardItem("FURHAT: " + event.text)
+        else:
+            item = QtGui.QStandardItem("FURHAT: " + event.text.split('>')[1].split('<')[0])
         self.listView_model.appendRow(item)
 
     def addVideoStream(self, host: str):
