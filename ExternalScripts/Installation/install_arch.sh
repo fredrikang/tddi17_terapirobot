@@ -1,9 +1,9 @@
 #!/bin/bash
 
-sudo pacman -S python
+yes | sudo pacman -S python
 
-sudo pacman -S python-pip
+yes | sudo pacman -S python-pip
 
-pip install -r requirements.txt
+yes | pip install -r requirements.txt
 
-sudo pacman -S ffmpeg
+yes | sudo pacman -S ffmpeg
