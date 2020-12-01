@@ -71,7 +71,7 @@ class FurhatAudioStream(QThread):
                                      channels = self.wave_obj.getnchannels(),
                                      rate     = self.wave_obj.getframerate(),
                                      output   = True)
-        self.isEnabled = True
+        self.isMuted = False
 
     def StartRecording(self):
         self.audio_writer = wave.open("temp_audio_output.wav", 'wb')
@@ -83,9 +83,10 @@ class FurhatAudioStream(QThread):
         self.audio_writer.close()
 
     def run(self):
-        while self.isEnabled:
+        while True:
             data = self.audio_socket.recv(self.BUFFER_SIZE)
-            self.speaker_stream.write(data)
+            if not self.isMuted:
+                self.speaker_stream.write(data)
 
             if self.record_output:
                 self.audio_writer.writeframesraw(data)
@@ -116,7 +117,6 @@ class FurhatVideoAudioWidget(QWidget):
         self.muteButton.clicked.connect(self.mute)
         self.button_layout.addWidget(self.muteButton)
         self.isRecording = False
-        self.isMuted = False
         
     
 
@@ -152,13 +152,10 @@ class FurhatVideoAudioWidget(QWidget):
         self.videoWindow.StopRecording()
 
     def mute(self):
-        if not self.isMuted:
-            self.videoWindow.ath.isEnabled = False
-            self.isMuted = True
+        if not self.videoWindow.ath.isMuted:
+            self.videoWindow.ath.isMuted = True
         else:
-            self.videoWindow.ath.isEnabled = True
-            self.start_audiostream(self.audioHost)
-            self.isMuted = False
+            self.videoWindow.ath.isMuted = False
 
 
 class FurhatVideoAudioWidgetStream(QWidget):
