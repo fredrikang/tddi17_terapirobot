@@ -9,7 +9,7 @@ class DefaultPhrasesWidget(QWidget):
     def __init__(self, furhat):
         super().__init__()
         self.furhat = furhat
-        self.title = 'Standardfraser'
+        self.title = 'Standard phrases'
         self.initUI()
 
     def initUI(self):
