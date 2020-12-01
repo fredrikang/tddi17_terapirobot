@@ -154,15 +154,17 @@ class MainWindow(QMainWindow):
 
 
     def addChangeModeButton(self, furhat):
-        furhat.subscribe("furhatos.event.CancelAutonomousState", self.setChangeModeButtonText("Dialog"))
-        furhat.subscribe("furhatos.event.CancelDialogState", self.setChangeModeButtonText("Autonomous"))
-        self.changeModeButton = QtWidgets.QPushButton("Ändra läge")
+        self.changeModeButton = QtWidgets.QPushButton("Change to Controlled Mode")
         self.changeModeButton.clicked.connect(lambda: furhat.change_mode())
-        self.verticalLayout_4.addWidget(changeModeButton)
+        self.verticalLayout_4.addWidget(self.changeModeButton)
+        furhat.subscribe("CancelAutonomousState", self.setChangeModeButtonTextAuto)
+        furhat.subscribe("CancelControlledDialogState", self.setChangeModeButtonTextControlled)
 
-    def setChangeModeButtonText(self, text):
-        return
-        self.changeModeButton.setText(text)
+    def setChangeModeButtonTextAuto(self,event):
+        self.changeModeButton.setText("Change to Autonomous Mode")
+    
+    def setChangeModeButtonTextControlled(self, event):
+        self.changeModeButton.setText("Change to Controlled Mode")
 
     def setup_log(self, furhat):
         print("setup log")
