@@ -28,7 +28,7 @@ val SelectUser : State = state {
         }
     }
     //If a new user enters furhat will ask if they are the patient.
-    onUserEnter(instant = true) {
+    onUserEnter() {
         if (!it.disregard){
             furhat.attend(it)
             val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej, då pratar jag inte med dig.")) as Boolean
@@ -51,12 +51,14 @@ val SelectUser : State = state {
  */
 fun findTargetUser(user: User, stringAsk: String, stringYes: String, stringNo: String) = state {
     onEntry {
+        targetUser = "None"
+        hasTargetUser = false
         val ans = furhat.askYN(stringAsk)
         if (ans == true) {
             furhat.say(stringYes)
             furhat.gesture(Gestures.BigSmile)
-            users.targetUser = user.id
-            users.hasTargetUser = true
+            targetUser = user.id
+            hasTargetUser = true
         }
         else if (ans == false){
             furhat.say(stringNo)

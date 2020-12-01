@@ -108,7 +108,7 @@ val Test : State = state {
     onEntry {
         furhat.say("Slut på konversation.")
         furhat.say("Den nuvarande användaren är.")
-        furhat.say(users.targetUser)
+        furhat.say(targetUser)
        /* furhat.ask("Vad heter du?")*/
 
         logHandler.stopLogging()

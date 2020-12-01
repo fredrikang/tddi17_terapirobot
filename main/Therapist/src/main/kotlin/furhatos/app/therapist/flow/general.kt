@@ -1,6 +1,5 @@
 package furhatos.app.therapist.flow
 
-import furhatos.event.Event
 import furhatos.flow.kotlin.*
 
 /*
@@ -14,7 +13,7 @@ val userEnterLeave = partialState {
         If the we are still focused on the target user we simply glance at the new user.
 */
     onUserEnter {
-        if ( !users.hasTargetUser ) {
+        if ( !hasTargetUser) {
             furhat.attend(it)
             val resp = call(findTargetUser(it, "Är du min patient?", "Bra! Då fortsätter vi.", "Okej, jag förstår.")) as Boolean
             if (!resp) {
@@ -31,14 +30,63 @@ val userEnterLeave = partialState {
         If our target user leaves, variables concerning the target user are reset and furhat acknowledges audibly that the targetUser has been lost.
  */
     onUserLeave {
-        if (it.id == users.targetUser) {
-            users.hasTargetUser = false
-            users.targetUser = "None"
+        if (it.id == targetUser || !hasTargetUser) {
+            hasTargetUser = false
+            targetUser = "None"
             furhat.attendNobody()
-            furhat.say("Huvudanvändare borta.")
+            furhat.say("Vart tog du vägen?")
+            call(waitingForUserState())
+            reentry()
 
-        } else {
+        }
+        /*else {
             furhat.say("Annan användare borta.") //Purely for debugging purposes.
+        }
+        */
+    }
+}
+
+fun waitingForUserState() = state {
+    include(goToControlledDialog)
+    onEntry {
+        if (users.count > 0) {
+            for (it in users.list){
+                if (!it.disregard) {
+                    furhat.attend(it)
+                    val question: String
+                    if (targetUserName != "") {
+                        question = "Är du $targetUserName?"
+                    } else {
+                        question = "Är du min patient?"
+                    }
+                    val resp = call(findTargetUser(it, question, "Bra! Då fortsätter vi.", "Okej, jag förstår.")) as Boolean
+                    if (resp) {
+                        terminate()
+                    }
+                    else {
+                        furhat.attendNobody() // If no user can be established as the patient furhat will ignore all users.
+                    }
+                }
+            }
+        }
+    }
+
+    onUserEnter() {
+        if (!it.disregard) {
+            furhat.attend(it)
+            val question: String
+            if (targetUserName != "") {
+                question = "Är du $targetUserName?"
+            } else {
+                question = "Är du min patient?"
+            }
+            val resp = call(findTargetUser(it, question, "Bra! Då fortsätter vi.", "Okej, jag förstår.")) as Boolean
+            if (resp) {
+                terminate()
+            }
+        }
+        else {
+              furhat.attendNobody()
         }
     }
 }
