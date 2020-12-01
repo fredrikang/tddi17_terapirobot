@@ -165,7 +165,7 @@ class MainWindow(QMainWindow):
 
     def setup_log(self, furhat):
         print("setup log")
-        #furhat.subscribe("furhatos.event.senses.speech.rec", append_log_client)
+        furhat.subscribe("furhatos.event.senses.speech.rec", append_log_client)
         furhat.subscribe("furhatos.event.actions.ActionSpeech", self.append_log_furhat_skill)
         furhat.subscribe("furhatos.event.senses.SenseNLUIntent", self.append_log_client)
         
@@ -196,9 +196,8 @@ class MainWindow(QMainWindow):
         self.textEdit.setPlainText("")
 
     def setupSpeech(self, furhat):
-        speech = FurhatSpeechWidget(furhat)
+        speech = FurhatSpeechWidget(furhat, self.textEdit)
         self.verticalLayout_2.addWidget(speech)
-
     
     
 
