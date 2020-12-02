@@ -9,6 +9,8 @@
 
 
 from PySide2 import QtCore, QtGui, QtWidgets
+import PySide2
+import PySide2.QtWidgets
 from PySide2.QtWidgets import QMainWindow
 import time
 import sys
@@ -171,9 +173,12 @@ class MainWindow(QMainWindow):
         
         self.listView_model = QtGui.QStandardItemModel()
         self.listView.setModel(self.listView_model)
+
     def append_log_client(self, event):
         item = QtGui.QStandardItem("CLIENT: " + event.text)
         self.listView_model.appendRow(item)
+        self.listView.scrollToBottom()
+        print("fuck furhat more")
 
     def append_log_furhat_skill(self, event):
         while True:
@@ -184,6 +189,8 @@ class MainWindow(QMainWindow):
             
         item = QtGui.QStandardItem("FURHAT: " + event.text)
         self.listView_model.appendRow(item)
+        self.listView.scrollToBottom()
+        print("fuck furhat")
 
     def addVideoStream(self, host: str):
         self.fVideoWindow.start_videostream(host)

@@ -53,6 +53,8 @@ class FurhatSpeechWidget(QPushButton):
     @Slot(str)
     def setTextBoxText(self, text):
         self.editText.setPlainText(text)
+        if(text == ""):
+            self.setEnabled(True)
 
     def print_to_textbox(self, text):
         self.textBox.setPlainText(text)
@@ -61,4 +63,5 @@ class FurhatSpeechWidget(QPushButton):
         self.speech_async_thread.listening = True
         self.speech_async_thread.start()
         self.speech_thread.start()
+        self.setEnabled(False)
         #print(self.speech_thread.listening)
