@@ -18,6 +18,7 @@ var targetUserID : String = "None" //String for the user ID of the targetUser, t
 var userName : String = ""
 var userCity : String = ""
 var userMood : String = ""
+var userWellbeing : Int = -1
 
 //Adding get/set for the new variables "in" UserManager.
 var targetUser : String
@@ -39,3 +40,7 @@ var targetUserCity : String
 var targetUserMood : String
     get() = userMood
     set(value) { userMood = value}
+
+var targetUserWellbeing : Int
+    get() = userWellbeing
+    set(value) { userWellbeing = value}

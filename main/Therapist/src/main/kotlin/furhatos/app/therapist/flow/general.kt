@@ -19,11 +19,13 @@ val userEnterLeave = partialState {
             if (!resp) {
                 furhat.attendNobody()
             }
+            else {
+                reentry()
+            }
         }
         else {
             furhat.glance(it)
         }
-        reentry()
     }
 
 /*
