@@ -24,24 +24,24 @@ class FurhatSpeechThread(QThread):
         while True:
             res = self.recognizer.final_result_queue.get()
             text = res.alternatives[0].transcript
-            self.signal.emit(text)
-            if res.is_final:
+            self.signal.emit(text) # Print received result's transcritption into textbox
+            if res.is_final:       # If the result is final we break and send the trascription to furhat.
                 break
             
         self.listening = False 
-        #self.signal.emit(text)           
         print('Final: {}'.format(text))
         self.furhat.speak(text)
         self.recognizer.stop_record_microphone()
         self.signal.emit("")
 
-
 class FurhatSpeechWidget(QPushButton):
     def __init__(self, furhat, textBox):
         super().__init__("Microphone")
         recognizer = SpeechRecognition(
-        API_KEY_LOCATION=os.path.join('../_key','GAPI.json'), 
-        save_audio_files=True)
+            API_KEY_LOCATION=os.path.join('../_key','GAPI.json'), 
+            save_audio_files=True,
+            debug=False
+        )
         self.listening = False
         self.speech_async_thread = FurhatSpeechAsyncThread(recognizer, self.listening )
         self.speech_thread = FurhatSpeechThread(recognizer, furhat, self.listening)
@@ -53,7 +53,7 @@ class FurhatSpeechWidget(QPushButton):
     @Slot(str)
     def setTextBoxText(self, text):
         self.editText.setPlainText(text)
-        if(text == ""):
+        if text == "":
             self.setEnabled(True)
 
     def print_to_textbox(self, text):
@@ -64,4 +64,3 @@ class FurhatSpeechWidget(QPushButton):
         self.speech_async_thread.start()
         self.speech_thread.start()
         self.setEnabled(False)
-        #print(self.speech_thread.listening)
