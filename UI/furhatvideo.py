@@ -113,7 +113,7 @@ class FurhatVideoAudioWidget(QWidget):
         self.recordButton = QPushButton("Record")
         self.recordButton.clicked.connect(self.start_recording)
         self.button_layout.addWidget(self.recordButton)
-        self.muteButton = QPushButton("Mute")
+        self.muteButton = QPushButton("Mute Audio Stream")
         self.muteButton.clicked.connect(self.mute)
         self.button_layout.addWidget(self.muteButton)
         self.isRecording = False
@@ -154,8 +154,11 @@ class FurhatVideoAudioWidget(QWidget):
     def mute(self):
         if not self.videoWindow.ath.isMuted:
             self.videoWindow.ath.isMuted = True
+            self.muteButton.setText("Unmute Audio Stream")
         else:
             self.videoWindow.ath.isMuted = False
+            self.muteButton.setText("Mute Audio Stream")
+
 
 
 class FurhatVideoAudioWidgetStream(QWidget):

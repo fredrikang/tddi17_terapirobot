@@ -178,7 +178,6 @@ class MainWindow(QMainWindow):
         item = QtGui.QStandardItem("CLIENT: " + event.text)
         self.listView_model.appendRow(item)
         self.listView.scrollToBottom()
-        print("fuck furhat more")
 
     def append_log_furhat_skill(self, event):
         while True:
@@ -191,7 +190,6 @@ class MainWindow(QMainWindow):
         item = QtGui.QStandardItem("FURHAT: " + event.text)
         self.listView_model.appendRow(item)
         self.listView.scrollToBottom()
-        print("fuck furhat")
 
     def addVideoStream(self, host: str):
         self.fVideoWindow.start_videostream(host)
