@@ -104,12 +104,12 @@ val goToControlledDialog = partialState {
     */
     onEvent("ChangeModeEvent") {
         send("CancelAutonomousState")
-        call(controlledDialogState())
-        reentry()
     }
 
     onEvent("CancelAutonomousState") {
         println("Exiting Autonomous State")
+        call(controlledDialogState())
+        reentry()
     }
 }
 

@@ -26,10 +26,11 @@ fun controlledDialogState() = state {
     */
     onEvent("ChangeModeEvent") {
         send("CancelControlledDialogState")
-        terminate()
+        
     }
 
     onEvent("CancelControlledDialogState") {
-        println("Exiting Controlled Dialog State by force.")
+        println("Exiting Controlled Dialog.")
+        terminate()
     }
 }
