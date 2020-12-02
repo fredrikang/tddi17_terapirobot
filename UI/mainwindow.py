@@ -178,9 +178,10 @@ class MainWindow(QMainWindow):
     def append_log_furhat_skill(self, event):
         while True:
             i = event.text.find('<')
-            if i == -1:
-                break
-            event.text = event.text.replace(event.text[i:event.text.find('>', i + 1) + 1], '')
+            if i == -1: break
+            j = event.text.find('>', i + 1)
+            if j == -1: break
+            event.text = event.text.replace(event.text[i:j + 1], '')
             
         item = QtGui.QStandardItem("FURHAT: " + event.text)
         self.listView_model.appendRow(item)
