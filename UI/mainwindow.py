@@ -176,11 +176,14 @@ class MainWindow(QMainWindow):
         self.listView_model.appendRow(item)
 
     def append_log_furhat_skill(self, event):
-        pitch = (event.text.find('>') != -1)
-        if not pitch:
-            item = QtGui.QStandardItem("FURHAT: " + event.text)
-        else:
-            item = QtGui.QStandardItem("FURHAT: " + event.text.split('>')[1].split('<')[0])
+        while True:
+            i = event.text.find('<')
+            if i == -1: break
+            j = event.text.find('>', i + 1)
+            if j == -1: break
+            event.text = event.text.replace(event.text[i:j + 1], '')
+            
+        item = QtGui.QStandardItem("FURHAT: " + event.text)
         self.listView_model.appendRow(item)
 
     def addVideoStream(self, host: str):
