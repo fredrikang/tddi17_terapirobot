@@ -1,0 +1,5 @@
+Initialize :GoToDialogInitEvent
+Introduction :GoToIntroductionEvent
+Select User :GoToSelectUserEvent
+Robot Appearance :GoToAppearanceStateGenderEvent
+End conversation :GoToTestEvent
