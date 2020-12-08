@@ -11,10 +11,10 @@ install_linux() {
   fi
   DIST=$(lsb_release -is)
   if [[ "$DIST" == "Arch" ]]; then
-    yes | pacman -S python python-pip ffmpeg
-    pip install -r requirements.txt
+    yes | pacman -S python python-pip ffmpeg opencv
+    pip install -r requirements.txt -vvv
   elif [[ "$DIST" == "Ubuntu" ]]; then
-    apt-get install -y python3 python3-pip ffmpeg
+    apt-get install -y python3 python3-pip ffmpeg opencv
     pip3 install -r requirements.txt
   else
     echo "Unsupported OS"
@@ -31,8 +31,8 @@ install_mac() {
     echo "Installing brew"
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
-  brew install python3 ffmpeg
-  pip3 install -r requirements.txt --no-binary :all -vvv
+  brew install python3 ffmpeg opencv
+  pip3 install -r requirements.txt -vvv
 }
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then

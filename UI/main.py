@@ -7,6 +7,11 @@ from PySide2.QtCore import QFile, QIODevice
 from furhatinterface import FurhatInterface
 
 if __name__ == "__main__":
+    if len(sys.argv) == 0:
+        host = "192.168.43.131"
+    else:
+        host = sys.argv[0]
+        
     app = QApplication(sys.argv)
     window = mainwindow.MainWindow()
     furhat = FurhatInterface("TestingFurhat", "192.168.43.131")
