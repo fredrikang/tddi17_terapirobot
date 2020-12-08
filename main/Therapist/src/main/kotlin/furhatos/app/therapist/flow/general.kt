@@ -139,6 +139,9 @@ val changeState = partialState {
     onEvent("GoToAskWellbeingStateEvent") {
         goto(AskWellbeingState)
     }
+    onEvent("GoToResetStateEvent") {
+        goto(ResetState)
+    }
 
 }
 
@@ -147,6 +150,7 @@ val changeState = partialState {
     in CustomGestures upon an ActionGesture event with the custom gesture's name.
     Include it in any states during which the UI
     should be able to send custom gestures to the robot.
+    Currently, it is only included in controlledDialogState.
  */
 val customGesture = partialState {
 

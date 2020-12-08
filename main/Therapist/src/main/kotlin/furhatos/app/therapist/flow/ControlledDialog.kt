@@ -9,7 +9,6 @@ import furhatos.flow.kotlin.state
     this partial state, so that the normal flow can be interrupted and resumed whenever desired.
 */
 fun controlledDialogState() = state {
-
     include(customGesture)
 
     /*
