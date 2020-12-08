@@ -1,5 +1,5 @@
 package furhatos.app.therapist.flow
-
+import furhatos.app.therapist.Constants
 import furhatos.app.therapist.streaming.MicrophoneStreamingServer
 import furhatos.autobehavior.userSpeechStartGesture
 import furhatos.flow.kotlin.*
@@ -11,10 +11,9 @@ import furhatos.util.*
     This state is for initializing things that are necessary for the dialog flow.
 */
 val DialogInit: State = state {
-    include(changeState)
     init {
         //Set initial face texture and voice.
-        furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
+        furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high", rate = Constants.SPEECH_SPEED)
         furhat.setInputLanguage(Language.SWEDISH)
         furhat.setTexture("Angelina")
         //disable smile on user speech
@@ -26,16 +25,13 @@ val DialogInit: State = state {
             server.init()
             server.start()
         } catch (e: Exception) {
-           // furhat.say("Exception " + e.message)
             e.printStackTrace()
         }
 
         //Start video feed
         furhat.cameraFeed.enable()
 
-        //Start logging
-
-        goto(Introduction)
+        goto(SelectUser)
     }
 }
 

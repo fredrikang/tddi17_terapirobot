@@ -14,39 +14,32 @@ val userEnterLeave = partialState {
         If the targetUser has been lost and a new user enters we once again check if the User is our patient.
         If the we are still focused on the target user we simply glance at the new user.
 */
-    onUserEnter {
-        if ( !hasTargetUser) {
-            furhat.attend(it)
-            val resp = call(findTargetUser(it, "Är du min patient?", "Bra! Då fortsätter vi.", "Okej, jag förstår.")) as Boolean
-            if (!resp) {
-                furhat.attendNobody()
-            }
-            else {
-                reentry()
-            }
+    onUserEnter( cond = { !hasTargetUser }) {
+        furhat.attend(it)
+        val resp = call(findTargetUser(it, "Är du min patient?", "Bra! Då fortsätter vi.", "Okej, jag förstår.")) as Boolean
+        if (!resp) {
+            furhat.attendNobody()
         }
         else {
-            furhat.glance(it)
+            reentry()
         }
     }
+
+    onUserEnter(instant = true) {
+        furhat.glance(it)
+    }
+
 
 /*
         If our target user leaves, variables concerning the target user are reset and furhat acknowledges audibly that the targetUser has been lost.
  */
-    onUserLeave {
-        if (it.id == targetUser || !hasTargetUser) {
-            hasTargetUser = false
-            targetUser = "None"
-            furhat.attendNobody()
-            furhat.say("Vart tog du vägen?")
-            call(waitingForUserState())
-            reentry()
-
-        }
-        /*else {
-            furhat.say("Annan användare borta.") //Purely for debugging purposes.
-        }
-        */
+    onUserLeave(cond = {it.id == targetUser || !hasTargetUser}) {
+        hasTargetUser = false
+        targetUser = "None"
+        furhat.attendNobody()
+        furhat.say("Vart tog du vägen?")
+        call(waitingForUserState())
+        reentry()
     }
 }
 
@@ -117,21 +110,13 @@ val goToControlledDialog = partialState {
     }
 }
 
-
-val changeState = partialState {
 /*
-    onEvent<ChangeStateEvent> {
-        furhat.say("Tog emot event.")
-        when (it.stateName) {
-            "DialogInit" -> goto(DialogInit)
-            "Introduction" -> goto(Introduction)
-            "SelectUser" -> goto(SelectUser)
-            "AppearanceStateGender" -> goto(AppearanceStateGender)
-            "Test" -> goto(Test)
-            else -> {}
-        }
-  */
-
+    The following partial state contains triggers to move to a different state of the flow.
+    Include this partial state in states where the user should be able to switch state through the user interface.
+    For a newly added state to be available, it needs to be included in it's own trigger here, and a button can then be
+    added to raise the event in the user interface.
+*/
+val changeState = partialState {
 
     onEvent("GoToDialogInitEvent") {
         goto(DialogInit)
@@ -145,13 +130,17 @@ val changeState = partialState {
     onEvent("GoToAppearanceStateGenderEvent") {
         goto(AppearanceStateGender)
     }
-    onEvent("GoToTestEvent") {
-        goto(Test)
+    onEvent("GoToEndEvent") {
+        goto(EndState)
+    }
+    onEvent("GoToAskNameStateEvent") {
+        goto(AskNameState)
+    }
+    onEvent("GoToAskWellbeingStateEvent") {
+        goto(AskWellbeingState)
     }
 
 }
-
-//class ChangeStateEvent(val stateName: String) : Event()
 
 /*
     This partial state adds support for performing any custom gesture defined

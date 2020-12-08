@@ -23,15 +23,15 @@ val AskNameState: State = state{
     onEntry {
         targetUserName = furhat.askFor<PersonName>("Vad heter du?").toString()
         furhat.say("Hej $targetUserName.")
-        goto(askMoodState)
+        goto(AppearanceStateGender)
     }
 }
 
 /*
     This asks for the user's mood, and uses a WildcardIntent, which is not error checked. It also uses
     randomization to vary the speech pattern of the robot.
- */
-val askMoodState: State = state{
+*/
+val AskMoodState: State = state{
     include(goToControlledDialog)
     include(changeState)
     include(userEnterLeave)
@@ -39,9 +39,10 @@ val askMoodState: State = state{
         targetUserMood = furhat.askFor<MoodEntity>({random {
                                                     +"Hur mår du i dag?"
                                                     +"Hur står det till?"
-                                                    +"Hur är läget?"
+                                                    +"Hur har du det?"
+                                                    +"Hur är det?"
                                                      }}).toString()
-        goto(askCityState)
+        goto(AskCityState)
     }
 }
 
@@ -49,7 +50,7 @@ val askMoodState: State = state{
     This state also uses a WildcardEntity, and showcases how follow-up questions can be asked to better interact
     with the user.
  */
-val askCityState: State = state{
+val AskCityState: State = state{
     include(goToControlledDialog)
     include(changeState)
     include(userEnterLeave)
@@ -63,15 +64,16 @@ val askCityState: State = state{
                 furhat.say("Okej, så du flyttade till $targetUserCity från $previousCity. Hoppas att du trivs i $targetUserCity.")
             }
         }
-        goto(askWellbeingState)
+        goto(AskWellbeingState)
     }
 }
 
 /*
     This state uses an EnumEntity to only allow user to respond with the numbers one to ten. The response can then be
-    used in different ranges to provoke different responses. The userElaboration variable is not currently used.
+    used in different ranges to provoke different responses. The userElaboration variable is not currently used, but
+    shows how specific onResponse triggers may be used in askFor statements..
  */
-val askWellbeingState: State = state{
+val AskWellbeingState: State = state{
     include(goToControlledDialog)
     include(changeState)
     include(userEnterLeave)
@@ -83,7 +85,7 @@ val askWellbeingState: State = state{
                 userElaboration = furhat.askFor("Okej, så du mår inte så bra i dag. Har det hänt något särskilt?") {
                     onResponse<No> {
                         furhat.say("Okej, bara dåligt i allmänhet, alltså.")
-                        goto(Test)
+                        goto(EndState)
                     }
                 }
                 furhat.say("Okej. Tråkigt att höra.")
@@ -92,7 +94,7 @@ val askWellbeingState: State = state{
             in 8..10 -> furhat.say("Skönt att höra att du mår bra!")
             else -> furhat.say("Ogiltigt")
         }
-        goto(Test)
+        goto(EndState)
     }
 }
 
