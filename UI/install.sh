@@ -10,7 +10,7 @@ install_linux() {
     exit 1
   fi
   DIST=$(lsb_release -is)
-  if [[ "$DIST" == "Arch" ]]; then
+  if [[ "$DIST" == "Arch" ]] || [[ "$DIST" == "ManjaroLinux" ]]; then
     yes | pacman -S python python-pip ffmpeg opencv
     pip install -r requirements.txt -vvv
   elif [[ "$DIST" == "Ubuntu" ]]; then
