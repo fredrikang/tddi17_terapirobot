@@ -1,5 +1,7 @@
 package furhatos.app.therapist.flow
 
+import furhatos.app.therapist.gestures.CustomGestures
+import furhatos.event.actions.ActionGesture
 import furhatos.flow.kotlin.*
 
 /*
@@ -150,3 +152,21 @@ val changeState = partialState {
 }
 
 //class ChangeStateEvent(val stateName: String) : Event()
+
+/*
+    This partial state adds support for performing any custom gesture defined
+    in CustomGestures upon an ActionGesture event with the custom gesture's name.
+    Include it in any states during which the UI
+    should be able to send custom gestures to the robot.
+ */
+val customGesture = partialState {
+
+    onEvent<ActionGesture> {
+        if (it.gesture == null && it.name != null) {
+            val gesture = CustomGestures.getByName(it.name!!)
+            if (gesture != null) {
+                furhat.gesture(gesture)
+            }
+        }
+    }
+}
