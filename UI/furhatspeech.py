@@ -36,7 +36,7 @@ class FurhatSpeechThread(QThread):
 
 class FurhatSpeechWidget(QPushButton):
     def __init__(self, furhat, textBox):
-        super().__init__("Microphone")
+        super().__init__("Push to record speech")
         recognizer = SpeechRecognition(
             API_KEY_LOCATION=os.path.join('../_key','GAPI.json'), 
             save_audio_files=True,

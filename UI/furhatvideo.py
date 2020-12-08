@@ -21,7 +21,7 @@ class FurhatVideoThread(QThread):
     def StartStream(self, host):
         context = zmq.Context()
         host = 'tcp://{0}:3000'.format(host)
-        print('Setting host to: {0}'.format(host))
+        print('Setting ZMQ host to: {0}'.format(host))
 
         self.footage_socket = context.socket(zmq.SUB)
         self.footage_socket.setsockopt_string(zmq.SUBSCRIBE, u"")
@@ -31,15 +31,13 @@ class FurhatVideoThread(QThread):
         
     def run(self):
         print('Listening to camera stream')
-        #global stop_threads
-        while  True:
+        while True:
             frame = self.footage_socket.recv()
             imgBuff = np.frombuffer(frame, dtype=np.uint8)
             img = cv2.imdecode(imgBuff, cv2.IMREAD_COLOR)
             if self.record_output:
                 self.video_writer.write(img)
             if True:
-                # https://stackoverflow.com/a/55468544/6622587
                 rgbImage = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
@@ -113,7 +111,7 @@ class FurhatVideoAudioWidget(QWidget):
         self.recordButton = QPushButton("Record")
         self.recordButton.clicked.connect(self.start_recording)
         self.button_layout.addWidget(self.recordButton)
-        self.muteButton = QPushButton("Mute Audio Stream")
+        self.muteButton = QPushButton("Mute")
         self.muteButton.clicked.connect(self.mute)
         self.button_layout.addWidget(self.muteButton)
         self.isRecording = False
@@ -154,11 +152,9 @@ class FurhatVideoAudioWidget(QWidget):
     def mute(self):
         if not self.videoWindow.ath.isMuted:
             self.videoWindow.ath.isMuted = True
-            self.muteButton.setText("Unmute Audio Stream")
+            
         else:
             self.videoWindow.ath.isMuted = False
-            self.muteButton.setText("Mute Audio Stream")
-
 
 
 class FurhatVideoAudioWidgetStream(QWidget):
@@ -194,37 +190,23 @@ class FurhatVideoAudioWidgetStream(QWidget):
         self.ath.StartRecording()
         self.vth.StartRecording()
         self.nameOfFile = name
-        print(name)
         
     def StopRecording(self):
 
         if self.nameOfFile:
-            print("stopped _ " + self.nameOfFile)
             self.ath.StopRecording()
             self.vth.StopRecording()
-            print("stopped _ 1")
-
             th = CombineAudioVideoThread(self)
             th.nameOfFile = self.nameOfFile
-            print("stopped _ 2")
-
             th.start()
             
 
 class CombineAudioVideoThread(QThread):
-
     nameOfFile = None
     def run(self):
         video = ffmpeg.input("temp_video_output.avi")
         audio = ffmpeg.input("temp_audio_output.wav")
-        print("stopped _ 3")
-
         output = ffmpeg.output(video, audio, self.nameOfFile, vcodec='copy', acodec='aac')
-        print("stopped _ 4")
+        output.run(overwrite_output=True)
 
-        output.run(overwrite_output=True) #This crashed the whole UI
-        print("stopped _ 5")
 
-def run_stream(host, width, height, record_output):
-    stream = FurHatStream(host=host, size=(int(width), int(height)), record_output=record_output)
-    stream.run()

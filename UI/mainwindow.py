@@ -80,7 +80,7 @@ class MainWindow(QMainWindow):
         self.verticalLayout_2.addWidget(self.listView)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.textEdit = QtWidgets.QTextEdit(self.frame)
+        self.textEdit = QtWidgets.QLineEdit(self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -201,11 +201,11 @@ class MainWindow(QMainWindow):
     
     def setupSendButton(self, furhat):
         self.pushButtonSend.clicked.connect(lambda state = False: self.speak(furhat))
-
+        self.textEdit.returnPressed.connect(self.pushButtonSend.click)
     
     def speak(self, furhat):
-        furhat.speak(self.textEdit.toPlainText())
-        self.textEdit.setPlainText("")
+        furhat.speak(self.textEdit.text())
+        self.textEdit.setText("")
 
     def setupSpeech(self, furhat):
         speech = FurhatSpeechWidget(furhat, self.textEdit)
