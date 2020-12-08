@@ -22,11 +22,12 @@ from furhatvideo import FurhatVideoAudioWidget
 from furhatspeech import FurhatSpeechWidget
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, app):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.retranslateUi(self)
         QtCore.QMetaObject.connectSlotsByName(self)
+        app.aboutToQuit.connect(self.exit_threads)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -127,6 +128,13 @@ class MainWindow(QMainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "FurhatController"))
         self.pushButtonSend.setText(_translate("MainWindow", "Send"))
+
+    def exit_threads(self):
+        print("Exiting")
+        self.fVideoWindow.stop()
+        self.furhat.stop()
+    def set_furhat(self, furhat):
+        self.furhat = furhat
 
     def addDefaultPhraseButtons(self, furhat):
         ## Default Buttons ##

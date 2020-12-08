@@ -53,7 +53,7 @@ class FurhatTCPConnection():
     def stop(self):
         """Stop the listen thread and use join to make it wait until it is done."""
         self.listen = False
-        self.listen_thread.join()
+        #self.listen_thread.join()
 
     def send_event(self, event : FurhatEvent):
         """Used to send a event to the robot."""
@@ -72,7 +72,9 @@ class FurhatInterface():
         self.connection.connect()
         self.subscriptions = []
 
-
+    def stop(self):
+        self.connection.stop()
+        
     def subscribe(self, event :str, callback : callable):
         """Used to subscribe to an event that is sent from the robot."""
         if not event in self.subscriptions:

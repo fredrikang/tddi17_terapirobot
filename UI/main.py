@@ -13,8 +13,9 @@ if __name__ == "__main__":
         host = sys.argv[0]
         
     app = QApplication(sys.argv)
-    window = mainwindow.MainWindow()
+    window = mainwindow.MainWindow(app)
     furhat = FurhatInterface("TestingFurhat", "192.168.43.131")
+    window.set_furhat(furhat)
     #furhat.start_skill("Therapist-all")
     window.addDefaultPhraseButtons(furhat)
     window.addGestureButtons(furhat)

@@ -28,16 +28,17 @@ class FurhatVideoThread(QThread):
         self.footage_socket.setsockopt(zmq.RCVHWM, 1)
         self.footage_socket.setsockopt(zmq.CONFLATE, 1)
         self.footage_socket.connect(host)
+        self.enabled = True
         
     def run(self):
         print('Listening to camera stream')
-        while True:
+        while self.enabled:
             frame = self.footage_socket.recv()
             imgBuff = np.frombuffer(frame, dtype=np.uint8)
             img = cv2.imdecode(imgBuff, cv2.IMREAD_COLOR)
             if self.record_output:
                 self.video_writer.write(img)
-            if True:
+            if self.enabled:
                 rgbImage = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
@@ -47,6 +48,9 @@ class FurhatVideoThread(QThread):
 
         if self.record_output:
             self.StopRecording()
+
+    def stop(self):
+        self.enabled = False
 
     def StartRecording(self):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -70,6 +74,7 @@ class FurhatAudioStream(QThread):
                                      rate     = self.wave_obj.getframerate(),
                                      output   = True)
         self.isMuted = False
+        self.enabled = True
 
     def StartRecording(self):
         self.audio_writer = wave.open("temp_audio_output.wav", 'wb')
@@ -81,7 +86,7 @@ class FurhatAudioStream(QThread):
         self.audio_writer.close()
 
     def run(self):
-        while True:
+        while self.enabled:
             data = self.audio_socket.recv(self.BUFFER_SIZE)
             if not self.isMuted:
                 self.speaker_stream.write(data)
@@ -91,6 +96,9 @@ class FurhatAudioStream(QThread):
 
         if self.record_output:
             self.audio_writer.close()
+
+    def stop(self):
+        self.enabled = False
 
 class FurhatVideoAudioWidget(QWidget):
     def __init__(self):
@@ -117,6 +125,10 @@ class FurhatVideoAudioWidget(QWidget):
         self.isRecording = False
         
     
+    def stop(self):
+        self.videoWindow.ath.stop()
+        self.videoWindow.vth.stop()
+
 
     def start_videostream(self, host : str):
         self.videoWindow.start_videostream(host)
