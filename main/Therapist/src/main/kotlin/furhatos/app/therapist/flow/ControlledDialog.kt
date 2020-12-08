@@ -10,6 +10,8 @@ import furhatos.flow.kotlin.state
 */
 fun controlledDialogState() = state {
 
+    include(customGesture)
+
     /*
         This is placeholder, to see that the state transition is working. In the final product, this state should not
         have any interaction built-in at all. The onEntry function could then be removed.

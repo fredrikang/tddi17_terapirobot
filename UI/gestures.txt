@@ -17,3 +17,4 @@ Smile:Smile
 Look surprised:Surprise
 Think:Thoughtful
 Wink:Wink
+Custom Smile:MySmile
