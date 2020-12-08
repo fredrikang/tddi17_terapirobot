@@ -12,8 +12,8 @@ import kotlin.reflect.full.declaredMemberProperties
  */
 object CustomGestures {
 
-    // Example custom gesture from https://docs.furhat.io/gestures/
-    val MySmile = defineGesture("MySmile") {
+    // Example custom gesture from https://docs.furhat.io/gestures/ but longer
+    val LongSmile = defineGesture("LongSmile") {
         frame(0.32, 0.72) {
             SMILE_CLOSED to 0.5
         }
@@ -25,7 +25,7 @@ object CustomGestures {
             BLINK_LEFT to 0.1
             BLINK_RIGHT to 0.1
         }
-        reset(1.04)
+        reset(2.04)
     }
 
     /* Automatically finds the gestures declared above using reflection */
