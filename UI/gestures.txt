@@ -1,0 +1,19 @@
+Big smile:BigSmile
+Blink:Blink
+Frown:BrowFrown
+Raise brows:BrowRaise
+Close eyes:CloseEyes
+Anger:ExpressAnger
+Disgust:ExpressDisgust
+Fear:ExpressFear
+Sad:ExpressSad
+Look away:GazeAway
+Nod:Nod
+Oh:Oh
+Open eyes:OpenEyes
+Roll head:Roll
+Shake head:Shake
+Smile:Smile
+Look surprised:Surprise
+Think:Thoughtful
+Wink:Wink

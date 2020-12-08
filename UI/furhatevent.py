@@ -107,7 +107,15 @@ class AttendEvent(FurhatEvent):
         self.speed = speed
 
 class SkillConnectEvent(FurhatEvent):
-    def __init__(self, text: str):
+    def __init__(self, name: str):
         super().__init__("furhatos.event.actions.ActionSkillConnect")
-        self.text = text
-        self.monitorWords = True
+        self.name = name
+class ChangeModeEvent(FurhatEvent):
+    """This is a custom event"""
+    def __init__(self):
+        super().__init__("ChangeModeEvent")
+
+class ChangeStateEvent(FurhatEvent):
+    """This is a custom event"""
+    def __init__(self, name : str):
+        super().__init__(name)

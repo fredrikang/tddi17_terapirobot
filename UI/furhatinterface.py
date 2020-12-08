@@ -40,13 +40,14 @@ class FurhatTCPConnection():
             try:
                 message = self.socket.recv(4096).decode('utf-8')
                 #Trigger events here
+                print(message)
                 if "EVENT" not in message: 
                     continue
-                message = message.split("\n")[1]#self.socket.recv(4096).decode('utf-8')
+                message = message.split("\n")[1]#self.socket.recv(4096).decode('utf-8')              
                 event = FurhatIncomingEvent(message)
-                print("RECEIVED EVENT: ", event.event_name)
+                #print("RECEIVED EVENT: ", event.event_name)
                 self.subscriptions.trigger(event)
-            except socket.timeout:
+            except (socket.timeout, IndexError):
                 pass
 
     def stop(self):
@@ -58,8 +59,10 @@ class FurhatTCPConnection():
         """Used to send a event to the robot."""
         event.print_event()
         event.send(self.socket)
+        self.subscriptions.trigger(event)
     def subscribe(self, event : str):
-        """Used to send a event to the robot."""
+        """Used to send subscribe to an event from the robot."""
+        
         self.socket.send(bytes("SUBSCRIBE {} \n".format(event),"utf-8"))
 
 class FurhatInterface():
@@ -67,21 +70,39 @@ class FurhatInterface():
     def __init__(self, name : str, host : str):
         self.connection = FurhatTCPConnection(name, host)
         self.connection.connect()
+        self.subscriptions = []
 
-    """Used to subscribe to an event that is sent from the robot."""
+
     def subscribe(self, event :str, callback : callable):
-        self.connection.subscriptions.register(event, callback)
-        self.connection.subscribe(event)
+        """Used to subscribe to an event that is sent from the robot."""
+        if not event in self.subscriptions:
+            self.subscriptions.append(event)
+            self.connection.subscriptions.register(event, callback)
+            print(' '.join(self.subscriptions))
+            self.connection.subscribe(' '.join(self.subscriptions))
 
-    """Used to make the robot speak."""
+
     def speak(self, text: str, monitorWords = True):
+        """Used to make the robot speak."""
         self.connection.send_event(SpeechEvent(text, monitorWords))
-    """Used to make the robot look at a point(x, y, z)"""
     def gaze(self, x: int, y:int, z:int, mode : str = 2,  speed : str = 2):
+        """Used to make the robot look at a point(x, y, z)"""
         self.connection.send_event(GazeEvent(Location(x, y, z), mode, speed))
     def led(self, red: int, green:int, blue:int):
+        """Used to make the robot look at a point(x, y, z)"""
         self.connection.send_event(LEDSolidEvent(red, green, blue))
-
+    def change_mode(self):
+        """Used to send a Custom ChangeModeEvent to the robot"""
+        self.connection.send_event(ChangeModeEvent())
+    def start_skill(self, name : str):
+        """Used to send a SendSkill event to the robot"""
+        self.connection.send_event(SkillConnectEvent(name))
+    def goto(self, state_name : str):
+        """Used to send a SendSkill event to the robot"""
+        self.connection.send_event(ChangeStateEvent(state_name))
+    def gesture(self, name : str):
+        """Used to make the robot perform a gesture"""
+        self.connection.send_event(GestureEvent(name))
 
         
     

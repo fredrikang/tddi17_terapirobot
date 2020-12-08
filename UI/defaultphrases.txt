@@ -1,0 +1,6 @@
+Greet :hej och välkommen
+Yes :ja 
+No :nej 
+Think :jag får fundera lite på det
+Goodbye :hejdå och ha det bra
+Presentation :hej mitt namn är furhat och jag är en terapirobot

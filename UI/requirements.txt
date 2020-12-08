@@ -1,0 +1,11 @@
+imutils
+numpy
+opencv-python==4.4.0.44
+pyzmq
+docopt
+pyaudio
+pyside2
+ffmpeg-python
+grpcio
+google-api
+google-cloud-speech
