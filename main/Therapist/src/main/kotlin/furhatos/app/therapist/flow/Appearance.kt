@@ -1,13 +1,11 @@
 package furhatos.app.therapist.flow
 
-import furhatos.app.therapist.logHandler
+import furhatos.app.therapist.Constants
 import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.Voice
 import furhatos.util.Gender
 import furhatos.util.Language
 import furhatos.app.therapist.nlu.*
-
-
 
 
 /*
@@ -22,8 +20,8 @@ val AppearanceStateGender : State = state {
     include(changeState)
     onEntry {
         furhat.say{+"Jag kan ta flera olika utseenden. Jag kan se ut som en kvinna"
-            +delay(1000)}
-        furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB)
+                   +delay(1000)}
+        furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB, rate = Constants.SPEECH_SPEED)
         furhat.setTexture("Geremy")
         furhat.setInputLanguage(Language.SWEDISH)
         furhat.ask("Eller så kan jag se ut som en man. Vilket föredrar du, manligt eller kvinnligt?")
@@ -34,18 +32,21 @@ val AppearanceStateGender : State = state {
     }
     onResponse<MaleIntent> {
         furhat.say("Okej, då tar jag manligt utseende.")
-        furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB)
+        furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB, rate = Constants.SPEECH_SPEED)
         furhat.setTexture("Geremy")
         furhat.setInputLanguage(Language.SWEDISH)
         call(AppearanceStateSpecifics(false))
+        furhat.say("Jag ser fram emot att få lära känna dig bättre.")
+        goto(AskMoodState)
     }
 
     onResponse<FemaleIntent> {
         furhat.say("Okej, då tar jag kvinnligt utseende.")
-        furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
+        furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high", rate = Constants.SPEECH_SPEED)
         furhat.setTexture("Angelina")
         call(AppearanceStateSpecifics(true))
-        goto(Test)
+        furhat.say("Jag ser fram emot att få lära känna dig bättre.")
+        goto(AskMoodState)
     }
 }
 
@@ -61,11 +62,11 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state {
             +delay(1000)}
         if(female)
         {
-            furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH)
+            furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, rate = Constants.SPEECH_SPEED)
             furhat.setTexture("Arianna")
         }
         else{
-            furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB, pitch = "low")
+            furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB, pitch = "low", rate = Constants.SPEECH_SPEED)
             furhat.setTexture("Max")
             furhat.setInputLanguage(Language.SWEDISH)
         }
@@ -79,11 +80,11 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state {
     onResponse<Nr1Intent> {
         if(female)
         {
-            furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high")
+            furhat.voice = Voice(gender = Gender.FEMALE, language = Language.SWEDISH, pitch = "high", rate = Constants.SPEECH_SPEED)
             furhat.setTexture("Angelina")
         }
         else{
-            furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB)
+            furhat.voice = Voice(gender = Gender.MALE, language = Language.ENGLISH_GB, rate = Constants.SPEECH_SPEED)
             furhat.setTexture("Geremy")
             furhat.setInputLanguage(Language.SWEDISH)
         }
@@ -98,24 +99,6 @@ fun AppearanceStateSpecifics(female : Boolean) : State = state {
 }
 
 
-/*
-    This state is for debug purposes only. It represents an end state.
-*/
-val Test : State = state {
-    include(userEnterLeave)
-    include(goToControlledDialog)
-    include(changeState)
-    onEntry {
-        furhat.say("Slut på konversation.")
-        furhat.say("Den nuvarande användaren är.")
-        furhat.say(targetUser)
-       /* furhat.ask("Vad heter du?")*/
 
-        logHandler.stopLogging()
-    }
-   /* onResponse{
-        furhat.say("Hej ${it.text} trevligt att träffas.")
-    }*/
-}
 
 

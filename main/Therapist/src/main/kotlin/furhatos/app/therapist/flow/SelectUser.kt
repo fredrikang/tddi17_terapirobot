@@ -18,8 +18,7 @@ val SelectUser : State = state {
                     furhat.attend(it)
                     val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej, då pratar jag inte med dig.")) as Boolean
                     if (resp) {
-                        goto(AskNameState)
-                        goto(AppearanceStateGender)
+                        goto(Introduction)
                     }
                     else {
                         furhat.attendNobody() // If no user can be established as the patient, furhat will ignore all users.
@@ -34,8 +33,7 @@ val SelectUser : State = state {
             furhat.attend(it)
             val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej, då pratar jag inte med dig.")) as Boolean
             if (resp) {
-                goto(AskNameState)
-                goto(AppearanceStateGender)
+                goto(Introduction)
             }
             else {
                 furhat.attendNobody()
