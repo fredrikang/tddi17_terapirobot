@@ -11,10 +11,10 @@ install_linux() {
   fi
   DIST=$(lsb_release -is)
   if [[ "$DIST" == "Arch" ]] || [[ "$DIST" == "ManjaroLinux" ]]; then
-    yes | pacman -S python python-pip ffmpeg opencv
+    yes | pacman -S python python-pip ffmpeg opencv tk
     pip install -r requirements.txt -vvv
   elif [[ "$DIST" == "Ubuntu" ]]; then
-    apt-get install -y python3 python3-pip ffmpeg opencv
+    apt-get install -y python3 python3-pip ffmpeg opencv python3-tk
     pip3 install -r requirements.txt
   else
     echo "Unsupported OS"
