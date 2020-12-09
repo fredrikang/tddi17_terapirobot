@@ -12,7 +12,7 @@ class ChatBubble:
     """
     def __init__(self, master, color, timestamp, message, user, screenmetrics):
         self.master = master
-        self.user = user.split('.')[0]
+        self.user = user
         self.frame = tk.Frame(master, bg=color)
         self.bgColor = "light grey"
 
