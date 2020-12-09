@@ -70,12 +70,12 @@ class Log:
             return "[SILENT]"
         else:
         	while True:
-		    i = self.data[selected][index]['text'].find('<')
-		    if i == -1:
-		        break
-		    self.data[selected][index]['text'] = self.data[selected][index]['text'].replace(
-                self.data[selected][index]['text'][i:self.data[selected][index]['text'].find('>', i + 1) + 1], ''
-            )
+		        i = self.data[selected][index]['text'].find('<')
+		        if i == -1:
+		            break
+		        self.data[selected][index]['text'] = self.data[selected][index]['text'].replace(
+                    self.data[selected][index]['text'][i:self.data[selected][index]['text'].find('>', i + 1) + 1], ''
+                )
             
         if maxLength > 0:
             stok = self.data[selected][index]['text']
