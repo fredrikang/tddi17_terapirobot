@@ -22,11 +22,13 @@ from furhatvideo import FurhatVideoAudioWidget
 from furhatspeech import FurhatSpeechWidget
 
 class MainWindow(QMainWindow):
-    def __init__(self, app):
+    def __init__(self, app, furhat):
         QMainWindow.__init__(self)
+  
         self.setupUi(self)
         self.retranslateUi(self)
         QtCore.QMetaObject.connectSlotsByName(self)
+        self.furhat = furhat
         app.aboutToQuit.connect(self.exit_threads)
 
     def setupUi(self, MainWindow):
@@ -133,26 +135,24 @@ class MainWindow(QMainWindow):
         print("Exiting")
         self.fVideoWindow.stop()
         self.furhat.stop()
-    def set_furhat(self, furhat):
-        self.furhat = furhat
 
-    def addDefaultPhraseButtons(self, furhat):
+    def addDefaultPhraseButtons(self):
         ## Default Buttons ##
-        defaultPhrasesWidget = DefaultPhrasesWidget(furhat)
+        defaultPhrasesWidget = DefaultPhrasesWidget(self.furhat)
         defaultPhrasesFile = open('defaultphrases.txt', 'r')
         defaultPhrases = defaultPhrasesFile.readlines()
         defaultPhrasesWidget.addPhrases(defaultPhrases)
         self.verticalLayout_4.addWidget(defaultPhrasesWidget)
 
-    def addGestureButtons(self, furhat):
-        gesturesWidget = GesturesWidget(furhat)
+    def addGestureButtons(self):
+        gesturesWidget = GesturesWidget(self.furhat)
         gesturesFile = open('gestures.txt', 'r')
         gestures = gesturesFile.readlines()
         gesturesWidget.addGestures(gestures)
         self.verticalLayout_4.addWidget(gesturesWidget)
 
-    def addStates(self, furhat):
-        stateWidget = StateButtonsWidget(furhat)
+    def addStates(self):
+        stateWidget = StateButtonsWidget(self.furhat)
         defaultStatesFile = open('states.txt', 'r')
         defaultStates = defaultStatesFile.readlines()
         stateWidget.addStates(defaultStates)
@@ -160,12 +160,12 @@ class MainWindow(QMainWindow):
 
 
 
-    def addChangeModeButton(self, furhat):
+    def addChangeModeButton(self):
         self.changeModeButton = QtWidgets.QPushButton("Change to Controlled Mode")
-        self.changeModeButton.clicked.connect(lambda: furhat.change_mode())
+        self.changeModeButton.clicked.connect(lambda: self.furhat.change_mode())
         self.verticalLayout_4.addWidget(self.changeModeButton)
-        furhat.subscribe("CancelAutonomousState", self.setChangeModeButtonTextAuto)
-        furhat.subscribe("CancelControlledDialogState", self.setChangeModeButtonTextControlled)
+        self.furhat.subscribe("CancelAutonomousState", self.setChangeModeButtonTextAuto)
+        self.furhat.subscribe("CancelControlledDialogState", self.setChangeModeButtonTextControlled)
 
     def setChangeModeButtonTextAuto(self,event):
         self.changeModeButton.setText("Change to Autonomous Mode")
@@ -173,11 +173,11 @@ class MainWindow(QMainWindow):
     def setChangeModeButtonTextControlled(self, event):
         self.changeModeButton.setText("Change to Controlled Mode")
 
-    def setup_log(self, furhat):
+    def setup_log(self):
         print("setup log")
-        furhat.subscribe("furhatos.event.senses.speech.rec", self.append_log_client)
-        furhat.subscribe("furhatos.event.actions.ActionSpeech", self.append_log_furhat_skill)
-        furhat.subscribe("furhatos.event.senses.SenseNLUIntent", self.append_log_client)
+        self.furhat.subscribe("furhatos.event.senses.speech.rec", self.append_log_client)
+        self.furhat.subscribe("furhatos.event.actions.ActionSpeech", self.append_log_furhat_skill)
+        self.furhat.subscribe("furhatos.event.senses.SenseNLUIntent", self.append_log_client)
         
         self.listView_model = QtGui.QStandardItemModel()
         self.listView.setModel(self.listView_model)
@@ -203,20 +203,20 @@ class MainWindow(QMainWindow):
         self.fVideoWindow.start_videostream(host)
         self.fVideoWindow.start_audiostream(host)
 
-    def addChangeStateButtons(self, furhat):
+    def addChangeStateButtons(self):
         self.pushButtonChangeMode = QtWidgets.QPushButton(self.frame)
         self.pushButtonChangeMode.setText(_translate("MainWindow", "Change Mode"))
     
-    def setupSendButton(self, furhat):
-        self.pushButtonSend.clicked.connect(lambda state = False: self.speak(furhat))
+    def setupSendButton(self):
+        self.pushButtonSend.clicked.connect(lambda state = False: self.speak())
         self.textEdit.returnPressed.connect(self.pushButtonSend.click)
     
-    def speak(self, furhat):
-        furhat.speak(self.textEdit.text())
+    def speak(self):
+        self.furhat.speak(self.textEdit.text())
         self.textEdit.setText("")
 
-    def setupSpeech(self, furhat):
-        speech = FurhatSpeechWidget(furhat, self.textEdit)
+    def setupSpeech(self):
+        speech = FurhatSpeechWidget(self.furhat, self.textEdit)
         self.verticalLayout_2.addWidget(speech)
     
     
