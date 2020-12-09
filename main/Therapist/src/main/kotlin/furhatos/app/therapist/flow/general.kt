@@ -10,10 +10,10 @@ import furhatos.flow.kotlin.*
     the targetUser and hasTargetUser variables are correctly updated when users enter or leave.
 */
 val userEnterLeave = partialState {
-/*
+    /*
         If the targetUser has been lost and a new user enters we once again check if the User is our patient.
-        If the we are still focused on the target user we simply glance at the new user.
-*/
+        If we are still focused on the target user we simply glance at the new user.
+    */
     onUserEnter( cond = { !hasTargetUser }) {
         furhat.attend(it)
         val resp = call(findTargetUser(it, "Är du min patient?", "Bra! Då fortsätter vi.", "Okej, jag förstår.")) as Boolean
@@ -31,7 +31,8 @@ val userEnterLeave = partialState {
 
 
 /*
-        If our target user leaves, variables concerning the target user are reset and furhat acknowledges audibly that the targetUser has been lost.
+        If our target user leaves, variables concerning the target user are reset and furhat
+        acknowledges audibly that the targetUser has been lost.
  */
     onUserLeave(cond = {it.id == targetUser || !hasTargetUser}) {
         hasTargetUser = false
@@ -43,6 +44,11 @@ val userEnterLeave = partialState {
     }
 }
 
+
+/*
+    This state is used when the target user has been lost. A separate state is used to ensure that the dialog
+    does not continue running when there is no user present to reply.
+*/
 fun waitingForUserState() = state {
     include(goToControlledDialog)
     onEntry {

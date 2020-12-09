@@ -12,22 +12,12 @@ fun controlledDialogState() = state {
     include(customGesture)
 
     /*
-        This is placeholder, to see that the state transition is working. In the final product, this state should not
-        have any interaction built-in at all. The onEntry function could then be removed.
-    */
-    onEntry {
-        furhat.say("Gick in i teststadie för fri dialog.")
-    }
-
-
-    /*
         This event terminates the controlled dialog state, returning to the calling state.
         As such, normal flow is restarted from the point of departure.
         The event used is the same event that triggered the state in the first place.
     */
     onEvent("ChangeModeEvent") {
         send("CancelControlledDialogState")
-        
     }
 
     onEvent("CancelControlledDialogState") {

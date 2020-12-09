@@ -6,7 +6,9 @@ import furhatos.skills.Skill
 import furhatos.flow.kotlin.*
 
 var logHandler : Logger = Logger()
-
+/*
+    This is the entry point for the skill.
+*/
 class TherapistSkill : Skill() {
     override fun start() {
         logHandler.autoExport = true

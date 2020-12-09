@@ -5,6 +5,10 @@ import furhatos.nlu.WildcardEntity
 import furhatos.util.Language
 import furhatos.nlu.EnumEntity
 
+/*
+    This file contains intents and entities necessary to utilize the robot's language processing functionality.
+    Note that these intents and entities are only configured for Swedish. Other languages are not supported.
+*/
 
 //Used when choosing if the therapist should be male or female, in AppearanceStateGender state
 class MaleIntent : Intent() {
@@ -55,19 +59,12 @@ class Nr2Intent : Intent() {
         )
     }
 }
+
+
 /*
-    Used when transferring to controlled dialog, obscure phrasing since this is intended mostly as debug.
-    Not currently in use.
+    This entity is used for questions where the user is asked to rate something on a scale. Note the quirks in the
+    language processing necessitating a special override of the toString() function.
 */
-class EnableControlledDialogIntent : Intent() {
-    override fun getExamples(lang: Language): List<String> {
-        return listOf(
-                "Testa distans"
-        )
-    }
-
-}
-
 class ScaleEntity : EnumEntity(stemming=false) {
     override fun getEnum(lang: Language) : List<String> {
         return listOf("1:en,ett,1", "2:två,2", "3:tre,3", "4:fyra,4", "5:fem,5", "6:sex,6", "7:sju,7", "8:åtta,8", "9:nio,9", "10:tio,10")
@@ -92,7 +89,7 @@ Below are wildcard entities for various information relating to the target user.
 of wildcards, these intents can not reasonably be error checked. As such, any input will register as a "city", for
 example. It is recommended in further development that these are replaced or extended with EnumEntities
 to make the program more stable.
- */
+*/
 
 class GeneralEntity : WildcardEntity("x", AskGeneralIntent())
 class AskGeneralIntent(): Intent() {
@@ -135,18 +132,3 @@ class AskMoodIntent(): Intent() {
         )
     }
 }
-
-/*
-    --This is a template for a WildcardEntity--
-class xEntity : WildcardEntity("x", AskxIntent())
-class AskxIntent(): Intent() {
-
-    var x : xEntity? = null
-
-    override fun getExamples(lang: Language): List<String> {
-        return listOf(
-
-        )
-    }
-}
- */

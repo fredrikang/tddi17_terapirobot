@@ -13,10 +13,11 @@ val EndState : State = state {
     include(goToControlledDialog)
     include(changeState)
     onEntry {
+        /*
         furhat.say("Slut på konversation.")
         furhat.say("Den nuvarande användaren är.")
         furhat.say(targetUser)
-
+        */
         logHandler.stopLogging()
     }
 }

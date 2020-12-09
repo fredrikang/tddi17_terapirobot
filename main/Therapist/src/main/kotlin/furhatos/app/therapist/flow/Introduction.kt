@@ -10,8 +10,7 @@ val Introduction: State = state {
     include(goToControlledDialog)
     include(changeState)
     onEntry {
-
-
+        furhat.say("Jag är en social robot.")
         goto(AskNameState)
     }
 }

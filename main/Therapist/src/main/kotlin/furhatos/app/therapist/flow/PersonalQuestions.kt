@@ -8,7 +8,7 @@ This file contains a number of states containing questions for furhat to ask the
 These questions are intended primarily to demonstrate how such gathering of data can be performed, and also
 show how WildcardIntents and EnumIntents may be created and used.
 Please note that all of these questions could theoretically be placed within a single state. However, users entering and
-leaving, as well as other interruptions then require far more complex handling. It is recommended to keep states small,
+leaving, as well as other interruptions, then require far more complex handling. It is recommended to keep states small,
 so that external disruptions interrupt the dialog flow as little as possible.
 */
 

@@ -18,6 +18,7 @@ val AppearanceStateGender : State = state {
     include(userEnterLeave)
     include(goToControlledDialog)
     include(changeState)
+    
     onEntry {
         furhat.say{+"Jag kan ta flera olika utseenden. Jag kan se ut som en kvinna"
                    +delay(1000)}

@@ -16,7 +16,7 @@ val SelectUser : State = state {
             for (it in users.list){
                 if (!it.disregard) {
                     furhat.attend(it)
-                    val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej, då pratar jag inte med dig.")) as Boolean
+                    val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej! Ha en trevlig dag.")) as Boolean
                     if (resp) {
                         goto(Introduction)
                     }
@@ -31,7 +31,7 @@ val SelectUser : State = state {
     onUserEnter() {
         if (!it.disregard){
             furhat.attend(it)
-            val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej, då pratar jag inte med dig.")) as Boolean
+            val resp = call(findTargetUser(it, "Hej! Vill du prata med mig?", "Okej, trevligt att träffas!", "Okej! Ha en trevlig dag.")) as Boolean
             if (resp) {
                 goto(Introduction)
             }
@@ -40,7 +40,6 @@ val SelectUser : State = state {
             }
         }
     }
-
 }
 
 /*
@@ -48,7 +47,7 @@ val SelectUser : State = state {
     Takes a user, a string for furhat to ask and strings for furhat to respond to YES/NO answers with.
     If the user answers Yes then the user is set to targetUser in the usermanager, we also record that a targetUser has been established. And we return a true bool.
     If the user answers No, we set the disregard bool to true so that this user isn't asked again. A false bool is returned.
- */
+*/
 fun findTargetUser(user: User, stringAsk: String, stringYes: String, stringNo: String) = state {
     onEntry {
         targetUser = "None"
