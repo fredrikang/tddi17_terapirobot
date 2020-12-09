@@ -4,3 +4,9 @@ No :nej
 Think :jag får fundera lite på det
 Goodbye :hejdå och ha det bra
 Presentation :hej mitt namn är furhat och jag är en terapirobot
+Har du gjort något:Gjorde du något kul i hellgen?
+Oj! Det låter intressant:Oj! Det låter intressant
+Planer: Har du några särskilda planer i jul?
+Så trevligt : Så trevligt
+Var det längesedan ni träffades : Var det längesedan ni träffades?
+Hej då, GodJul:Hejdå! God jul och gott nytt år.
