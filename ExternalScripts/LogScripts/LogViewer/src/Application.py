@@ -33,7 +33,6 @@ class Application(tk.Frame):
 
         while idx < len(self.log.data[selected]) and max_iterations > 0:
             try:
-                print(idx)
                 user = self.log.get_user(selected, idx)
                 if user != 'null':
                     self.bubbles.append(ChatBubble(self.canvas, color="light grey", timestamp=self.log.get_timestamp(selected, idx), message=self.log.get_message(selected, idx, 56), user=user, screenmetrics=self.screenmetrics))
