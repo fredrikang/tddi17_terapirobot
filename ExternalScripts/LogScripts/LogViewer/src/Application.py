@@ -24,28 +24,38 @@ class Application(tk.Frame):
         """
         Create all chat bubbles (log text) from the selected log.
         """
-        for idx in range(1, len(self.log.data[selected])):
-            user = self.log.get_user(selected, idx)
-            if user != 'null':
-                self.bubbles.append(ChatBubble(self.canvas, color="light grey", timestamp=self.log.get_timestamp(selected, idx), message=self.log.get_message(selected, idx, 56), user=user, screenmetrics=self.screenmetrics))
-       
+        self.canvas.delete("all")
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+        self.bubbles.clear()
+        
+        max_iterations = 4 # Error handling caused by error prone read of data.
+        idx = 1
+
+        while idx < len(self.log.data[selected]) and max_iterations > 0:
+            try:
+                print(idx)
+                user = self.log.get_user(selected, idx)
+                if user != 'null':
+                    self.bubbles.append(ChatBubble(self.canvas, color="light grey", timestamp=self.log.get_timestamp(selected, idx), message=self.log.get_message(selected, idx, 56), user=user, screenmetrics=self.screenmetrics))
+                idx = idx + 1
+            except: 
+                continue
+            if idx is len(self.log.data[selected]):
+                max_iterations = max_iterations - 1
+
         if(not self.bubbles):
             self.bubbles.append(ChatBubble(self.canvas, color="light grey", timestamp="null", message="[EMPTY]", user="null", screenmetrics=self.screenmetrics))
-
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def listbox_selected_item_changed(self, evt):
         """
         On listbox selected item changed, re-print all chatbubbles.
         """
-        self.canvas.delete("all")
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-        self.bubbles.clear()
         
         w = evt.widget
         try:
             self.selected = w.get(int(w.curselection()[0]))
             self.create_chat_bubbles(self.selected)
+            self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         except:
             self.selected = ''
 
