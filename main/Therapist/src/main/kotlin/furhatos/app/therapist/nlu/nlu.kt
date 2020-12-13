@@ -85,6 +85,50 @@ class ScaleEntity : EnumEntity(stemming=false) {
 }
 
 /*
+    Experimental. Entity to be used for interpreting answers to the depressive scale questions.
+    Note that this entity has not been tested, and surely needs more work to be implemented properly.
+*/
+class DepressiveScaleEntity : EnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf(
+                "0:Inte alls,aldrig,inga,nej",
+                "1:Flera dagar,flera,fler,vissa,ibland",
+                "2:Mer än hälften,över hälften,hälften",
+                "3:Varje dag,alla dagar,hela tiden,alltid,Nästan varje dag"
+        )
+    }
+
+    /*
+This override is necessary since furhat wants to return the number 3 using letters, which will invalidate use
+in int contexts.
+ */
+    override fun toString(): String {
+        val ret = toText()
+        when (ret) {
+            "tre" -> return "3"
+            else -> return ret
+        }
+    }
+}
+
+/*
+    English version of above entity, may need an override of ToString() depending on how entities are translated into text.
+*/
+/*
+class DepressiveScaleEntity : EnumEntity {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf(
+                "0:Not at all,Never,None,No",
+                "1:Several days,several,some",
+                "2:More than half,most,half the days",
+                "3:Every day,Nearly every,always"
+        )
+    }
+}
+ */
+
+
+/*
 Below are wildcard entities for various information relating to the target user. Please note that due to the nature
 of wildcards, these intents can not reasonably be error checked. As such, any input will register as a "city", for
 example. It is recommended in further development that these are replaced or extended with EnumEntities
